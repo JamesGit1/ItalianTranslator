@@ -111,7 +111,7 @@ public class Node {
 	}
 
 	public Node getRight(String language) {
-		if (language == "italian") {
+		if (language.equals("italian")) {
 			return getItalianRight();
 		} else {
 			return getEnglishRight();
@@ -119,10 +119,18 @@ public class Node {
 	}
 
 	public Node getLeft(String language) {
-		if (language == "italian") {
+		if (language.equals("italian")) {
 			return getItalianLeft();
 		} else {
 			return getEnglishLeft();
+		}
+	}
+
+	public String getWord(String language) {
+		if (language.equals("italian")) {
+			return getItalianTranslation();
+		} else {
+			return getEnglishTranslation();
 		}
 	}
 }
