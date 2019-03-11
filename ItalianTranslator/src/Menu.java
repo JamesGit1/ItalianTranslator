@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 /**
  * This is the Menu class, it will display a menu to the user and provide
