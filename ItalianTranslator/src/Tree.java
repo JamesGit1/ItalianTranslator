@@ -38,6 +38,7 @@ try {
 		
 	if(current == null) {
 		return;
+		//yy
 }
 	
 	
