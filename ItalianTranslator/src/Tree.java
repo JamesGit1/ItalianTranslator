@@ -20,11 +20,11 @@ public class Tree {
 	 * @param english  - Gets English left and right Tree
 	 * @param itatlian - Gets Italian left and right Tree
 	 */
-	public void display(Node english, Node italian) {
+	public void displayTree(Node english, Node italian) {
 
-		display(english.getEnglishLeft(), italian.getItalianLeft());
+		displayTree(english.getEnglishLeft(), italian.getItalianLeft());
 		System.out.println(english + "\t" + italian);
-		display(english.getEnglishRight(), italian.getItalianRight());
+		displayTree(english.getEnglishRight(), italian.getItalianRight());
 
 	}
 
