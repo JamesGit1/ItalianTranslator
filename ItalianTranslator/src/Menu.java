@@ -39,7 +39,7 @@ public class Menu
 	{
 
 		boolean stopMenu = false;
-		Tree myTree = new Tree();
+//		Translator Translate = new Translator();
 		
 		do 
 		{
@@ -69,7 +69,7 @@ public class Menu
 			else if (option.equals("3")) 
 			{
 				System.out.println("Option 3 selected. Loading dictionary...");
-				myTree.loadDictionary();
+			//	translate.loadDictionary();
 			}
 
 			else if (option.equals("4")) 
@@ -77,13 +77,13 @@ public class Menu
 				System.out.println("Option 4 selected. Please enter an English or Italian word to delete from the dictionary:");
 				Scanner s4 = new Scanner(System.in);
 				String wordToDelete = s4.nextLine();
-			//	myTree.removeFromTree();
+			//	translate.removeFromTree();
 			}
 
 			else if (option.equals("5")) 
 			{
 				System.out.println("Option 5 selected. Displaying dictionary...");
-			//	myTree.displayDictionary();
+			//	translate.displayDictionary();
 			}
 
 			else if (option.equals("0")) 
