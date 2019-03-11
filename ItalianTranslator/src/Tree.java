@@ -1,3 +1,5 @@
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 
 public class Tree {
 
@@ -29,6 +31,31 @@ public void loadDictionary() {
 	System.out.println("Test");
 }
 	
+public void saveDictionary(Node current) {
+	
+
+try {
+		
+	if(current == null) {
+		return;
+}
+	
+	
+		
+		
+		
+		
+}catch(Exception e) {
+	
+	System.out.println("File not found");
+	
+}
+
+
+
+	
+	
+}
 	
 	
 }
