@@ -6,16 +6,19 @@ import java.util.Scanner;
  * 
  * @author James, Josh, Jesse, Luke.
  */
-public class Menu {
+public class Menu 
+{
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		displayMenu();
 	}
 
 	/**
 	 * This method displays the menu.
 	 */
-	public static void displayMenu() {
+	public static void displayMenu() 
+	{
 		System.out.println("WELCOME TO ITALIANO TRANSLATE");
 		System.out.println("Please select one of the following options");
 		System.out.println("-----------------------------------------------");
@@ -30,11 +33,13 @@ public class Menu {
 	/**
 	 * This method gives functionality to the menu.
 	 */
-	public void processUserChoices() {
+	public void processUserChoices() 
+	{
 
 		boolean stopMenu = false;
 
-		do {
+		do 
+		{
 			String option;
 
 			displayMenu();
@@ -42,28 +47,34 @@ public class Menu {
 			Scanner s1 = new Scanner(System.in);
 			option = s1.nextLine();
 
-			if (option.equals("1")) {
-
+			if (option.equals("1")) 
+			{
+				System.out.println("Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 			}
 
-			else if (option.equals("2")) {
-
+			else if (option.equals("2")) 
+			{
+				System.out.println("Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 			}
 
-			else if (option.equals("3")) {
-
+			else if (option.equals("3")) 
+			{
+				System.out.println("Option 3 selected. Loading dictionary...");
 			}
 
-			else if (option.equals("4")) {
-
+			else if (option.equals("4")) 
+			{
+				System.out.println("Option 4 selected. Please enter an English or Italian word to dlete from the dictionary:");
 			}
 
-			else if (option.equals("5")) {
-
+			else if (option.equals("5")) 
+			{
+				System.out.println("Option 5 selected. Displaying dictionary...");
 			}
 
-			else if (option.equals("6")) {
-
+			else if (option.equals("0")) 
+			{
+				System.out.println("Addio!");
 				stopMenu = true;
 			}
 
@@ -77,7 +88,8 @@ public class Menu {
 	/**
 	 * If the user enters and invalid option this is run.
 	 */
-	public static void error() {
+	public static void error() 
+	{
 		System.out.println("No valid input was entered");
 	}
 
