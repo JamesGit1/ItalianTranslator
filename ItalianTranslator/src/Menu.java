@@ -7,12 +7,8 @@
 public class Menu {
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
        displayMenu()
     }
-=======
-		// Hello
->>>>>>> branch 'Luke_edits' of https://github.com/JamesGit1/ItalianTranslator
 
 	
 	/**
