@@ -33,21 +33,13 @@ public class Tree {
 	}
 
 	public void saveDictionary(Node current) {
-
 		try {
-
 			if (current == null) {
 				return;
 				// yy
 			}
-
-		} catch (
-
-		Exception e) {
-
+		} catch (Exception e) {
 			System.out.println("File not found");
-
 		}
-
 	}
 }
