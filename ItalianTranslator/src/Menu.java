@@ -19,6 +19,7 @@ public class Menu
 	 */
 	public static void displayMenu() 
 	{
+		//this is displayed
 		System.out.println("WELCOME TO ITALIANO TRANSLATE");
 		System.out.println("Please select one of the following options");
 		System.out.println("-----------------------------------------------");
