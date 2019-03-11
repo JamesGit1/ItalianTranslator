@@ -64,7 +64,8 @@ public class Menu
 
 			else if (option.equals("4")) 
 			{
-				System.out.println("Option 4 selected. Please enter an English or Italian word to dlete from the dictionary:");
+				System.out.println("Option 4 selected. Please enter an English or Italian word to delete from the dictionary:");
+				
 			}
 
 			else if (option.equals("5")) 
