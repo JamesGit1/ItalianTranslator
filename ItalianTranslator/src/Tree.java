@@ -1,4 +1,3 @@
-
 public class Tree {
 	public Node italianRoot;
 	public Node englishRoot;
@@ -33,4 +32,22 @@ public class Tree {
 		System.out.println("Test");
 	}
 
+	public void saveDictionary(Node current) {
+
+		try {
+
+			if (current == null) {
+				return;
+				// yy
+			}
+
+		} catch (
+
+		Exception e) {
+
+			System.out.println("File not found");
+
+		}
+
+	}
 }
