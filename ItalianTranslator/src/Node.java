@@ -109,4 +109,28 @@ public class Node {
 		String summary = englishTranslation + italianTranslation;
 		return summary;
 	}
+
+	public Node getRight(String language) {
+		if (language.equals("italian")) {
+			return getItalianRight();
+		} else {
+			return getEnglishRight();
+		}
+	}
+
+	public Node getLeft(String language) {
+		if (language.equals("italian")) {
+			return getItalianLeft();
+		} else {
+			return getEnglishLeft();
+		}
+	}
+
+	public String getWord(String language) {
+		if (language.equals("italian")) {
+			return getItalianTranslation();
+		} else {
+			return getEnglishTranslation();
+		}
+	}
 }
