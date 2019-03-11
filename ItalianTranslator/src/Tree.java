@@ -26,7 +26,7 @@ public class Tree {
 	}
 	
 public void loadDictionary() {
-	
+	System.out.println("Test");
 }
 	
 	
