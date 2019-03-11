@@ -12,6 +12,7 @@ public class Menu
 	public static void main(String[] args) 
 	{
 		displayMenu();
+		
 	}
 
 	/**
@@ -19,7 +20,7 @@ public class Menu
 	 */
 	public static void displayMenu() 
 	{
-		//this is displayed
+		
 		System.out.println("WELCOME TO ITALIANO TRANSLATE");
 		System.out.println("Please select one of the following options");
 		System.out.println("-----------------------------------------------");
@@ -54,7 +55,7 @@ public class Menu
 				System.out.println("Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
-				myTree.translateText();
+			//	translate.translateText();
 			}
 
 			else if (option.equals("2")) 
@@ -62,7 +63,7 @@ public class Menu
 				System.out.println("Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 				Scanner s3 = new Scanner(System.in);
 				String searchText = s3.nextLine();
-				myTree.translateText();
+			//	translate.translateText();
 			}
 
 			else if (option.equals("3")) 
@@ -76,13 +77,13 @@ public class Menu
 				System.out.println("Option 4 selected. Please enter an English or Italian word to delete from the dictionary:");
 				Scanner s4 = new Scanner(System.in);
 				String wordToDelete = s4.nextLine();
-				myTree.removeFromTree();
+			//	myTree.removeFromTree();
 			}
 
 			else if (option.equals("5")) 
 			{
 				System.out.println("Option 5 selected. Displaying dictionary...");
-				displayDictionary();
+			//	myTree.displayDictionary();
 			}
 
 			else if (option.equals("0")) 
