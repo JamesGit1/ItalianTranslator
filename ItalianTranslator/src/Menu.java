@@ -37,7 +37,8 @@ public class Menu
 	{
 
 		boolean stopMenu = false;
-
+		Tree myTree = new Tree();
+		
 		do 
 		{
 			String option;
@@ -50,27 +51,37 @@ public class Menu
 			if (option.equals("1")) 
 			{
 				System.out.println("Option 1 selected. Please enter English text that you would like to be translated into Italian:");
+				Scanner s2 = new Scanner(System.in);
+				String searchText = s2.nextLine();
+				myTree.translateText();
 			}
 
 			else if (option.equals("2")) 
 			{
 				System.out.println("Option 2 selected. Please enter Italian text that you would like to be translated into English:");
+				Scanner s3 = new Scanner(System.in);
+				String searchText = s3.nextLine();
+				myTree.translateText();
 			}
 
 			else if (option.equals("3")) 
 			{
 				System.out.println("Option 3 selected. Loading dictionary...");
+				myTree.loadDictionary();
 			}
 
 			else if (option.equals("4")) 
 			{
 				System.out.println("Option 4 selected. Please enter an English or Italian word to delete from the dictionary:");
-				
+				Scanner s4 = new Scanner(System.in);
+				String wordToDelete = s4.nextLine();
+				myTree.removeFromTree();
 			}
 
 			else if (option.equals("5")) 
 			{
 				System.out.println("Option 5 selected. Displaying dictionary...");
+				displayDictionary();
 			}
 
 			else if (option.equals("0")) 
@@ -91,7 +102,7 @@ public class Menu
 	 */
 	public static void error() 
 	{
-		System.out.println("No valid input was entered");
+		System.out.println("No valid input was entered, please try again.");
 	}
 
 }
