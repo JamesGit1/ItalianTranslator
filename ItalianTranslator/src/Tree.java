@@ -10,13 +10,12 @@ public class Tree {
 	// Pass in the Main Binary tree into here 
 	
 	
+	
 	/**
-	 * 
 	 *Displays the entire dictionary
 	 *
 	 * @param english - Gets english left and right Tree
-	 * @param itatlian - Gets itatlian left and right Tree 
-	 * TesT TesT
+	 * @param itatlian - Gets italian left and right Tree 
 	 */
 	public void  display(Node english, Node italian){
 		
@@ -26,7 +25,9 @@ public class Tree {
 		
 	}
 	
-	
+public void loadDictionary() {
+	System.out.println("Test");
+}
 	
 	
 	
