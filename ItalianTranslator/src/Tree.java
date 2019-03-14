@@ -26,6 +26,14 @@ public class Tree {
 		displayTree(english.getEnglishRight(), italian.getItalianRight());
 	}
 
+	public Node getRoot(String language) {
+		if (language.equals("italian")) {
+			return italianRoot;
+		} else {
+			return englishRoot;
+		}
+	}
+
 	public void loadDictionary() {
 		System.out.println("Test");
 	}
@@ -43,11 +51,7 @@ public class Tree {
 
 	public Node findNode(String searchWord, String language) {
 		Node current;
-		if (language.equals("italian")) {
-			current = italianRoot;
-		} else {
-			current = englishRoot;
-		}
+		current = getRoot(language);
 		while (current != null) {
 			if (current.getWord(language).equals(searchWord)) {
 				return current;
@@ -60,20 +64,38 @@ public class Tree {
 		return null;
 	}
 
-	public void removeFromTree(Node nodeToDelete) {
+	public Node findParentNode(String wordToFind, String language) {
+		Node current = getRoot(language);
+		Node previous = null;
+		while (current != null) {
+			if (current.getWord(language).equals(wordToFind)) {
+				return previous;
+			} else if (wordToFind.compareTo(current.getWord(language)) < 0) {
+				previous = current;
+				current = current.getRight(language);
+			} else {
+				previous = current;
+				current = current.getLeft(language);
+			}
+		}
+		return null;
 	}
 
-	/**This method checks if the tree is empty.
-     * 
-     * @return true or false
-     */
-    public boolean isTreeEmpty()
-    {
-    	if(englishRoot == null) 
-    	{
-    		return true;
-    	}
-    	return false;
-    	
-    }
+	public void removeFromTree(String wordToDelete, String language) {
+		Node nodeToDelete = findNode(wordToDelete, language);
+		Node parentNode;
+	}
+
+	/**
+	 * This method checks if the tree is empty.
+	 * 
+	 * @return true or false
+	 */
+	public boolean isTreeEmpty() {
+		if (englishRoot == null) {
+			return true;
+		}
+		return false;
+
+	}
 }
