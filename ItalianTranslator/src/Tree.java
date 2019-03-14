@@ -61,7 +61,6 @@ public class Tree {
 	}
 
 	public void removeFromTree(Node nodeToDelete) {
-
 	}
 
 }
