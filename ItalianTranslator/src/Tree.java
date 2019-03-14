@@ -69,7 +69,7 @@ public class Tree {
      */
     public boolean isTreeEmpty()
     {
-    	if(root == null) 
+    	if(englishRoot == null) 
     	{
     		return true;
     	}
