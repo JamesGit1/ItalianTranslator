@@ -39,7 +39,7 @@ public class Menu
 	{
 
 		boolean stopMenu = false;
-//		Translator Translate = new Translator();
+//		Translate translate = new Translate();
 		
 		do 
 		{
