@@ -174,7 +174,6 @@ public class Tree {
 			}
 			language = changeLanguage(language);
 		}
-
 	}
 
 	public void deleteNodeWithOneChild(Node nodeToDelete, Node parentNode, String language) {
