@@ -37,7 +37,22 @@ public class Translate {
 		return translatedPhrase;
 	}
 	
-	public void translateWord(String languageFrom, String searchWord) {
-		//return translatedWord;
+	
+	public String translateWord(String languageFrom, String searchWord) 
+	{
+		String translatedWord = null;
+		if(languageFrom.equals("english")) {
+			//Sets the translated word to the node related to the English phrase
+			Node currentNode = tree.findNode(searchWord, languageFrom);
+			translatedWord = currentNode.getItalianTranslation();
+		}
+		else {
+			//Sets the translated word to the node related to the Spanish phrase
+			Node currentNode = tree.findNode(searchWord, languageFrom);
+			translatedWord = currentNode.getItalianTranslation();
+		}
+		return translatedWord;
 	}
+	
+	
 }
