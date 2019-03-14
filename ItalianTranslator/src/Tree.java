@@ -1,4 +1,4 @@
-public class Tree {
+ public class Tree {
 	public Node italianRoot;
 	public Node englishRoot;
 
@@ -13,7 +13,6 @@ public class Tree {
 	}
 
 	// Pass in the Main Binary tree into here
-
 	/**
 	 * Displays the entire dictionary
 	 *
@@ -63,17 +62,4 @@ public class Tree {
 	public void removeFromTree(Node nodeToDelete) {
 	}
 
-	/**This method checks if the tree is empty.
-     * 
-     * @return true or false
-     */
-    public boolean isTreeEmpty()
-    {
-    	if(englishRoot == null) 
-    	{
-    		return true;
-    	}
-    	return false;
-    	
-    }
 }
