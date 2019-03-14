@@ -27,7 +27,6 @@ public class Tree {
 	 * @param itatlian - Gets Italian left and right Tree
 	 */
 
-
 	public String changeLanguage(String language) {
 		if (language.equals("italian")) {
 			return "english";
@@ -45,11 +44,9 @@ public class Tree {
 	}
 
 	public void displayTree(Node current) {
-
 		displayTree(current.getEnglishLeft());
 		System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
 		displayTree(current.getEnglishRight());
-
 	}
 
 	public void loadDictionary() {
@@ -78,41 +75,66 @@ public class Tree {
 	}
 
 	public void saveDictionary(Node current) {
-
 		FileOutputStream os = null;
 		PrintWriter pw = null;
-
 		try {
 			os = new FileOutputStream("Dictionary.txt");
 			pw = new PrintWriter(os);
-
 			save(current, pw);
 			pw.flush();
-
 		} catch (IOException e) {
 			System.out.println("File not found");
-
 		}
 	}
 
 	public void save(Node current, PrintWriter pw) {
-
 		if (current != null) {
 			save(current.getEnglishLeft(), pw);
 			pw.print(current.getEnglishTranslation() + "," + current.getItalianTranslation());
 			save(current.getEnglishRight(), pw);
-
 		}
+	}
 
+	public void addToTree(String englishWord, String italianWord) {
+		Node newNode = new Node(englishWord, italianWord);
+		Node previous = null;
+		if (englishRoot == null) {
+			englishRoot = newNode;
+		} else if (italianRoot == null) {
+			italianRoot = newNode;
+		} else if (findNode(newNode.getEnglishTranslation(), "english") != null
+				&& findNode(newNode.getItalianTranslation(), "italian") != null) {
+			System.out.println("This word (English or Italian) already exists, it will not be added");
+		} else {
+			String language = "english";
+			Node current = getRoot(language);
+			for (int i = 0; i < 2; i++) {
+				while (current != null) {
+					previous = current;
+					if (newNode.getEnglishTranslation().compareTo(current.getTranslation(language)) < 0) {
+						current = current.getLeft(language);
+						if (current == null) {
+							previous.setLeft(newNode, language);
+						}
+					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) == 0) {
+						current = current.getRight(language);
+						if (current == null) {
+							previous.setRight(newNode, language);
+						}
+					}
+				}
+				language = changeLanguage(language);
+			}
+		}
 	}
 
 	public Node findNode(String searchWord, String language) {
 		Node current;
 		current = getRoot(language);
 		while (current != null) {
-			if (current.getWord(language).equals(searchWord)) {
+			if (current.getTranslation(language).equals(searchWord)) {
 				return current;
-			} else if (current.getWord(language).compareTo(searchWord) < 0) {
+			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
 				current = current.getLeft(language);
 			} else {
 				current = current.getRight(language);
@@ -125,9 +147,9 @@ public class Tree {
 		Node current = getRoot(language);
 		Node previous = null;
 		while (current != null) {
-			if (current.getWord(language).equals(wordToFind)) {
+			if (current.getTranslation(language).equals(wordToFind)) {
 				return previous;
-			} else if (wordToFind.compareTo(current.getWord(language)) < 0) {
+			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
 				previous = current;
 				current = current.getRight(language);
 			} else {
@@ -145,7 +167,7 @@ public class Tree {
 
 	public void deleteLeaf(Node nodeToDelete, Node parentNode, String language) {
 		for (int i = 0; i < 2; i++) {
-			if (parentNode.getWord(language).compareTo(nodeToDelete.getWord(language)) < 0) {
+			if (parentNode.getTranslation(language).compareTo(nodeToDelete.getTranslation(language)) < 0) {
 				parentNode.setRight(null, language);
 			} else {
 				parentNode.setLeft(null, language);
@@ -169,6 +191,7 @@ public class Tree {
 					parentNode.setRight(nodeToDelete.getLeft(language), language);
 				}
 			}
+			language = changeLanguage(language);
 		}
 	}
 
