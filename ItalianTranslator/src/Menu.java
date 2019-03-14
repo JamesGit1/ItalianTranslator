@@ -39,7 +39,7 @@ public class Menu
 	{
 
 		boolean stopMenu = false;
-//		Translate translate = new Translate();
+		Translate translate = new Translate();
 		
 		do 
 		{
@@ -55,7 +55,7 @@ public class Menu
 				System.out.println("Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
-			//	translate.translateText();
+				translate.translateText("english", searchText);
 			}
 
 			else if (option.equals("2")) 
@@ -63,7 +63,7 @@ public class Menu
 				System.out.println("Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 				Scanner s3 = new Scanner(System.in);
 				String searchText = s3.nextLine();
-			//	translate.translateText();
+				translate.translateText("italian", searchText);
 			}
 
 			else if (option.equals("3")) 
