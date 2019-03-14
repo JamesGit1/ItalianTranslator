@@ -26,6 +26,14 @@ public class Tree {
 		displayTree(english.getEnglishRight(), italian.getItalianRight());
 	}
 
+	public String changeLanguage(String language) {
+		if (language.equals("italian")) {
+			return "english";
+		} else {
+			return "italian";
+		}
+	}
+
 	public Node getRoot(String language) {
 		if (language.equals("italian")) {
 			return italianRoot;
@@ -83,7 +91,36 @@ public class Tree {
 
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = findNode(wordToDelete, language);
-		Node parentNode;
+		Node parentNode = findParentNode(wordToDelete, language);
+	}
+
+	public void deleteLeaf(Node nodeToDelete, Node parentNode, String language) {
+		for (int i = 0; i < 2; i++) {
+			if (parentNode.getWord(language).compareTo(nodeToDelete.getWord(language)) < 0) {
+				parentNode.setRight(null, language);
+			} else {
+				parentNode.setLeft(null, language);
+			}
+			language = changeLanguage(language);
+		}
+	}
+
+	public void deleteNodeWithOneChild(Node nodeToDelete, Node parentNode, String language) {
+		for (int i = 0; i < 2; i++) {
+			if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null) {
+				if (parentNode.getRight(language) == nodeToDelete) {
+					parentNode.setRight(nodeToDelete.getRight(language), language);
+				} else {
+					parentNode.setLeft(nodeToDelete.getRight(language), language);
+				}
+			} else if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
+				if (parentNode.getLeft(language) == nodeToDelete) {
+					parentNode.setLeft(nodeToDelete.getLeft(language), language);
+				} else {
+					parentNode.setRight(nodeToDelete.getLeft(language), language);
+				}
+			}
+		}
 	}
 
 	/**
