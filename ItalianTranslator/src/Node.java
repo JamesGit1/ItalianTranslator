@@ -143,6 +143,5 @@ public class Node {
 		} else {
 			return getEnglishTranslation();
 		}
-
 	}
 }
