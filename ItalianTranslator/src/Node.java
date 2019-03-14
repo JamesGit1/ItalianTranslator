@@ -126,19 +126,19 @@ public class Node {
 		}
 	}
 
-	public void setRight(Node n, String language) {
+	public void setRight(Node newNode, String language) {
 		if (language.equals("italian")) {
-			setItalianRight(n);
+			setItalianRight(newNode);
 		} else {
-			setEnglishRight(n);
+			setEnglishRight(newNode);
 		}
 	}
 
-	public void setLeft(Node n, String language) {
+	public void setLeft(Node newNode, String language) {
 		if (language.equals("italian")) {
-			setItalianLeft(n);
+			setItalianLeft(newNode);
 		} else {
-			setEnglishLeft(n);
+			setEnglishLeft(newNode);
 		}
 	}
 
