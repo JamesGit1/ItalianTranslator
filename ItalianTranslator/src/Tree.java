@@ -1,3 +1,7 @@
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class Tree {
 	public Node italianRoot;
 	public Node englishRoot;
@@ -20,12 +24,6 @@ public class Tree {
 	 * @param english  - Gets English left and right Tree
 	 * @param itatlian - Gets Italian left and right Tree
 	 */
-	public void displayTree(Node english, Node italian) {
-		displayTree(english.getEnglishLeft(), italian.getItalianLeft());
-		System.out.println(english + "\t" + italian);
-		displayTree(english.getEnglishRight(), italian.getItalianRight());
-	}
-
 	public Node getRoot(String language) {
 		if (language.equals("italian")) {
 			return italianRoot;
@@ -34,19 +32,45 @@ public class Tree {
 		}
 	}
 
+	public void displayTree(Node current) {
+
+		displayTree(current.getEnglishLeft());
+		System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
+		displayTree(current.getEnglishRight());
+
+	}
+
 	public void loadDictionary() {
 		System.out.println("Test");
 	}
 
 	public void saveDictionary(Node current) {
+
+		FileOutputStream os = null;
+		PrintWriter pw = null;
+
 		try {
-			if (current == null) {
-				return;
-				// yy
-			}
-		} catch (Exception e) {
+			os = new FileOutputStream("Dictionary.txt");
+			pw = new PrintWriter(os);
+
+			save(current, pw);
+			pw.flush();
+
+		} catch (IOException e) {
 			System.out.println("File not found");
+
 		}
+	}
+
+	public void save(Node current, PrintWriter pw) {
+
+		if (current != null) {
+			save(current.getEnglishLeft(), pw);
+			pw.print(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
+			save(current.getEnglishRight(), pw);
+
+		}
+
 	}
 
 	public Node findNode(String searchWord, String language) {
