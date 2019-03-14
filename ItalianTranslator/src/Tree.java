@@ -63,4 +63,17 @@ public class Tree {
 	public void removeFromTree(Node nodeToDelete) {
 	}
 
+	/**This method checks if the tree is empty.
+     * 
+     * @return true or false
+     */
+    public boolean isTreeEmpty()
+    {
+    	if(root == null) 
+    	{
+    		return true;
+    	}
+    	return false;
+    	
+    }
 }
