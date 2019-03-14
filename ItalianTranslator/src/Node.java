@@ -126,6 +126,22 @@ public class Node {
 		}
 	}
 
+	public void setRight(Node n, String language) {
+		if (language.equals("italian")) {
+			setItalianRight(n);
+		} else {
+			setEnglishRight(n);
+		}
+	}
+
+	public void setLeft(Node n, String language) {
+		if (language.equals("italian")) {
+			setItalianLeft(n);
+		} else {
+			setEnglishLeft(n);
+		}
+	}
+
 	public String getWord(String language) {
 		if (language.equals("italian")) {
 			return getItalianTranslation();
