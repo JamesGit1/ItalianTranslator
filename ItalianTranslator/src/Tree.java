@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -41,7 +43,28 @@ public class Tree {
 	}
 
 	public void loadDictionary() {
-		System.out.println("Test");
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader("A.txt");
+			br = new BufferedReader(fr);
+
+			String nextLine = br.readLine();
+
+			while (nextLine != null) {
+				String[] words = nextLine.split(",");
+
+				// Add to tree pass word 0 and 1
+				nextLine = br.readLine();
+			}
+
+			br.close();
+
+		} catch (Exception e) {
+
+			System.out.println("heehsheshes");
+
+		}
 	}
 
 	public void saveDictionary(Node current) {
@@ -66,7 +89,7 @@ public class Tree {
 
 		if (current != null) {
 			save(current.getEnglishLeft(), pw);
-			pw.print(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
+			pw.print(current.getEnglishTranslation() + "," + current.getItalianTranslation());
 			save(current.getEnglishRight(), pw);
 
 		}
