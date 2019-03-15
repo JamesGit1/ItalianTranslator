@@ -62,8 +62,8 @@ public class Tree {
 
 			while (nextLine != null) {
 				String[] words = nextLine.split(",");
-
 				// Add to tree pass word 0 and 1
+				addToTree(words[0], words[1]);
 				nextLine = br.readLine();
 			}
 
@@ -136,7 +136,7 @@ public class Tree {
 		while (current != null) {
 			if (current.getTranslation(language).equals(searchWord)) {
 				return current;
-			} else if (current.getTranslation(language).compareTo(searchWord) <= 0) {
+			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
 				current = current.getLeft(language);
 			} else if (current.getTranslation(language).compareTo(searchWord) > 0) {
 				current = current.getRight(language);
