@@ -41,12 +41,7 @@ public class Node {
 	 * @param italianTranslation The word stored in Italian.
 	 */
 
-	public Node(Node englishRight, Node englishLeft, Node italianRight, Node italianLeft, String englishTranslation,
-			String italianTranslation) {
-		this.englishLeft = englishLeft;
-		this.englishRight = englishRight;
-		this.italianRight = italianRight;
-		this.italianLeft = italianLeft;
+	public Node(String italianTranslation, String englishTranslation) {
 		this.italianTranslation = italianTranslation;
 		this.englishTranslation = englishTranslation;
 	}
@@ -126,7 +121,23 @@ public class Node {
 		}
 	}
 
-	public String getWord(String language) {
+	public void setRight(Node newNode, String language) {
+		if (language.equals("italian")) {
+			setItalianRight(newNode);
+		} else {
+			setEnglishRight(newNode);
+		}
+	}
+
+	public void setLeft(Node newNode, String language) {
+		if (language.equals("italian")) {
+			setItalianLeft(newNode);
+		} else {
+			setEnglishLeft(newNode);
+		}
+	}
+
+	public String getTranslation(String language) {
 		if (language.equals("italian")) {
 			return getItalianTranslation();
 		} else {

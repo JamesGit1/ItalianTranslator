@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * 
  */
@@ -12,13 +14,60 @@ public class Translate {
 	Tree tree = new Tree();
 	
 	public void translateText(String languageFrom, String searchText) {
+		String wordArray[] = searchText.split(" ");
+		String translated[] = wordArray;
+		//ArrayList<String> translatedList=new ArrayList<String>();
+		for(int i=0; i<wordArray.length; i++) {
+			//translated[i] = translateWord(languageFrom,wordArray[i]);
+		}
 	}
 	
-	public void translatePhrase(String languageFrom, String searchPhrase) {
-		
+	public String translatePhrase(String languageFrom, String searchPhrase) {
+		String translatedPhrase = null;
+		if(languageFrom.equals("english")) {
+			//Sets the translated Phrase to the node related to the English phrase
+			Node currentNode = tree.findNode(searchPhrase, languageFrom);
+			translatedPhrase = currentNode.getItalianTranslation();
+		}
+		else {
+			//Sets the translated Phrase to the node related to the Spanish phrase
+			Node currentNode = tree.findNode(searchPhrase, languageFrom);
+			translatedPhrase = currentNode.getItalianTranslation();
+		}
+		return translatedPhrase;
 	}
 	
-	public void translateWord(String languageFrom, String searchWord) {
-		
+	
+	public String translateWord(String languageFrom, String searchWord) 
+	{
+		String translatedWord = null;
+		if(languageFrom.equals("english")) {
+			//Sets the translated word to the node related to the English phrase
+			Node currentNode = tree.findNode(searchWord, languageFrom);
+			translatedWord = currentNode.getItalianTranslation();
+		}
+		else {
+			//Sets the translated word to the node related to the Spanish phrase
+			Node currentNode = tree.findNode(searchWord, languageFrom);
+			translatedWord = currentNode.getItalianTranslation();
+		}
+		return translatedWord;
 	}
+	
+	public void displayTree(Node current) {
+		tree.displayTree(current);
+	}
+	
+	public void loadDictionary() {
+		tree.loadDictionary();
+	}
+	
+	public void saveDictionary(Node current) {
+		tree.saveDictionary(current);
+	}
+	
+	public void removeFromTree(String wordToDelete, String language) {
+		tree.removeFromTree(wordToDelete, language);
+	}
+	
 }
