@@ -103,7 +103,7 @@ public class Tree {
 		} else if (italianRoot == null) {
 			italianRoot = newNode;
 		} else if (findNode(newNode.getEnglishTranslation(), "english") != null
-				&& findNode(newNode.getItalianTranslation(), "italian") != null) {
+				|| findNode(newNode.getItalianTranslation(), "italian") != null) {
 			System.out.println("This word (English or Italian) already exists, it will not be added");
 		} else {
 			String language = "english";

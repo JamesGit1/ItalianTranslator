@@ -42,8 +42,6 @@ public class Menu {
 		do {
 			String option;
 
-			displayMenu();
-
 			Scanner s1 = new Scanner(System.in);
 			option = s1.nextLine();
 
