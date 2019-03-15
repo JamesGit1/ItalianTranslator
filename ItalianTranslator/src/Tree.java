@@ -142,7 +142,7 @@ public class Tree {
 				current = current.getRight(language);
 			}
 		}
-		if (getRoot(changeLanguage(language)).equals(searchWord)){
+		if (getRoot(changeLanguage(language)).equals(searchWord)) {
 			return getRoot(changeLanguage(language));
 		}
 		System.out.println("Word not found.");
@@ -162,6 +162,9 @@ public class Tree {
 				previous = current;
 				current = current.getLeft(language);
 			}
+		}
+		if (getRoot(changeLanguage(language)).equals(wordToFind)) {
+			return getRoot(changeLanguage(language));
 		}
 		return null;
 	}
