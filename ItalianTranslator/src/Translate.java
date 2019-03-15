@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 
@@ -13,26 +14,45 @@ import java.util.ArrayList;
 public class Translate {
 	Tree tree = new Tree();
 	
-	public void translateText(String languageFrom, String searchText) {
-		String wordArray[] = searchText.split(" ");
-		String translated[] = wordArray;
-		//ArrayList<String> translatedList=new ArrayList<String>();
+	public String translateText(String languageFrom, String searchText) {
+		String phrasesTranslated = translatePhrases(languageFrom, searchText);
+		String wordArray[] = phrasesTranslated.split(" ");
+
+		ArrayList<String> translatedList=new ArrayList<String>();
 		for(int i=0; i<wordArray.length; i++) {
-			//translated[i] = translateWord(languageFrom,wordArray[i]);
+			translatedList.add(translateWord(languageFrom,wordArray[i]));
 		}
+		
+        // Convert ArrayList to object array 
+        Object[] objArr = translatedList.toArray(); 
+  
+        // convert Object array to String array 
+        wordArray = Arrays.copyOf(objArr, objArr.length, String[].class);
+        
+        String translatedText = "";
+        for(int i=0; i<wordArray.length; i++) {
+        	translatedText = wordArray[i];
+		}
+        return translatedText;
 	}
 	
-	public String translatePhrase(String languageFrom, String searchPhrase) {
-		String translatedPhrase = null;
-		if(languageFrom.equals("english")) {
-			//Sets the translated Phrase to the node related to the English phrase
-			Node currentNode = tree.findNode(searchPhrase, languageFrom);
-			translatedPhrase = currentNode.getItalianTranslation();
-		}
-		else {
-			//Sets the translated Phrase to the node related to the Spanish phrase
-			Node currentNode = tree.findNode(searchPhrase, languageFrom);
-			translatedPhrase = currentNode.getItalianTranslation();
+	public String translatePhrases(String languageFrom, String searchText) {
+		String translatedPhrase=null;
+		
+		int numOfPhrases = 40;
+		String[][] phrases = new String[numOfPhrases][2];
+		
+		for(int i=0;i<numOfPhrases;i++) {
+			if(languageFrom.equals("italian")) {
+				if(searchText.contains(phrases[i][0])) {
+					translatedPhrase = searchText.replace(phrases[i][0], phrases[i][1]);
+				}
+			}
+			else {
+				if(searchText.contains(phrases[i][1])) {
+					translatedPhrase = searchText.replace(phrases[i][1], phrases[i][0]);
+				}
+			}
 		}
 		return translatedPhrase;
 	}
