@@ -44,11 +44,9 @@ public class Tree {
 	}
 
 	public void displayTree(Node current) {
-		if (current.getEnglishLeft() != null) {
+		if (current != null) {
 			displayTree(current.getEnglishLeft());
-		}
-		System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
-		if (current.getEnglishRight() != null) {
+			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
 			displayTree(current.getEnglishRight());
 		}
 	}
@@ -94,7 +92,7 @@ public class Tree {
 	public void save(Node current, PrintWriter pw) {
 		if (current != null) {
 			save(current.getEnglishLeft(), pw);
-			pw.print(current.getEnglishTranslation() + "," + current.getItalianTranslation());
+			pw.println(current.getEnglishTranslation() + "," + current.getItalianTranslation());
 			save(current.getEnglishRight(), pw);
 		}
 	}
@@ -144,6 +142,7 @@ public class Tree {
 				current = current.getRight(language);
 			}
 		}
+		System.out.println("Word not found.");
 		return null;
 	}
 
