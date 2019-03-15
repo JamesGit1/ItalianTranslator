@@ -95,7 +95,7 @@ public class Tree {
 		}
 	}
 
-	public void addToTree(String englishWord, String italianWord) {
+	public void addToTree(String italianWord, String englishWord) {
 		Node newNode = new Node(englishWord, italianWord);
 		Node previous = null;
 		if (englishRoot == null) {

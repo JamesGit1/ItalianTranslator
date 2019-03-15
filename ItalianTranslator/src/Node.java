@@ -41,7 +41,7 @@ public class Node {
 	 * @param italianTranslation The word stored in Italian.
 	 */
 
-	public Node(String englishTranslation, String italianTranslation) {
+	public Node(String italianTranslation, String englishTranslation) {
 		this.italianTranslation = italianTranslation;
 		this.englishTranslation = englishTranslation;
 	}
