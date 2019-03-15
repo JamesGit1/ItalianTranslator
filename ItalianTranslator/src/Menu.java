@@ -29,6 +29,7 @@ public class Menu
 		System.out.println("3. Load a dictionary");
 		System.out.println("4. Remove a word from the dictionary");
 		System.out.println("5. Display the dictionary");
+		System.out.println("6. Automated tests");
 		System.out.println("0. Exit ");
 	}
 
@@ -84,6 +85,12 @@ public class Menu
 			{
 				System.out.println("Option 5 selected. Displaying dictionary...");
 			//	translate.displayDictionary();
+			}
+			
+			else if (option.equals("6")) 
+			{
+				System.out.println("Option 6 selected. Runing automated tests...");
+				
 			}
 
 			else if (option.equals("0")) 
