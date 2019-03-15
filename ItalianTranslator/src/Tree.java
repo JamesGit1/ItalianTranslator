@@ -44,9 +44,13 @@ public class Tree {
 	}
 
 	public void displayTree(Node current) {
-		displayTree(current.getEnglishLeft());
+		if (current.getEnglishLeft() != null) {
+			displayTree(current.getEnglishLeft());
+		}
 		System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
-		displayTree(current.getEnglishRight());
+		if (current.getEnglishRight() != null) {
+			displayTree(current.getEnglishRight());
+		}
 	}
 
 	public void loadDictionary() {
@@ -107,16 +111,16 @@ public class Tree {
 			System.out.println("This word (English or Italian) already exists, it will not be added");
 		} else {
 			String language = "english";
-			Node current = getRoot(language);
 			for (int i = 0; i < 2; i++) {
+				Node current = getRoot(language);
 				while (current != null) {
 					previous = current;
-					if (newNode.getEnglishTranslation().compareTo(current.getTranslation(language)) < 0) {
+					if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
 						current = current.getLeft(language);
 						if (current == null) {
 							previous.setLeft(newNode, language);
 						}
-					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) == 0) {
+					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) >= 0) {
 						current = current.getRight(language);
 						if (current == null) {
 							previous.setRight(newNode, language);
