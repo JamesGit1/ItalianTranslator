@@ -106,11 +106,14 @@ public class Menu {
 		tree.addToTree("con", "with");
 		tree.addToTree("lattina", "can");
 		tree.addToTree("fuori", "out");
+		tree.addToTree("fuori", "out");
 		System.out.println("Displaying tree...");
 		tree.displayTree(tree.getRoot("english"));
-		System.out.println("Finding node fuori...");
-		String language = "italian";
-		System.out.print(tree.findNode("fuori", "italian").getTranslation(tree.changeLanguage(language)));
+		System.out.println("Finding node...");
+		
+		Node n = tree.findNode("was", "english");
+		System.out.print(n.getTranslation("english"));
+		//System.out.print(tree.findNode("fuori", "italian").getTranslation(tree.changeLanguage(language)));
 	}
 
 	/**

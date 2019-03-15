@@ -136,11 +136,14 @@ public class Tree {
 		while (current != null) {
 			if (current.getTranslation(language).equals(searchWord)) {
 				return current;
-			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
-				current = current.getLeft(language);
 			} else if (current.getTranslation(language).compareTo(searchWord) > 0) {
+				current = current.getLeft(language);
+			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
 				current = current.getRight(language);
 			}
+		}
+		if (getRoot(changeLanguage(language)).equals(searchWord)){
+			return getRoot(changeLanguage(language));
 		}
 		System.out.println("Word not found.");
 		return null;
