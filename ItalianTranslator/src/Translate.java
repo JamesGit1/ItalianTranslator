@@ -54,5 +54,20 @@ public class Translate {
 		return translatedWord;
 	}
 	
+	public void displayTree(Node current) {
+		tree.displayTree(current);
+	}
+	
+	public void loadDictionary() {
+		tree.loadDictionary();
+	}
+	
+	public void saveDictionary(Node current) {
+		tree.saveDictionary(current);
+	}
+	
+	public void removeFromTree(String wordToDelete, String language) {
+		tree.removeFromTree(wordToDelete, language);
+	}
 	
 }
