@@ -111,7 +111,7 @@ public class Menu {
 		tree.displayTree(tree.getRoot("english"));
 		System.out.println("Finding node...");
 		
-		Node n = tree.findNode("was", "english");
+		Node n = tree.findParentNode("was", "english");
 		System.out.print(n.getTranslation("english"));
 		//System.out.print(tree.findNode("fuori", "italian").getTranslation(tree.changeLanguage(language)));
 	}

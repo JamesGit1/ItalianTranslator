@@ -155,7 +155,7 @@ public class Tree {
 		while (current != null) {
 			if (current.getTranslation(language).equals(wordToFind)) {
 				return previous;
-			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
+			} else if (wordToFind.compareTo(current.getTranslation(language)) > 0) {
 				previous = current;
 				current = current.getRight(language);
 			} else {
