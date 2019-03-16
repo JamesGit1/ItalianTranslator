@@ -108,13 +108,14 @@ public class Tree {
 	public void addToTree(String italianWord, String englishWord) {
 		Node newNode = new Node(italianWord, englishWord);
 		Node previous = null;
+		if (findNode(newNode.getEnglishTranslation(), "english") != null
+				|| findNode(newNode.getItalianTranslation(), "italian") != null) {
+			System.out.println("This word (English or Italian) already exists, it will not be added");
+		}
 		if (englishRoot == null) {
 			englishRoot = newNode;
 		} else if (italianRoot == null) {
 			italianRoot = newNode;
-		} else if (findNode(newNode.getEnglishTranslation(), "english") != null
-				|| findNode(newNode.getItalianTranslation(), "italian") != null) {
-			System.out.println("This word (English or Italian) already exists, it will not be added");
 		} else {
 			String language = "english";
 			for (int i = 0; i < 2; i++) {
@@ -126,7 +127,7 @@ public class Tree {
 						if (current == null) {
 							previous.setLeft(newNode, language);
 						}
-					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) >= 0) {
+					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
 						current = current.getRight(language);
 						if (current == null) {
 							previous.setRight(newNode, language);
@@ -139,15 +140,14 @@ public class Tree {
 	}
 
 	public Node findNode(String searchWord, String language) {
-		Node current;
-		current = getRoot(language);
+		Node current = getRoot(language);
 		while (current != null) {
 			if (current.getTranslation(language).equals(searchWord)) {
 				return current;
-			} else if (current.getTranslation(language).compareTo(searchWord) > 0) {
-				current = current.getLeft(language);
 			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
 				current = current.getRight(language);
+			} else {
+				current = current.getLeft(language);
 			}
 		}
 		if (getRoot(changeLanguage(language)).equals(searchWord)) {
@@ -163,7 +163,7 @@ public class Tree {
 		while (current != null) {
 			if (current.getTranslation(language).equals(wordToFind)) {
 				return previous;
-			} else if (wordToFind.compareTo(current.getTranslation(language)) > 0) {
+			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
 				previous = current;
 				current = current.getRight(language);
 			} else {
@@ -174,74 +174,79 @@ public class Tree {
 		if (getRoot(changeLanguage(language)).equals(wordToFind)) {
 			return getRoot(changeLanguage(language));
 		}
+		System.out.println("Parent node not found.");
 		return null;
 	}
 
 	public void removeFromTree(String wordToDelete, String language) {
-		Node nodeToDelete = findNode(wordToDelete, language);
-		Node parentNode = findParentNode(wordToDelete, language);
-	}
-
-	public void deleteLeaf(Node nodeToDelete, Node parentNode, String language) {
 		for (int i = 0; i < 2; i++) {
-			if (parentNode.getTranslation(language).compareTo(nodeToDelete.getTranslation(language)) < 0) {
-				parentNode.setRight(null, language);
-			} else {
-				parentNode.setLeft(null, language);
+			Node nodeToDelete = findNode(wordToDelete, language);
+			Node parentNode = findParentNode(wordToDelete, language);
+			if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
+				deleteLeaf(nodeToDelete, parentNode, language);
+				// If the node has one child node on the right.
+			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null
+					|| nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
+				deleteNodeWithOneChild(nodeToDelete, parentNode, language);
+				// If the node has two child nodes, one on either side.
+			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
+				deleteNodeWithTwoChildren(nodeToDelete, parentNode, language);
 			}
 			language = changeLanguage(language);
 		}
 	}
 
+	public void deleteLeaf(Node nodeToDelete, Node parentNode, String language) {
+		if (parentNode.getTranslation(language).compareTo(nodeToDelete.getTranslation(language)) < 0) {
+			parentNode.setRight(null, language);
+		} else {
+			parentNode.setLeft(null, language);
+		}
+	}
+
 	public void deleteNodeWithOneChild(Node nodeToDelete, Node parentNode, String language) {
-		for (int i = 0; i < 2; i++) {
-			if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null) {
-				if (parentNode.getRight(language) == nodeToDelete) {
-					parentNode.setRight(nodeToDelete.getRight(language), language);
-				} else {
-					parentNode.setLeft(nodeToDelete.getRight(language), language);
-				}
-			} else if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
-				if (parentNode.getLeft(language) == nodeToDelete) {
-					parentNode.setLeft(nodeToDelete.getLeft(language), language);
-				} else {
-					parentNode.setRight(nodeToDelete.getLeft(language), language);
-				}
+		if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null) {
+			if (parentNode.getRight(language) == nodeToDelete) {
+				parentNode.setRight(nodeToDelete.getRight(language), language);
+			} else {
+				parentNode.setLeft(nodeToDelete.getRight(language), language);
 			}
-			language = changeLanguage(language);
+		} else if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
+			if (parentNode.getLeft(language) == nodeToDelete) {
+				parentNode.setLeft(nodeToDelete.getLeft(language), language);
+			} else {
+				parentNode.setRight(nodeToDelete.getLeft(language), language);
+			}
 		}
 	}
 
 	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
 		Node replacementNode = nodeToDelete.getLeft(language);
 		Node previous = parentNode;
-		for (int i = 0; i < 2; i++) {
-			while (replacementNode.getRight(language) != null) {
-				previous = replacementNode;
-				replacementNode = replacementNode.getRight(language);
-			}
-			if (replacementNode.getLeft(language) == null) {
-				deleteLeaf(replacementNode, previous, language);
+		while (replacementNode.getRight(language) != null) {
+			previous = replacementNode;
+			replacementNode = replacementNode.getRight(language);
+		}
+		if (replacementNode.getLeft(language) == null) {
+			deleteLeaf(replacementNode, previous, language);
+		} else {
+			deleteNodeWithOneChild(replacementNode, previous, language);
+		}
+		replacementNode.setRight(nodeToDelete.getRight(language), language);
+		if (replacementNode != nodeToDelete.getLeft(language)) {
+			replacementNode.setLeft(nodeToDelete.getLeft(language), language);
+		}
+		if (parentNode != null) {
+			// If the node was on the right of the parent, set the parent right
+			// pointer to point to the replacement node.
+			if (parentNode.getRight(language) == nodeToDelete) {
+				parentNode.setRight(replacementNode, language);
+				// Otherwise, set the parent node left pointer to point to the replacement node.
 			} else {
-				deleteNodeWithOneChild(replacementNode, previous, language);
+				parentNode.setLeft(replacementNode, language);
 			}
-			replacementNode.setRight(nodeToDelete.getRight(language), language);
-			if (replacementNode != nodeToDelete.getLeft(language)) {
-				replacementNode.setLeft(nodeToDelete.getLeft(language), language);
-			}
-			if (parentNode != null) {
-				// If the node was on the right of the parent, set the parent right
-				// pointer to point to the replacement node.
-				if (parentNode.getRight(language) == nodeToDelete) {
-					parentNode.setRight(replacementNode, language);
-					// Otherwise, set the parent node left pointer to point to the replacement node.
-				} else {
-					parentNode.setLeft(replacementNode, language);
-				}
-			} else {
-				setRoot(replacementNode, language);
-			}
-			language = changeLanguage(language);
+		} else {
+			setRoot(replacementNode, language);
 		}
 	}
 

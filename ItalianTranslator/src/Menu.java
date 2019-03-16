@@ -109,11 +109,16 @@ public class Menu {
 		tree.addToTree("fuori", "out");
 		System.out.println("Displaying tree...");
 		tree.displayTree(tree.getRoot("english"));
-		System.out.println("Finding node...");
-		
-		Node n = tree.findParentNode("was", "english");
-		System.out.print(n.getTranslation("english"));
-		//System.out.print(tree.findNode("fuori", "italian").getTranslation(tree.changeLanguage(language)));
+		String wordToFind = "was";
+		System.out.println("Finding parent of node..." + wordToFind);
+		Node n = tree.findParentNode(wordToFind, "english");
+		System.out.println(n.getTranslation("english"));
+		System.out.println("Deleting word..." + wordToFind);
+		tree.removeFromTree(wordToFind, "english");
+		tree.displayTree(tree.getRoot("english"));
+
+		// System.out.print(tree.findNode("fuori",
+		// "italian").getTranslation(tree.changeLanguage(language)));
 	}
 
 	/**
