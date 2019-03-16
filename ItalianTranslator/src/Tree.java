@@ -5,17 +5,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Tree {
-	public Node italianRoot;
-	public Node englishRoot;
+	public Node root;
 
 	public Tree() {
-		englishRoot = null;
-		italianRoot = null;
+		root = null;
 	}
 
-	public Tree(Node italianRoot, Node englishRoot) {
-		this.englishRoot = englishRoot;
-		this.italianRoot = italianRoot;
+	public Tree(Node italianRoot, Node root) {
+		this.root = root;
 	}
 
 	// Pass in the Main Binary tree into here
@@ -36,19 +33,11 @@ public class Tree {
 	}
 
 	public void setRoot(Node newRoot, String language) {
-		if (language.equals("italian")) {
-			italianRoot = newRoot;
-		} else {
-			englishRoot = newRoot;
-		}
+		this.root = newRoot;
 	}
 
 	public Node getRoot(String language) {
-		if (language.equals("italian")) {
-			return italianRoot;
-		} else {
-			return englishRoot;
-		}
+		return root;
 	}
 
 	public void displayTree(Node current) {
@@ -106,73 +95,110 @@ public class Tree {
 	}
 
 	public void addToTree(String italianWord, String englishWord) {
+		// Create the new node.
 		Node newNode = new Node(italianWord, englishWord);
 		Node previous = null;
+		// Start with the English tree.
+		String language = "english";
+		// If the new node is found in the tree (search for the Italian and English).
 		if (findNode(newNode.getEnglishTranslation(), "english") != null
 				|| findNode(newNode.getItalianTranslation(), "italian") != null) {
 			System.out.println("This word (English or Italian) already exists, it will not be added");
-		}
-		if (englishRoot == null) {
-			englishRoot = newNode;
-		} else if (italianRoot == null) {
-			italianRoot = newNode;
+			// Otherwise, if the English root is null, make the node the root.
+		} else if (root == null) {
+			System.out.println("Adding root...");
+			root = newNode;
+			/*
+			 * Otherwise, if the node is not already in the tree, and both the roots are
+			 * already taken...
+			 */
 		} else {
-			String language = "english";
+			// Do this twice for each tree...
 			for (int i = 0; i < 2; i++) {
-				Node current = getRoot(language);
+				// The current node is the root.
+				Node current = root;
 				while (current != null) {
 					previous = current;
+					// If the newNode word is before the current node...
 					if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
+						// Make the current the node on the left.
+						System.out.println("Heading to the left...");
 						current = current.getLeft(language);
+						// If that is null...
 						if (current == null) {
+							System.out.println("Adding to the left...");
+							// Set the previous node.s left pointer to the newNode.
 							previous.setLeft(newNode, language);
 						}
+						// Else if the newNode is after the current node...
 					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
+						// Make the current the node on the right.
+						System.out.println("Heading to the right...");
 						current = current.getRight(language);
+						// If this node is null...
 						if (current == null) {
+							System.out.println("Adding to the right...");
+							// Set the previous node.s right pointer to the newNode.
 							previous.setRight(newNode, language);
 						}
 					}
 				}
+				// Then change the language and repeat the process.
 				language = changeLanguage(language);
 			}
 		}
 	}
 
 	public Node findNode(String searchWord, String language) {
-		Node current = getRoot(language);
+		Node current = root;
+		// While the current node is not null...
 		while (current != null) {
+			// If the word in current is the searchWord...
 			if (current.getTranslation(language).equals(searchWord)) {
+				// return current.
 				return current;
+				// Else if the current node's word is before the searchWord...
 			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
+				// Make the current the node on the right of current.
 				current = current.getRight(language);
+				// Else go to the left.
 			} else {
 				current = current.getLeft(language);
 			}
 		}
-		if (getRoot(changeLanguage(language)).equals(searchWord)) {
-			return getRoot(changeLanguage(language));
-		}
+		// If the root of the other language is not null and is the searchWord...
+//		if (getRoot(changeLanguage(language)) != null
+//				&& getRoot(changeLanguage(language)).getTranslation(language).equals(searchWord)) {
+//			// Return the root of the other language (This should not have to happen).
+//			return getRoot(changeLanguage(language));
+//		}
 		System.out.println("Word not found.");
 		return null;
 	}
 
 	public Node findParentNode(String wordToFind, String language) {
-		Node current = getRoot(language);
+		Node current = root;
 		Node previous = null;
+		// While the current is not null...
 		while (current != null) {
+			// If the current node's word is the wordToFind...
 			if (current.getTranslation(language).equals(wordToFind)) {
+				// Return the previous node (the parent of the current node.
 				return previous;
+				// Else if the wordToFind is before the current...
 			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
+				/*
+				 * Make the previous node the current node and make the current node the one to
+				 * the right.
+				 */
 				previous = current;
 				current = current.getRight(language);
 			} else {
+				// Else (if the wordToFind is after the current)...
 				previous = current;
+				// Go to the left.
 				current = current.getLeft(language);
 			}
-		}
-		if (getRoot(changeLanguage(language)).equals(wordToFind)) {
-			return getRoot(changeLanguage(language));
 		}
 		System.out.println("Parent node not found.");
 		return null;
@@ -192,6 +218,7 @@ public class Tree {
 			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
 				deleteNodeWithTwoChildren(nodeToDelete, parentNode, language);
 			}
+			// Change the language before repeating the process.
 			language = changeLanguage(language);
 		}
 	}
@@ -256,7 +283,7 @@ public class Tree {
 	 * @return true or false
 	 */
 	public boolean isTreeEmpty() {
-		if (englishRoot == null) {
+		if (root == null) {
 			return true;
 		}
 		return false;
