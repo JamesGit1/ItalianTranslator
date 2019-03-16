@@ -35,6 +35,14 @@ public class Tree {
 		}
 	}
 
+	public void setRoot(Node newRoot, String language) {
+		if (language.equals("italian")) {
+			italianRoot = newRoot;
+		} else {
+			englishRoot = newRoot;
+		}
+	}
+
 	public Node getRoot(String language) {
 		if (language.equals("italian")) {
 			return italianRoot;
@@ -199,6 +207,39 @@ public class Tree {
 				} else {
 					parentNode.setRight(nodeToDelete.getLeft(language), language);
 				}
+			}
+			language = changeLanguage(language);
+		}
+	}
+
+	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
+		Node replacementNode = nodeToDelete.getLeft(language);
+		Node previous = parentNode;
+		for (int i = 0; i < 2; i++) {
+			while (replacementNode.getRight(language) != null) {
+				previous = replacementNode;
+				replacementNode = replacementNode.getRight(language);
+			}
+			if (replacementNode.getLeft(language) == null) {
+				deleteLeaf(replacementNode, previous, language);
+			} else {
+				deleteNodeWithOneChild(replacementNode, previous, language);
+			}
+			replacementNode.setRight(nodeToDelete.getRight(language), language);
+			if (replacementNode != nodeToDelete.getLeft(language)) {
+				replacementNode.setLeft(nodeToDelete.getLeft(language), language);
+			}
+			if (parentNode != null) {
+				// If the node was on the right of the parent, set the parent right
+				// pointer to point to the replacement node.
+				if (parentNode.getRight(language) == nodeToDelete) {
+					parentNode.setRight(replacementNode, language);
+					// Otherwise, set the parent node left pointer to point to the replacement node.
+				} else {
+					parentNode.setLeft(replacementNode, language);
+				}
+			} else {
+				setRoot(replacementNode, language);
 			}
 			language = changeLanguage(language);
 		}
