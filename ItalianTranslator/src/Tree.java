@@ -32,7 +32,7 @@ public class Tree {
 		}
 	}
 
-	public void setRoot(Node newRoot, String language) {
+	public void setRoot(Node newRoot) {
 		this.root = newRoot;
 	}
 
@@ -122,22 +122,18 @@ public class Tree {
 					// If the newNode word is before the current node...
 					if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
 						// Make the current the node on the left.
-						System.out.println("Heading to the left...");
 						current = current.getLeft(language);
 						// If that is null...
 						if (current == null) {
-							System.out.println("Adding to the left...");
 							// Set the previous node.s left pointer to the newNode.
 							previous.setLeft(newNode, language);
 						}
 						// Else if the newNode is after the current node...
 					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
 						// Make the current the node on the right.
-						System.out.println("Heading to the right...");
 						current = current.getRight(language);
 						// If this node is null...
 						if (current == null) {
-							System.out.println("Adding to the right...");
 							// Set the previous node.s right pointer to the newNode.
 							previous.setRight(newNode, language);
 						}
@@ -158,11 +154,11 @@ public class Tree {
 				// return current.
 				return current;
 				// Else if the current node's word is before the searchWord...
-			} else if (current.getTranslation(language).compareTo(searchWord) < 0) {
+			} else if (searchWord.compareTo(current.getTranslation(language)) > 0) {
 				// Make the current the node on the right of current.
 				current = current.getRight(language);
 				// Else go to the left.
-			} else {
+			} else if (searchWord.compareTo(current.getTranslation(language)) < 0) {
 				current = current.getLeft(language);
 			}
 		}
@@ -172,7 +168,7 @@ public class Tree {
 //			// Return the root of the other language (This should not have to happen).
 //			return getRoot(changeLanguage(language));
 //		}
-		System.out.println("Word not found.");
+		System.out.println("NNF");
 		return null;
 	}
 
@@ -183,17 +179,20 @@ public class Tree {
 		while (current != null) {
 			// If the current node's word is the wordToFind...
 			if (current.getTranslation(language).equals(wordToFind)) {
+				if (current.getTranslation(language).equals(root.getTranslation(language))) {
+					return root;
+				}
 				// Return the previous node (the parent of the current node.
 				return previous;
 				// Else if the wordToFind is before the current...
-			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
+			} else if (wordToFind.compareTo(current.getTranslation(language)) > 0) {
 				/*
 				 * Make the previous node the current node and make the current node the one to
 				 * the right.
 				 */
 				previous = current;
 				current = current.getRight(language);
-			} else {
+			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
 				// Else (if the wordToFind is after the current)...
 				previous = current;
 				// Go to the left.
@@ -201,10 +200,11 @@ public class Tree {
 			}
 		}
 		System.out.println("Parent node not found.");
-		return null;
+		return previous;
 	}
 
 	public void removeFromTree(String wordToDelete, String language) {
+
 		for (int i = 0; i < 2; i++) {
 			Node nodeToDelete = findNode(wordToDelete, language);
 			Node parentNode = findParentNode(wordToDelete, language);
@@ -220,6 +220,7 @@ public class Tree {
 			}
 			// Change the language before repeating the process.
 			language = changeLanguage(language);
+			wordToDelete = nodeToDelete.getTranslation(language);
 		}
 	}
 
@@ -273,7 +274,7 @@ public class Tree {
 				parentNode.setLeft(replacementNode, language);
 			}
 		} else {
-			setRoot(replacementNode, language);
+			setRoot(replacementNode);
 		}
 	}
 
