@@ -261,12 +261,10 @@ public class Tree {
 
 	public Node findReplacementNode(Node nodeToDelete, Node parentNode, String language) {
 		Node replacementNode = nodeToDelete.getLeft(language);
-		Node previous = parentNode;
-		while (replacementNode != null) {
-			previous = replacementNode;
+		while (replacementNode.getRight(language) != null) {
 			replacementNode = replacementNode.getRight(language);
 		}
-		return previous;
+		return replacementNode;
 	}
 
 	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
