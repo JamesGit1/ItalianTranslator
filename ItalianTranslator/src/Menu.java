@@ -114,11 +114,10 @@ public class Menu {
 		System.out.println("Displaying tree...");
 		tree.displayTree(tree.root);
 
-		String wordToFind = "was";
+		String wordToFind = "i";
 
 		System.out.println("Finding parent of node of..." + wordToFind);
 		Node n = tree.findParentNode(wordToFind, "english");
-		System.out.println(n.getTranslation("english"));
 
 		System.out.println("Deleting word..." + wordToFind);
 		tree.removeFromTree(wordToFind, "english");

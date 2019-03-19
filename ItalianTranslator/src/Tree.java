@@ -224,7 +224,7 @@ public class Tree {
 				deleteNodeWithOneChild(nodeToDelete, parentNode, language);
 				// If the node has two child nodes, one on either side.
 			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
-				deleteNodeWithTwoChildren(nodeToDelete, parentNode, language);
+				deleteNodeWithTwoChildren(nodeToDelete, parentNode, i, language);
 			}
 			// Change the language before repeating the process.
 			language = changeLanguage(language);
@@ -267,7 +267,7 @@ public class Tree {
 		return replacementNode;
 	}
 
-	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
+	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, int i, String language) {
 		Node replacementNode = findReplacementNode(nodeToDelete, parentNode, language);
 		if (replacementNode.getLeft(language) == null) {
 			deleteLeaf(replacementNode, findParentNode(replacementNode.getTranslation(language), language), language);
@@ -288,7 +288,11 @@ public class Tree {
 			} else {
 				parentNode.setLeft(replacementNode, language);
 			}
-		} else {
+			/*
+			 * If there has already been a swap and the node has no parent node, set the
+			 * root as the replacement node.
+			 */
+		} else if (i == 1) {
 			setRoot(replacementNode);
 		}
 	}
