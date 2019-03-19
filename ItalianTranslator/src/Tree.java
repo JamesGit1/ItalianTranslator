@@ -188,7 +188,7 @@ public class Tree {
 			// If the current node's word is the wordToFind...
 			if (current.getTranslation(language).equals(wordToFind)) {
 				if (current.getTranslation(language).equals(root.getTranslation(language))) {
-					return root;
+					return null;
 				}
 				// Return the previous node (the parent of the current node.
 				return previous;
@@ -263,9 +263,10 @@ public class Tree {
 			replacementNode = replacementNode.getRight(language);
 		}
 		if (replacementNode.getLeft(language) == null) {
-			deleteLeaf(replacementNode, previous, language);
+			deleteLeaf(replacementNode, findParentNode(replacementNode.getTranslation(language), language), language);
 		} else {
-			deleteNodeWithOneChild(replacementNode, previous, language);
+			deleteNodeWithOneChild(replacementNode, findParentNode(replacementNode.getTranslation(language), language),
+					language);
 		}
 		replacementNode.setRight(nodeToDelete.getRight(language), language);
 		if (replacementNode != nodeToDelete.getLeft(language)) {
