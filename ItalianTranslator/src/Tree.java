@@ -75,9 +75,7 @@ public class Tree {
 			br.close();
 
 		} catch (Exception e) {
-
-			System.out.println("heehsheshes");
-
+			// @TODO Write error handling.
 		}
 	}
 
@@ -114,7 +112,6 @@ public class Tree {
 			System.out.println("This word (English or Italian) already exists, it will not be added");
 			// Otherwise, if the English root is null, make the node the root.
 		} else if (root == null) {
-			System.out.println("Adding root...");
 			root = newNode;
 			/*
 			 * Otherwise, if the node is not already in the tree, and both the roots are
@@ -170,55 +167,67 @@ public class Tree {
 				current = current.getLeft(language);
 			}
 		}
-		// If the root of the other language is not null and is the searchWord...
-//		if (getRoot(changeLanguage(language)) != null
-//				&& getRoot(changeLanguage(language)).getTranslation(language).equals(searchWord)) {
-//			// Return the root of the other language (This should not have to happen).
-//			return getRoot(changeLanguage(language));
-//		}
-		System.out.println("NNF");
 		return null;
 	}
 
-	public Node findParentNode(String wordToFind, String language) {
+	/**
+	 * Finds the parent node of a node.
+	 * 
+	 * @param wordToFind The word that the user wants to find the parent of.
+	 * @param language   The current language, and therefore what tree is being
+	 *                   worked on.
+	 * @return previous The node that was current before the node was found.
+	 */
+
+	public Node findParentNode(Node requestedNode, String language) {
 		Node current = root;
 		Node previous = null;
 		// While the current is not null...
 		while (current != null) {
 			// If the current node's word is the wordToFind...
-			if (current.getTranslation(language).equals(wordToFind)) {
+			if (current == requestedNode) {
 				if (current.getTranslation(language).equals(root.getTranslation(language))) {
 					return null;
 				}
 				// Return the previous node (the parent of the current node.
 				return previous;
 				// Else if the wordToFind is before the current...
-			} else if (wordToFind.compareTo(current.getTranslation(language)) > 0) {
+			} else if (requestedNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
 				/*
 				 * Make the previous node the current node and make the current node the one to
 				 * the right.
 				 */
 				previous = current;
 				current = current.getRight(language);
-			} else if (wordToFind.compareTo(current.getTranslation(language)) < 0) {
+			} else if (requestedNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
 				// Else (if the wordToFind is after the current)...
 				previous = current;
 				// Go to the left.
 				current = current.getLeft(language);
 			}
 		}
-		System.out.println("Parent node not found.");
 		return previous;
 	}
 
+	/**
+	 * Removes a node from both trees.
+	 * 
+	 * @param wordToDelete The word that the user wants to be deleted.
+	 * @param language     The current language, and therefore what tree is being
+	 *                     worked on.
+	 */
+
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
+		// Do this twice because there are two trees...
 		for (int i = 0; i < 2; i++) {
 			nodeToDelete = findNode(wordToDelete, language);
-			Node parentNode = findParentNode(wordToDelete, language);
+			Node parentNode = findParentNode(nodeToDelete, language);
+			// If nodeToDelete is a leaf...
 			if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
+				// Run the deleteLeaf method.
 				deleteLeaf(nodeToDelete, parentNode, language);
-				// If the node has one child node on the right.
+				// If the node has one child node on the right or left...
 			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null
 					|| nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
 				deleteNodeWithOneChild(nodeToDelete, parentNode, language);
@@ -230,55 +239,122 @@ public class Tree {
 			language = changeLanguage(language);
 			wordToDelete = nodeToDelete.getTranslation(language);
 		}
-		if (findParentNode(nodeToDelete.getTranslation(language), language) == null) {
+		if (findParentNode(nodeToDelete, language) == null) {
 
 		}
 	}
 
+	/**
+	 * Deletes a leaf.
+	 * 
+	 * @param nodeToDelete The node that is going to be deleted.
+	 * @param parentNode   The parent node of nodeToDelete.
+	 * @param language     The current language, and therefore what tree is being
+	 *                     worked on.
+	 */
+
 	public void deleteLeaf(Node nodeToDelete, Node parentNode, String language) {
+		// If nodeToDelete is on the right of its parent node...
 		if (parentNode.getRight(language) != null && parentNode.getRight(language).equals(nodeToDelete)) {
 			parentNode.setRight(null, language);
+			// Otherwise (nodeToDelete is on the left of its parent node)...
 		} else {
 			parentNode.setLeft(null, language);
 		}
 	}
 
+	/**
+	 * Deletes a node with one child node.
+	 * 
+	 * @param nodeToDelete The node that is going to be deleted.
+	 * @param parentNode   The parent node of nodeToDelete.
+	 * @param language     The current language, and therefore what tree is being
+	 *                     worked on.
+	 */
+
 	public void deleteNodeWithOneChild(Node nodeToDelete, Node parentNode, String language) {
+		// (Finding what side of nodeToDelete the child is on).
+		// If the child node is on the right of nodeToDelete...
 		if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null) {
+			// If nodeToDelete is on the right of its parent node...
 			if (parentNode.getRight(language) == nodeToDelete) {
+				// Set what is on the right of the parent node to what is on the right of
+				// nodeToDelete.
 				parentNode.setRight(nodeToDelete.getRight(language), language);
+				// Otherwise (nodeToDelete is on the left of its parent node)...
 			} else {
+				// Set what is on the left of the parent node to what is on the right of
+				// nodeToDelete.
 				parentNode.setLeft(nodeToDelete.getRight(language), language);
 			}
+			// Otherwise (the child node is on the left of nodeToDelete)...
 		} else if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
+			// If nodeToDelete is on the left of its parent node...
 			if (parentNode.getLeft(language) == nodeToDelete) {
+				// Set what is on the left of the parent node to what is on the left of
+				// nodeToDelete.
 				parentNode.setLeft(nodeToDelete.getLeft(language), language);
+				// Otherwise (nodeToDelete is on the right of its parent node)...
 			} else {
+				// Set what is on the right of the parent node to what is on the left of
+				// nodeToDelete.
 				parentNode.setRight(nodeToDelete.getLeft(language), language);
 			}
 		}
 	}
 
+	/**
+	 * Finds the replacement node if a node with two children is being deleted.
+	 * 
+	 * @param nodeToDelete The node that is going to be deleted.
+	 * @param parentNode   The parent node of nodeToDelete.
+	 * @param language     The current language, and therefore what tree is being
+	 *                     worked on.
+	 * @return replacementNode The node that can replace nodeToDelete.
+	 */
+
 	public Node findReplacementNode(Node nodeToDelete, Node parentNode, String language) {
 		Node replacementNode = nodeToDelete.getLeft(language);
+		// While the node on the right of replacementNode is not null...
 		while (replacementNode.getRight(language) != null) {
+			// Set replacementNode to what is currently on the right of replacementNode.
 			replacementNode = replacementNode.getRight(language);
 		}
 		return replacementNode;
 	}
 
+	/**
+	 * Deletes a node with two active connections (for the selected language).
+	 * 
+	 * @param nodeToDelete The node that is going to be deleted.
+	 * @param parentNode   The parent node of nodeToDelete.
+	 * @param i            The counter from removeNode, this is the number of times
+	 *                     the language has changed.
+	 * @param language     The current language, and therefore what tree is being
+	 *                     worked on.
+	 */
+
 	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, int i, String language) {
 		Node replacementNode = findReplacementNode(nodeToDelete, parentNode, language);
+
+		// If what is on the left of replacementNode is null...
 		if (replacementNode.getLeft(language) == null) {
-			deleteLeaf(replacementNode, findParentNode(replacementNode.getTranslation(language), language), language);
+			// It must be a leaf and therefore deleteLeaf is called.
+			deleteLeaf(replacementNode, findParentNode(replacementNode, language), language);
 		} else {
-			deleteNodeWithOneChild(replacementNode, findParentNode(replacementNode.getTranslation(language), language),
-					language);
+			// Otherwise (as nothing can be on the right of replacementNode) it must have
+			// one child (on the left).
+			deleteNodeWithOneChild(replacementNode, findParentNode(replacementNode, language), language);
 		}
+
 		replacementNode.setRight(nodeToDelete.getRight(language), language);
+
+		// If the replacement node is not directly on the left of the nodeToDelete...
 		if (replacementNode != nodeToDelete.getLeft(language)) {
+			// Set the replacementNode's left to be what's on the left of nodeToDelete.
 			replacementNode.setLeft(nodeToDelete.getLeft(language), language);
 		}
+
 		if (parentNode != null) {
 			// If the node was on the right of the parent, set the parent right
 			// pointer to point to the replacement node.
@@ -290,7 +366,8 @@ public class Tree {
 			}
 			/*
 			 * If there has already been a swap and the node has no parent node, set the
-			 * root as the replacement node.
+			 * root as the replacement node. (note, this is not very good for tree
+			 * balancing).
 			 */
 		} else if (i == 1) {
 			setRoot(replacementNode);
@@ -298,7 +375,7 @@ public class Tree {
 	}
 
 	/**
-	 * This method checks if the tree is empty.
+	 * Checks if the tree is empty.
 	 * 
 	 * @return true or false
 	 */
