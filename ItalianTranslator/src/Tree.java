@@ -48,6 +48,14 @@ public class Tree {
 		}
 	}
 
+	public void displayTreeAlternate(Node current) {
+		if (current != null) {
+			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
+			displayTree(current.getEnglishLeft());
+			displayTree(current.getEnglishRight());
+		}
+	}
+
 	public void loadDictionary() {
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -204,7 +212,6 @@ public class Tree {
 	}
 
 	public void removeFromTree(String wordToDelete, String language) {
-
 		for (int i = 0; i < 2; i++) {
 			Node nodeToDelete = findNode(wordToDelete, language);
 			Node parentNode = findParentNode(wordToDelete, language);
@@ -225,7 +232,7 @@ public class Tree {
 	}
 
 	public void deleteLeaf(Node nodeToDelete, Node parentNode, String language) {
-		if (parentNode.getTranslation(language).compareTo(nodeToDelete.getTranslation(language)) < 0) {
+		if (parentNode.getRight(language) != null && parentNode.getRight(language).equals(nodeToDelete)) {
 			parentNode.setRight(null, language);
 		} else {
 			parentNode.setLeft(null, language);
