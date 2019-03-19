@@ -7,9 +7,17 @@ import java.io.PrintWriter;
 public class Tree {
 	public Node root;
 
+	/**
+	 * Constructor method.
+	 */
+
 	public Tree() {
 		root = null;
 	}
+
+	/**
+	 * Constructor method.
+	 */
 
 	public Tree(Node italianRoot, Node root) {
 		this.root = root;
@@ -20,8 +28,8 @@ public class Tree {
 	/**
 	 * Displays the entire dictionary
 	 *
-	 * @param english  - Gets English left and right Tree
-	 * @param itatlian - Gets Italian left and right Tree
+	 * @param english  Gets English left and right Tree
+	 * @param itatlian Gets Italian left and right Tree
 	 */
 
 	public String changeLanguage(String language) {
@@ -32,13 +40,33 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Sets the root of the tree.
+	 * 
+	 * @param newRoot The new root of the tree.
+	 */
+
 	public void setRoot(Node newRoot) {
 		this.root = newRoot;
 	}
 
+	/**
+	 * Gets the root of the tree.
+	 * 
+	 * @param language The current language, and therefore what tree is being worked
+	 *                 on.
+	 * @return root The root of the tree
+	 */
+
 	public Node getRoot(String language) {
 		return root;
 	}
+
+	/**
+	 * Displays the entire English tree.
+	 * 
+	 * @param current The current node.
+	 */
 
 	public void displayTree(Node current) {
 		if (current != null) {
@@ -48,6 +76,12 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Displays the tree a different kind of way.
+	 * 
+	 * @param current The current node.
+	 */
+
 	public void displayTreeAlternate(Node current) {
 		if (current != null) {
 			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
@@ -56,13 +90,17 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Loads the dictionary.
+	 */
+
 	public void loadDictionary() {
 		FileReader fr = null;
 		BufferedReader br = null;
+
 		try {
 			fr = new FileReader("A.txt");
 			br = new BufferedReader(fr);
-
 			String nextLine = br.readLine();
 
 			while (nextLine != null) {
@@ -79,6 +117,12 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Saves the dictionary.
+	 * 
+	 * @param current The current node.
+	 */
+
 	public void saveDictionary(Node current) {
 		FileOutputStream os = null;
 		PrintWriter pw = null;
@@ -92,6 +136,13 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Goes through all the elements in the tree and writes each one to a file.
+	 * 
+	 * @param current The current node.
+	 * @param pw      The print writer.
+	 */
+
 	public void save(Node current, PrintWriter pw) {
 		if (current != null) {
 			save(current.getEnglishLeft(), pw);
@@ -99,6 +150,13 @@ public class Tree {
 			save(current.getEnglishRight(), pw);
 		}
 	}
+
+	/**
+	 * Adds an element to the tree.
+	 * 
+	 * @param italianWord The Italian word.
+	 * @param englishWord The English word.
+	 */
 
 	public void addToTree(String italianWord, String englishWord) {
 		// Create the new node.
