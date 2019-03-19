@@ -212,8 +212,9 @@ public class Tree {
 	}
 
 	public void removeFromTree(String wordToDelete, String language) {
+		Node nodeToDelete = null;
 		for (int i = 0; i < 2; i++) {
-			Node nodeToDelete = findNode(wordToDelete, language);
+			nodeToDelete = findNode(wordToDelete, language);
 			Node parentNode = findParentNode(wordToDelete, language);
 			if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
 				deleteLeaf(nodeToDelete, parentNode, language);
@@ -228,6 +229,9 @@ public class Tree {
 			// Change the language before repeating the process.
 			language = changeLanguage(language);
 			wordToDelete = nodeToDelete.getTranslation(language);
+		}
+		if (findParentNode(nodeToDelete.getTranslation(language), language) == null) {
+
 		}
 	}
 
@@ -255,13 +259,18 @@ public class Tree {
 		}
 	}
 
-	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
+	public Node findReplacementNode(Node nodeToDelete, Node parentNode, String language) {
 		Node replacementNode = nodeToDelete.getLeft(language);
 		Node previous = parentNode;
-		while (replacementNode.getRight(language) != null) {
+		while (replacementNode != null) {
 			previous = replacementNode;
 			replacementNode = replacementNode.getRight(language);
 		}
+		return previous;
+	}
+
+	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
+		Node replacementNode = findReplacementNode(nodeToDelete, parentNode, language);
 		if (replacementNode.getLeft(language) == null) {
 			deleteLeaf(replacementNode, findParentNode(replacementNode.getTranslation(language), language), language);
 		} else {
