@@ -123,8 +123,8 @@ public class Menu {
 		System.out.println("Deleting word..." + wordToFind);
 		tree.removeFromTree(wordToFind, "english");
 		tree.displayTreeAlternate(tree.getRoot("english"));
-		System.out.println(tree.root.getLeft("english").getTranslation("english"));
-		System.out.println(tree.root.getLeft("italian").getTranslation("english"));
+//		System.out.println(tree.root.getLeft("english").getTranslation("english"));
+//		System.out.println(tree.root.getLeft("italian").getTranslation("english"));
 
 //		String word1 = "was";
 //		String word2 = "his";
