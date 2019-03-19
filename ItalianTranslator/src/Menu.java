@@ -96,10 +96,12 @@ public class Menu {
 		} while (stopMenu != true);
 	}
 
+	/**
+	 * Performs automated tests on the data provided.
+	 */
+
 	public void automatedTest() {
 		Tree tree = new Tree();
-//		System.out.println("was".compareTo("i"));
-//		System.out.println("z".compareTo("I"));
 		tree.addToTree("io", "i");
 		tree.addToTree("il suo", "his");
 		tree.addToTree("era", "was");
@@ -116,21 +118,9 @@ public class Menu {
 
 		String wordToFind = "i";
 
-		System.out.println("Finding parent of node of..." + wordToFind);
-		Node n = tree.findParentNode(wordToFind, "english");
-
 		System.out.println("Deleting word..." + wordToFind);
 		tree.removeFromTree(wordToFind, "english");
 		tree.displayTreeAlternate(tree.getRoot("english"));
-//		System.out.println(tree.root.getLeft("english").getTranslation("english"));
-//		System.out.println(tree.root.getLeft("italian").getTranslation("english"));
-
-//		String word1 = "was";
-//		String word2 = "his";
-//		System.out.println(word1.compareTo(word2));
-
-		// System.out.print(tree.findNode("fuori",language);
-		// "italian").getTranslation(tree.changeLanguage(language)));
 	}
 
 	/**
