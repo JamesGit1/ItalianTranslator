@@ -4,6 +4,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Binary tree to store all the words in the dictionary using the modified node
+ * class.
+ * 
+ * @author James, Josh, Jesse, Luke.
+ *
+ */
+
 public class Tree {
 	public Node root;
 
