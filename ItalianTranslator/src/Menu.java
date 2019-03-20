@@ -14,6 +14,8 @@ import javafx.stage.Stage;
  */
 public class Menu extends Application implements EventHandler<ActionEvent> {
 Button button;
+Stage window;
+Scene scene1,scene2;
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -27,8 +29,8 @@ Button button;
 		StackPane layout = new StackPane();
 		layout.getChildren().add(button);
 	
-		Scene scene = new Scene(layout, 1280,720);
-		primaryStage.setScene(scene);
+	 scene1 = new Scene(layout, 1280,720);
+		primaryStage.setScene(scene1);
 		primaryStage.show();
 		
 	}
