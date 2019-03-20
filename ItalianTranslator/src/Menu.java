@@ -1,19 +1,46 @@
 import java.util.Scanner;
-
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 /**
  * This is the Menu class, it will display a menu to the user and provide
  * functionality to the given options.
  * 
  * @author James, Josh, Jesse, Luke.
  */
-public class Menu {
-
+public class Menu extends Application implements EventHandler<ActionEvent> {
+Button button;
 	public static void main(String[] args) {
-		displayMenu();
-		Menu menu = new Menu();
-		menu.processUserChoices();
+		launch(args);
 	}
 
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("Italiano Transaltor");
+		button = new Button();
+		button.setText("Test");
+		button.setOnAction(this);
+		StackPane layout = new StackPane();
+		layout.getChildren().add(button);
+	
+		Scene scene = new Scene(layout, 1280,720);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		
+	}
+	
+	public void handle(ActionEvent event) {
+		
+		if(event.getSource() == button) {
+			
+			System.out.println("testest");
+		}
+		
+	}
 	/**
 	 * This method displays the menu.
 	 */
@@ -98,7 +125,9 @@ public class Menu {
 
 	public void automatedTest() {
 		Tree tree = new Tree();
-		tree.addToTree("io", "I");
+//		System.out.println("was".compareTo("i"));
+//		System.out.println("z".compareTo("I"));
+		tree.addToTree("io", "i");
 		tree.addToTree("il suo", "his");
 		tree.addToTree("era", "was");
 		tree.addToTree("per", "for");
@@ -106,7 +135,26 @@ public class Menu {
 		tree.addToTree("con", "with");
 		tree.addToTree("lattina", "can");
 		tree.addToTree("fuori", "out");
+		tree.addToTree("fuori", "out");
+		System.out.println("Displaying root...");
+		System.out.println("Displaying tree...");
+
+		String wordToFind = "was";
+
+		System.out.println("Finding parent of node of..." + wordToFind);
+		Node n = tree.findParentNode(wordToFind, "english");
+		System.out.println(n.getTranslation("english"));
+
+		System.out.println("Deleting word..." + wordToFind);
+		tree.removeFromTree(wordToFind, "english");
 		tree.displayTree(tree.getRoot("english"));
+
+//		String word1 = "was";
+//		String word2 = "his";
+//		System.out.println(word1.compareTo(word2));
+
+		// System.out.print(tree.findNode("fuori",language);
+		// "italian").getTranslation(tree.changeLanguage(language)));
 	}
 
 	/**
@@ -115,5 +163,8 @@ public class Menu {
 	public static void error() {
 		System.out.println("No valid input was entered, please try again.");
 	}
+
+
+	
 
 }
