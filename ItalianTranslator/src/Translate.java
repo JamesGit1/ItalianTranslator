@@ -14,6 +14,7 @@ import java.util.Scanner;
  */
 public class Translate {
 	Tree tree = new Tree();
+	public Node root;
 	
 	public String[] translateText(String languageFrom, String searchText) {
 		//String phrasesTranslated = translatePhrases(languageFrom, searchText);
@@ -122,6 +123,7 @@ public class Translate {
 	
 	public void loadDictionary() {
 		tree.loadDictionary();
+		root = tree.root;
 	}
 	
 	public void saveDictionary(Node current) {
