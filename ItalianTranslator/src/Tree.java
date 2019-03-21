@@ -453,9 +453,9 @@ public class Tree {
 	}
 
 	public int getHeight(Node root, String language) {
-		if (root == null)
+		if (root == null) {
 			return 0;
-
+		}
 		int left = getHeight(root.getLeft(language), language);
 		int right = getHeight(root.getRight(language), language);
 		if (left == -1 || right == -1) {
