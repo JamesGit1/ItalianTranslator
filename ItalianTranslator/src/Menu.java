@@ -59,11 +59,13 @@ public class Menu {
 						"Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 				Scanner s3 = new Scanner(System.in);
 				String searchText = s3.nextLine();
+				translate.loadDictionary();
 				translate.translateText("italian", searchText);
 			}
 
 			else if (option.equals("3")) {
 				System.out.println("Option 3 selected. Loading dictionary...");
+				translate.loadDictionary();
 				// translate.loadDictionary();
 			}
 

@@ -72,6 +72,10 @@ public class Translate {
 		else if(languageFrom.equals("italian")) {
 			//Sets the translated word to the node related to the Spanish phrase
 			Node currentNode = tree.findNode(searchWord, languageFrom);
+			if(currentNode==null) {
+				System.out.println("There is no translation for " + searchWord);
+				return searchWord; 
+			}
 			translatedWord = currentNode.getEnglishTranslation();
 		}
 		else{

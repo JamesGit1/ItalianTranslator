@@ -135,7 +135,7 @@ public class Tree {
 		FileOutputStream os = null;
 		PrintWriter pw = null;
 		try {
-			os = new FileOutputStream("Dictionary.txt");
+			os = new FileOutputStream("Dictionary.csv");
 			pw = new PrintWriter(os);
 			save(current, pw);
 			pw.flush();
