@@ -451,4 +451,30 @@ public class Tree {
 		}
 		return false;
 	}
+
+	public int getHeight(Node root, String language) {
+		if (root == null)
+			return 0;
+
+		int left = getHeight(root.getLeft(language), language);
+		int right = getHeight(root.getRight(language), language);
+		if (left == -1 || right == -1) {
+			return -1;
+		}
+		if (Math.abs(left - right) > 1) {
+			return -1;
+		}
+		return Math.max(left, right) + 1;
+
+	}
+
+	public boolean isTreeBalanced(Node root, String language) {
+		if (root == null) {
+			return true;
+		}
+		if (getHeight(root, language) == -1) {
+			return false;
+		}
+		return true;
+	}
 }
