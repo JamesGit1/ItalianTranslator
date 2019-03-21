@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Menu {
 
 	public static void main(String[] args) {
-		displayMenu();
+		
 		Menu menu = new Menu();
 		menu.processUserChoices();
 	}
@@ -41,7 +41,7 @@ public class Menu {
 
 		do {
 			String option;
-
+			displayMenu();
 			Scanner s1 = new Scanner(System.in);
 			option = s1.nextLine();
 
