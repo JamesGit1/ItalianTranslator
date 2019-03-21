@@ -60,10 +60,13 @@ public class Menu {
 			}
 
 			else if (option.equals("3")) {
-				System.out.println("Option 3 selected. Please enter an English or Italian word to delete from the dictionary:");
+				System.out.println("Option 3 selected. What is the word you would like to delete? ");
 				Scanner s4 = new Scanner(System.in);
 				String wordToDelete = s4.nextLine();
-				// translate.removeFromTree();
+				System.out.println("What language is this in? English or Italian? ");
+				Scanner s5 = new Scanner(System.in);
+				String languageToDelete = s5.nextLine();
+				translate.removeFromTree(wordToDelete, languageToDelete);
 			}
 
 			else if (option.equals("4")) {
