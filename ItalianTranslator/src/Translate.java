@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * 
@@ -17,10 +18,14 @@ public class Translate {
 	public String[] translateText(String languageFrom, String searchText) {
 		//String phrasesTranslated = translatePhrases(languageFrom, searchText);
 		String wordArray[] = searchText.split(" ");
+		ArrayList<String> wordsToAdd=new ArrayList<String>();
 
 		ArrayList<String> translatedList=new ArrayList<String>();
 		for(int i=0; i<wordArray.length; i++) {
 			translatedList.add(translateWord(languageFrom,wordArray[i]));
+			if(translatedList.get(i).equals(wordArray[i])) {
+				wordsToAdd.add(translatedList.get(i));
+			}
 		}
 		
         // Convert ArrayList to object array 
@@ -29,9 +34,39 @@ public class Translate {
         // convert Object array to String array 
         wordArray = Arrays.copyOf(objArr, objArr.length, String[].class);
         
+        System.out.println("Translates to...");
         for(int i=0; i<wordArray.length; i++) {
         	System.out.print(wordArray[i] + " ");
 		}
+        
+        if(wordsToAdd!=null) {
+        	System.out.println("Seems like some words couldn't be translated...");
+        	for(int i=0; i<wordsToAdd.size(); i++) {
+        		System.out.println("Add a translation for " + wordsToAdd.get(i) + " [y/n]?");
+        		
+        		Scanner in = new Scanner(System.in);
+    			String answer = in.nextLine();
+    			answer = answer.toLowerCase();
+    			
+    			if(answer.equals("y") || answer.equals("yes")) {
+    				System.out.println("Please enter the translation of the word- " + wordsToAdd.get(i));
+    				answer = in.nextLine();
+        			answer = answer.toLowerCase();
+        			if(languageFrom.equals("english")) {
+        				tree.addToTree(answer,wordsToAdd.get(i));
+        				tree.saveDictionary(tree.root);
+        				System.out.println("Word added and saved to dictionary!");
+        			}
+        			else {
+        				tree.addToTree(answer,wordsToAdd.get(i));
+        				tree.saveDictionary(tree.root);
+        				System.out.println("Word added and saved to dictionary!");
+        			}
+    			}
+    			
+        	}
+        }
+        
         return wordArray;
 	}
 	
@@ -77,9 +112,6 @@ public class Translate {
 				return searchWord; 
 			}
 			translatedWord = currentNode.getEnglishTranslation();
-		}
-		else{
-			System.out.println("There is no translation for " + searchWord);
 		}
 		return translatedWord;
 	}

@@ -153,8 +153,8 @@ public class Tree {
 
 	public void save(Node current, PrintWriter pw) {
 		if (current != null) {
-			save(current.getEnglishLeft(), pw);
 			pw.println(current.getEnglishTranslation() + "," + current.getItalianTranslation());
+			save(current.getEnglishLeft(), pw);
 			save(current.getEnglishRight(), pw);
 		}
 	}
