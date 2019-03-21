@@ -24,10 +24,9 @@ public class Menu {
 		System.out.println("-----------------------------------------------");
 		System.out.println("1. Translate from English to Italian");
 		System.out.println("2. Translate from Italian to English");
-		System.out.println("3. Load a dictionary");
-		System.out.println("4. Remove a word from the dictionary");
-		System.out.println("5. Display the dictionary");
-		System.out.println("6. Automated tests");
+		System.out.println("3. Remove a word from the dictionary");
+		System.out.println("4. Display the dictionary");
+		System.out.println("5. Automated tests");
 		System.out.println("0. Exit ");
 	}
 
@@ -38,7 +37,8 @@ public class Menu {
 
 		boolean stopMenu = false;
 		Translate translate = new Translate();
-
+		translate.loadDictionary();
+		
 		do {
 			String option;
 			displayMenu();
@@ -46,44 +46,34 @@ public class Menu {
 			option = s1.nextLine();
 
 			if (option.equals("1")) {
-				System.out.println(
-						"Option 1 selected. Please enter English text that you would like to be translated into Italian:");
+				System.out.println("Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
-				translate.loadDictionary();
 				translate.translateText("english", searchText);
 			}
 
 			else if (option.equals("2")) {
-				System.out.println(
-						"Option 2 selected. Please enter Italian text that you would like to be translated into English:");
+				System.out.println("Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 				Scanner s3 = new Scanner(System.in);
 				String searchText = s3.nextLine();
-				translate.loadDictionary();
 				translate.translateText("italian", searchText);
 			}
 
 			else if (option.equals("3")) {
-				System.out.println("Option 3 selected. Loading dictionary...");
-				translate.loadDictionary();
-				// translate.loadDictionary();
-			}
-
-			else if (option.equals("4")) {
-				System.out.println(
-						"Option 4 selected. Please enter an English or Italian word to delete from the dictionary:");
+				System.out.println("Option 3 selected. Please enter an English or Italian word to delete from the dictionary:");
 				Scanner s4 = new Scanner(System.in);
 				String wordToDelete = s4.nextLine();
 				// translate.removeFromTree();
 			}
 
-			else if (option.equals("5")) {
-				System.out.println("Option 5 selected. Displaying dictionary...");
-				// translate.displayDictionary();
+			else if (option.equals("4")) {
+				System.out.println("Option 4 selected. Displaying dictionary...");
+				System.out.println(translate.root);
+				translate.displayTree(translate.root);
 			}
 
-			else if (option.equals("6")) {
-				System.out.println("Option 6 selected. Running automated tests...");
+			else if (option.equals("5")) {
+				System.out.println("Option 5 selected. Running automated tests...");
 				automatedTest();
 			}
 
