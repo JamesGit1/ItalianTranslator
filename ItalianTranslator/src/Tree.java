@@ -252,7 +252,7 @@ public class Tree {
 		while (current != null) {
 			// If the current node's word is the wordToFind...
 			if (current == requestedNode) {
-				if (current.getTranslation(language).equals(root.getTranslation(language))) {
+				if (current==root) {
 					return null;
 				}
 				// Return the previous node (the parent of the current node.
