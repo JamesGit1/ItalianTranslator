@@ -50,6 +50,7 @@ public class Menu {
 						"Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
+				translate.loadDictionary();
 				translate.translateText("english", searchText);
 			}
 

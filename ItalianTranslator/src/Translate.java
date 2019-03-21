@@ -14,9 +14,9 @@ import java.util.Arrays;
 public class Translate {
 	Tree tree = new Tree();
 	
-	public String translateText(String languageFrom, String searchText) {
-		String phrasesTranslated = translatePhrases(languageFrom, searchText);
-		String wordArray[] = phrasesTranslated.split(" ");
+	public String[] translateText(String languageFrom, String searchText) {
+		//String phrasesTranslated = translatePhrases(languageFrom, searchText);
+		String wordArray[] = searchText.split(" ");
 
 		ArrayList<String> translatedList=new ArrayList<String>();
 		for(int i=0; i<wordArray.length; i++) {
@@ -29,15 +29,14 @@ public class Translate {
         // convert Object array to String array 
         wordArray = Arrays.copyOf(objArr, objArr.length, String[].class);
         
-        String translatedText = "";
         for(int i=0; i<wordArray.length; i++) {
-        	translatedText = wordArray[i];
+        	System.out.print(wordArray[i] + " ");
 		}
-        return translatedText;
+        return wordArray;
 	}
 	
 	public String translatePhrases(String languageFrom, String searchText) {
-		String translatedPhrase=null;
+		String translatedPhrase=searchText;
 		
 		int numOfPhrases = 40;
 		String[][] phrases = new String[numOfPhrases][2];
@@ -60,16 +59,23 @@ public class Translate {
 	
 	public String translateWord(String languageFrom, String searchWord) 
 	{
-		String translatedWord = null;
+		String translatedWord = searchWord;
 		if(languageFrom.equals("english")) {
 			//Sets the translated word to the node related to the English phrase
 			Node currentNode = tree.findNode(searchWord, languageFrom);
+			if(currentNode==null) {
+				System.out.println("There is no translation for " + searchWord);
+				return searchWord; 
+			}
 			translatedWord = currentNode.getItalianTranslation();
 		}
-		else {
+		else if(languageFrom.equals("italian")) {
 			//Sets the translated word to the node related to the Spanish phrase
 			Node currentNode = tree.findNode(searchWord, languageFrom);
-			translatedWord = currentNode.getItalianTranslation();
+			translatedWord = currentNode.getEnglishTranslation();
+		}
+		else{
+			System.out.println("There is no translation for " + searchWord);
 		}
 		return translatedWord;
 	}

@@ -107,7 +107,7 @@ public class Tree {
 		BufferedReader br = null;
 
 		try {
-			fr = new FileReader("Dictionary.txt");
+			fr = new FileReader("Dictionary.csv");
 			br = new BufferedReader(fr);
 			String nextLine = br.readLine();
 
