@@ -252,7 +252,7 @@ public class Tree {
 		while (current != null) {
 			// If the current node's word is the wordToFind...
 			if (current == requestedNode) {
-				if (current==root) {
+				if (current == root) {
 					return null;
 				}
 				// Return the previous node (the parent of the current node.
@@ -461,6 +461,7 @@ public class Tree {
 		if (left == -1 || right == -1) {
 			return -1;
 		}
+		// Gets the absolute value of left - right.
 		if (Math.abs(left - right) > 1) {
 			return -1;
 		}
