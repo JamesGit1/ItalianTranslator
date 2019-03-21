@@ -17,7 +17,7 @@ public class Translate {
 	public Node root;
 	
 	public String[] translateText(String languageFrom, String searchText) {
-		//String phrasesTranslated = translatePhrases(languageFrom, searchText);
+		String phrasesTranslated = translatePhrases(languageFrom, searchText);
 		String wordArray[] = searchText.split(" ");
 		ArrayList<String> wordsToAdd=new ArrayList<String>();
 
