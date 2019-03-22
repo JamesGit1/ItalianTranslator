@@ -48,31 +48,31 @@ public class Translate {
 
 		if (wordsToAdd != null) {
 			System.out.println("Seems like some words couldn't be translated...");
+			System.out.println("Looking up translation and adding them to dictionary");
 			for (int i = 0; i < wordsToAdd.size(); i++) {
-				System.out.println("Add a translation for " + wordsToAdd.get(i) + " [y/n]?");
-
-				Scanner in = new Scanner(System.in);
-				String answer = in.nextLine();
-				answer = answer.toLowerCase();
-
-				if (answer.equals("y") || answer.equals("yes")) {
-					System.out.println("Please enter the translation of the word- " + wordsToAdd.get(i));
-					answer = in.nextLine();
-					answer = answer.toLowerCase();
-					if (languageFrom.equals("english")) {
-						tree.addToTree(answer, wordsToAdd.get(i));
-						tree.saveDictionary(tree.root);
-						System.out.println("Word added and saved to dictionary!");
-					} else {
-						tree.addToTree(answer, wordsToAdd.get(i));
-						tree.saveDictionary(tree.root);
-						System.out.println("Word added and saved to dictionary!");
+				System.out.println("Adding a translation for " + wordsToAdd.get(i));
+				
+					try {
+						if (languageFrom.equals("english")) {
+							String translatedText = translate("en","it",wordsToAdd.get(i));
+							tree.addToTree(translatedText, wordsToAdd.get(i));
+							tree.saveDictionary(tree.root);
+							System.out.println("ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
+							
+						} else {
+							String translatedText = translate("it","en",wordsToAdd.get(i));
+							tree.addToTree(wordsToAdd.get(i), translatedText);
+							tree.saveDictionary(tree.root);
+							System.out.println("ITALIAN WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
+						}	
 					}
+					catch(IOException e){
+						System.out.print(e);
+					}
+					
 				}
 
 			}
-		}
-
 		return wordArray;
 	}
 

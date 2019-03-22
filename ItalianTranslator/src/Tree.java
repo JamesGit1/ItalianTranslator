@@ -107,7 +107,7 @@ public class Tree {
 		BufferedReader br = null;
 
 		try {
-			fr = new FileReader("Dictionary.csv");
+			fr = new FileReader("DICTEST.csv");
 			br = new BufferedReader(fr);
 			String nextLine = br.readLine();
 
@@ -135,7 +135,7 @@ public class Tree {
 		FileOutputStream os = null;
 		PrintWriter pw = null;
 		try {
-			os = new FileOutputStream("Dictionary.csv");
+			os = new FileOutputStream("DICTEST.csv");
 			pw = new PrintWriter(os);
 			save(current, pw);
 			pw.flush();
