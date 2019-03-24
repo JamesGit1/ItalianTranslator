@@ -144,8 +144,8 @@ Scene scene1,scene2;
 		String wordToFind = "was";
 
 		System.out.println("Finding parent of node of..." + wordToFind);
-		Node n = tree.findParentNode(wordToFind, "english");
-		System.out.println(n.getTranslation("english"));
+	//	Node n = tree.findParentNode(wordToFind, "english");
+	//	System.out.println(n.getTranslation("english"));
 
 		System.out.println("Deleting word..." + wordToFind);
 		tree.removeFromTree(wordToFind, "english");
