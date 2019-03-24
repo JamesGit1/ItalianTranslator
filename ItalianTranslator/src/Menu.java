@@ -4,45 +4,98 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 /**
  * This is the Menu class, it will display a menu to the user and provide
  * functionality to the given options.
  * 
  * @author James, Josh, Jesse, Luke.
  */
-public class Menu extends Application implements EventHandler<ActionEvent> {
-Button button;
-Stage window;
-Scene scene1,scene2;
+public class Menu extends Application {
+	Button s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , button1;
+	Stage window;
+	Scene main, translate,load;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		primaryStage.setTitle("Italiano Transaltor");
-		button = new Button();
-		button.setText("Test");
-		button.setOnAction(this);
-		StackPane layout = new StackPane();
-		layout.getChildren().add(button);
+		
+		
+		window = primaryStage;
+		String title = "Italiano Transaltor";
+		Label label1 = new Label("Italiano Translate");
+		
+		//Main menu button goes to translate
+ 
+        Button s1ButtonTranslate = new Button("Translator");
+        s1ButtonTranslate.setOnAction(e -> window.setScene(translate));
+        
+        Button s1ButtonDisplay = new Button("Display Dictionary");
+        s1ButtonDisplay.setOnAction(e -> window.setScene(translate));
+        
+        Button s1ButtonRemove = new Button("Remove word from dictionary");
+        s1ButtonRemove.setOnAction(e -> window.setScene(translate));
+        
+        Button exit = new Button("Exit");
+        exit.setOnAction(e -> window.close());
+
+        //Goes back to main menu
+        Button back = new Button("Back");
+        back.setOnAction(e -> window.setScene(main));
+        
+        
+        
+        
+        
+        // button test
+        Button button = new Button("Alarm");
+        button.setOnAction(e-> AlertBox.display(title, "Alarm"));
+        
+        //button1 test
+        Button button1 = new Button("Confirm");
+        button1.setOnAction(e-> ConfirmBox.display(title, "Confirm"));
+        
+        
+        
+        //Layout 1 - children laid out in vertical column
+        VBox layout1 = new VBox(40);
+        layout1.getChildren().addAll(label1, s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,exit,button,button1);
+        main = new Scene(layout1, 1280, 720);
+        //Layout 2
+        StackPane layout2 = new StackPane();
+        layout2.getChildren().add(back);
+        translate = new Scene(layout2, 1280, 720);
+        
+        VBox a = new VBox(40);
+        load = new Scene(a,1280, 720);
+        
+
+        
+        //Display Main Menu first
+        window.setScene(main);
+        window.setTitle(title);
+        window.show();
+		
+		
+		
+
+		
+		
+		
 	
-	 scene1 = new Scene(layout, 1280,720);
-		primaryStage.setScene(scene1);
-		primaryStage.show();
 		
-	}
 	
-	public void handle(ActionEvent event) {
-		
-		if(event.getSource() == button) {
-			
-			System.out.println("testest");
-		}
-		
+	
+	
 	}
+
 	/**
 	 * This method displays the menu.
 	 */
@@ -144,8 +197,8 @@ Scene scene1,scene2;
 		String wordToFind = "was";
 
 		System.out.println("Finding parent of node of..." + wordToFind);
-	//	Node n = tree.findParentNode(wordToFind, "english");
-	//	System.out.println(n.getTranslation("english"));
+		// Node n = tree.findParentNode(wordToFind, "english");
+		// System.out.println(n.getTranslation("english"));
 
 		System.out.println("Deleting word..." + wordToFind);
 		tree.removeFromTree(wordToFind, "english");
@@ -165,8 +218,5 @@ Scene scene1,scene2;
 	public static void error() {
 		System.out.println("No valid input was entered, please try again.");
 	}
-
-
-	
 
 }
