@@ -105,6 +105,7 @@ public class Menu {
 
 	public void automatedTest() {
 		Tree tree = new Tree();
+		System.out.println("First, we will add a few example words with their translations...");
 		tree.addToTree("io", "i");
 		tree.addToTree("il suo", "his");
 		tree.addToTree("era", "was");
