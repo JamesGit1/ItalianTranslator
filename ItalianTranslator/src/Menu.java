@@ -2,12 +2,26 @@ import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.print.PrinterJob;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 
 /**
  * This is the Menu class, it will display a menu to the user and provide
@@ -16,7 +30,7 @@ import javafx.stage.Stage;
  * @author James, Josh, Jesse, Luke.
  */
 public class Menu extends Application {
-	Button s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , button1;
+	Button s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , yn,translateButton;
 	Stage window;
 	Scene main, translate,load;
 
@@ -32,7 +46,7 @@ public class Menu extends Application {
 		String title = "Italiano Transaltor";
 		Label label1 = new Label("Italiano Translate");
 		
-		//Main menu button goes to translate
+		//Buttons That all go to different Scenes
  
         Button s1ButtonTranslate = new Button("Translator");
         s1ButtonTranslate.setOnAction(e -> window.setScene(translate));
@@ -41,7 +55,7 @@ public class Menu extends Application {
         s1ButtonDisplay.setOnAction(e -> window.setScene(translate));
         
         Button s1ButtonRemove = new Button("Remove word from dictionary");
-        s1ButtonRemove.setOnAction(e -> window.setScene(translate));
+       // CAll edit remove to display pop up window with text remove word s1ButtonRemove.setOnAction(e -> window.setScene(translate));
         
         Button exit = new Button("Exit");
         exit.setOnAction(e -> window.close());
@@ -53,8 +67,8 @@ public class Menu extends Application {
         
         
         
-        
-        // button test
+        // button test Use this for every error
+              
         Button button = new Button("Alarm");
         button.setOnAction(e-> AlertBox.display(title, "Alarm"));
         
@@ -64,10 +78,86 @@ public class Menu extends Application {
         
         
         
+        
+        Text t = new Text();
+        t.setFont( new Font(30));
+        t.setText("gggg");
+        t.setFont( new Font(30));
+   
+      
+        
+        t.setFont(Font.font("panpizza.ttf"));
+
+        
+        
+
+
+       // Translate page 
+        
+        TextField translateInput = new TextField();
+        translateInput.setPromptText("Please enter text you want to translate");
+
+        translateButton = new Button("Click me");
+     //   translateButton.setOnAction( e -> Method to translate(translateInput.getText()) );
+        
+
+       
+        // back button
+        
+        // prompt user to yes or no don't need button 
+        
+        Button yn = new Button("Confirm");
+        yn.setOnAction(e-> ConfirmBox.display(title, "Confirm"));
+
+        ChoiceBox<String> language = new ChoiceBox<>();
+
+        //Just pass language in when asked what to pass
+        language.getItems().add("English");
+        language.getItems().add("Italian");
+        language.setValue("English");
+      
+      
+        TextArea text = new TextArea();
+        text.setPrefRowCount(10);
+        text.setPrefColumnCount(20);
+        text.setWrapText(true);
+
+        // Button to print the TextArea node
+        Button printTextBtn = new Button("Print Text");
+        printTextBtn.setOnAction(e -> print(text,language));
+        
+        // Remove word will pop up window asking what to remove
+        
+        
+        
+        
+        
+        
+        
+        
+        HBox mainText = new HBox();
+        
+        mainText.getChildren().add(label1);
+       
+        
+       
+        HBox buttons = new HBox();
+        buttons.getChildren().addAll(s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , button1, language,yn,text,printTextBtn,translateButton,translateInput);
+        
+        BorderPane borderpane = new BorderPane();
+        borderpane.setTop(mainText);
+        borderpane.setCenter(buttons);
+        BorderPane.setAlignment(mainText, Pos.CENTER);
+        BorderPane.setAlignment(buttons, Pos.CENTER);
+        
+    
+
+ 
         //Layout 1 - children laid out in vertical column
-        VBox layout1 = new VBox(40);
-        layout1.getChildren().addAll(label1, s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,exit,button,button1);
-        main = new Scene(layout1, 1280, 720);
+        main = new Scene(borderpane, 1280, 720);
+        
+        
+        
         //Layout 2
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(back);
@@ -79,23 +169,39 @@ public class Menu extends Application {
 
         
         //Display Main Menu first
+        main.getStylesheets().add("app.css");
         window.setScene(main);
         window.setTitle(title);
         window.show();
 		
 		
 		
-
-		
-		
-		
 	
-		
 	
 	
 	
 	}
 
+	
+	private void print(TextArea text, ChoiceBox<String> language) {
+
+			text.setPromptText(language.getValue());
+			System.out.println(language.getValue());
+	}
+	
+	private boolean isInt(TextField input, String message){
+        try{
+            int age = Integer.parseInt(input.getText());
+            System.out.println("User is: " + age);
+            return true;
+        }catch(NumberFormatException e){
+            System.out.println("Error: " + message + " is not a number");
+            return false;
+        }
+    }
+
+	
+	
 	/**
 	 * This method displays the menu.
 	 */
