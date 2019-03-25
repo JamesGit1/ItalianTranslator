@@ -124,7 +124,6 @@ public class Translate {
 
 	public void loadDictionary() {
 		tree.loadDictionary();
-		root = tree.root;
 	}
 
 	public void saveDictionary(Node current) {

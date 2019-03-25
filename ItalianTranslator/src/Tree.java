@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 
 public class Tree {
 	public Node root;
+	public Node otherRoot;
 
 	/**
 	 * Constructor method.
@@ -285,9 +286,9 @@ public class Tree {
 
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
+		nodeToDelete = findNode(wordToDelete, language);
 		// Do this twice because there are two trees...
 		for (int i = 0; i < 2; i++) {
-			nodeToDelete = findNode(wordToDelete, language);
 			Node parentNode = findParentNode(nodeToDelete, language);
 			// If nodeToDelete is a leaf...
 			if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
@@ -304,9 +305,6 @@ public class Tree {
 			// Change the language before repeating the process.
 			language = changeLanguage(language);
 			wordToDelete = nodeToDelete.getTranslation(language);
-		}
-		if (findParentNode(nodeToDelete, language) == null) {
-
 		}
 	}
 
@@ -435,7 +433,7 @@ public class Tree {
 			 * root as the replacement node. (note, this is not very good for tree
 			 * balancing).
 			 */
-		} else if (i == 1) {
+		} else if (i == 0) {
 			setRoot(replacementNode);
 		}
 	}

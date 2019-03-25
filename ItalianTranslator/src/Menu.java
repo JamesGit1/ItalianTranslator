@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Menu {
 
 	public static void main(String[] args) {
-		
+
 		Menu menu = new Menu();
 		menu.processUserChoices();
 	}
@@ -27,6 +27,7 @@ public class Menu {
 		System.out.println("3. Remove a word from the dictionary");
 		System.out.println("4. Display the dictionary");
 		System.out.println("5. Automated tests");
+		System.out.println("6. Display tree alternatively");
 		System.out.println("0. Exit ");
 	}
 
@@ -38,7 +39,7 @@ public class Menu {
 		boolean stopMenu = false;
 		Translate translate = new Translate();
 		translate.loadDictionary();
-		
+
 		do {
 			String option;
 			displayMenu();
@@ -46,14 +47,16 @@ public class Menu {
 			option = s1.nextLine();
 
 			if (option.equals("1")) {
-				System.out.println("Option 1 selected. Please enter English text that you would like to be translated into Italian:");
+				System.out.println(
+						"Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
 				translate.translateText("english", searchText);
 			}
 
 			else if (option.equals("2")) {
-				System.out.println("Option 2 selected. Please enter Italian text that you would like to be translated into English:");
+				System.out.println(
+						"Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 				Scanner s3 = new Scanner(System.in);
 				String searchText = s3.nextLine();
 				translate.translateText("italian", searchText);
@@ -71,13 +74,17 @@ public class Menu {
 
 			else if (option.equals("4")) {
 				System.out.println("Option 4 selected. Displaying dictionary...");
-				System.out.println(translate.root);
-				translate.displayTree(translate.root);
+				translate.displayTree(translate.tree.root);
 			}
 
 			else if (option.equals("5")) {
 				System.out.println("Option 5 selected. Running automated tests...");
 				automatedTest();
+			}
+
+			else if (option.equals("6")) {
+				System.out.println("Option 6 selected. Displaying the tree alternatively.");
+				translate.tree.displayTreeAlternate(translate.tree.root);
 			}
 
 			else if (option.equals("0")) {
