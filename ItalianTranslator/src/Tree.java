@@ -77,11 +77,11 @@ public class Tree {
 	 * @param current The current node.
 	 */
 
-	public void displayTree(Node current) {
+	public void displayTree(Node current, String language) {
 		if (current != null) {
-			displayTree(current.getEnglishLeft());
+			displayTree(current.getLeft(language), language);
 			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
-			displayTree(current.getEnglishRight());
+			displayTree(current.getRight(language), language);
 		}
 	}
 
@@ -94,8 +94,8 @@ public class Tree {
 	public void displayTreeAlternate(Node current) {
 		if (current != null) {
 			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
-			displayTree(current.getEnglishLeft());
-			displayTree(current.getEnglishRight());
+			displayTreeAlternate(current.getEnglishLeft());
+			displayTreeAlternate(current.getEnglishRight());
 		}
 	}
 
@@ -171,25 +171,29 @@ public class Tree {
 	public void addToCertainTree(Node newNode, String language) {
 		Node current = root;
 		Node previous = null;
-		while (current != null) {
-			previous = current;
-			// If the newNode word is before the current node...
-			if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
-				// Make the current the node on the left.
-				current = current.getLeft(language);
-				// If that is null...
-				if (current == null) {
-					// Set the previous node.s left pointer to the newNode.
-					previous.setLeft(newNode, language);
-				}
-				// Else if the newNode is after the current node...
-			} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
-				// Make the current the node on the right.
-				current = current.getRight(language);
-				// If this node is null...
-				if (current == null) {
-					// Set the previous node.s right pointer to the newNode.
-					previous.setRight(newNode, language);
+		if (findNode(newNode.getItalianTranslation(), "italian") != null) {
+			return;
+		} else {
+			while (current != null) {
+				previous = current;
+				// If the newNode word is before the current node...
+				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
+					// Make the current the node on the left.
+					current = current.getLeft(language);
+					// If that is null...
+					if (current == null) {
+						// Set the previous node.s left pointer to the newNode.
+						previous.setLeft(newNode, language);
+					}
+					// Else if the newNode is after the current node...
+				} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
+					// Make the current the node on the right.
+					current = current.getRight(language);
+					// If this node is null...
+					if (current == null) {
+						// Set the previous node.s right pointer to the newNode.
+						previous.setRight(newNode, language);
+					}
 				}
 			}
 		}
@@ -470,32 +474,9 @@ public class Tree {
 			 */
 		} else if (i == 0) {
 			setRoot(replacementNode);
-			Node current = root;
-			Node previous = null;
-			Node newNode = null;
-			language = "italian";
-			while (current != null) {
-				previous = current;
-				// If the newNode word is before the current node...
-				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
-					// Make the current the node on the left.
-					current = current.getLeft(language);
-					// If that is null...
-					if (current == null) {
-						// Set the previous node.s left pointer to the newNode.
-						previous.setLeft(newNode, language);
-					}
-					// Else if the newNode is after the current node...
-				} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
-					// Make the current the node on the right.
-					current = current.getRight(language);
-					// If this node is null...
-					if (current == null) {
-						// Set the previous node.s right pointer to the newNode.
-						previous.setRight(newNode, language);
-					}
-				}
-			}
+			root.setItalianLeft(null);
+			root.setItalianRight(null);
+			addAgain(root, "italian");
 		}
 	}
 

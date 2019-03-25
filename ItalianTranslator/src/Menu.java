@@ -118,7 +118,7 @@ public class Menu {
 		System.out.println("Displaying root...");
 		System.out.println(tree.root.getEnglishTranslation());
 		System.out.println("Displaying tree...");
-		tree.displayTree(tree.root);
+		tree.displayTree(tree.root, "english");
 
 		String wordToFind = "i";
 
