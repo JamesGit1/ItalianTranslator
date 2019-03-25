@@ -22,33 +22,61 @@ public class Translate {
 	public Node root;
 
 	public String[] translateText(String languageFrom, String searchText) {
-		// String phrasesTranslated = translatePhrases(languageFrom, searchText);
-		String wordArray[] = searchText.split(" ");
-		ArrayList<String> wordsToAdd = new ArrayList<String>();
-
 		ArrayList<String> translatedList = new ArrayList<String>();
-		for (int i = 0; i < wordArray.length; i++) {
-			translatedList.add(translateWord(languageFrom, wordArray[i]));
-			if (translatedList.get(i).equals(wordArray[i])) {
-				wordsToAdd.add(translatedList.get(i));
-			}
-		}
+		ArrayList<String> wordsToAdd = new ArrayList<String>();
+		
+		searchText = searchText.toLowerCase();
+		String[] sentences = searchText.split("(?<=[a-z])\\.\\s+");
+		
+		for (int i = 0; i < sentences.length; i++) {
+			String phrasesTranslated = translatePhrases(languageFrom, sentences[i]);
+			String wordArray[] = phrasesTranslated.split(" ");
 
+			for (int j = 0; j < wordArray.length; j++) {
+				translatedList.add(translateWord(languageFrom, wordArray[j]));
+				if (translatedList.get(j).equals(wordArray[j])) {
+					wordsToAdd.add(translatedList.get(j));
+				}
+			}
+			translatedList.add(".");
+		}
+		
+		/*
 		// Convert ArrayList to object array
 		Object[] objArr = translatedList.toArray();
 
 		// convert Object array to String array
 		wordArray = Arrays.copyOf(objArr, objArr.length, String[].class);
-
-		System.out.println("Translates to...");
 		for (int i = 0; i < wordArray.length; i++) {
 			System.out.print(wordArray[i] + " ");
 		}
+		*/
 
-		if (wordsToAdd != null) {
-			System.out.println("Seems like some words couldn't be translated...");
-			System.out.println("Looking up translation and adding them to dictionary");
+		System.out.println("Translates to...");
+		for(int i = 0; i < translatedList.size(); i++) {
+			String space = " ";
+			try {
+				if(translatedList.get(i+1).equals(".")) {
+					space = "";
+				}
+			}
+			catch(java.lang.IndexOutOfBoundsException e){
+				//end of string
+			}
+			System.out.print(translatedList.get(i) + space);
+		}
+		
+		// Convert ArrayList to object array
+		Object[] objArr = translatedList.toArray();
+
+		// convert Object array to String array
+		String[] translatedArray = Arrays.copyOf(objArr, objArr.length, String[].class);
+		
+
+
 			for (int i = 0; i < wordsToAdd.size(); i++) {
+				System.out.println("Seems like some words couldn't be translated...");
+				System.out.println("Looking up translation and adding them to dictionary");
 				System.out.println("Adding a translation for " + wordsToAdd.get(i));
 
 				try {
@@ -72,24 +100,23 @@ public class Translate {
 
 			}
 
-		}
-		return wordArray;
+		return translatedArray;
 	}
 
 	public String translatePhrases(String languageFrom, String searchText) {
 		String translatedPhrase = searchText;
 
-		int numOfPhrases = 40;
-		String[][] phrases = new String[numOfPhrases][2];
+		int numOfPhrases = 1;
+		String[][] phrases = { {"that is epic"," that is v epic"},{"THIS WILL BE ITALIAN PHRASE", "THIS WILL ALSO BE ITALIAN PHRASE"} };
 
 		for (int i = 0; i < numOfPhrases; i++) {
-			if (languageFrom.equals("italian")) {
+			if (languageFrom.equals("english")) {
 				if (searchText.contains(phrases[i][0])) {
-					translatedPhrase = searchText.replace(phrases[i][0], phrases[i][1]);
+					translatedPhrase = searchText.replace(phrases[i][0], phrases[1][i]);
 				}
 			} else {
 				if (searchText.contains(phrases[i][1])) {
-					translatedPhrase = searchText.replace(phrases[i][1], phrases[i][0]);
+					translatedPhrase = searchText.replace(phrases[i][1], phrases[0][i]);
 				}
 			}
 		}
@@ -119,7 +146,7 @@ public class Translate {
 	}
 
 	public void displayTree(Node current) {
-		tree.displayTree(current);
+		tree.displayTreeAlternate(current);
 	}
 
 	public void loadDictionary() {
