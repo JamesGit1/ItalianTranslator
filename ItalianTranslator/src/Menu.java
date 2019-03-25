@@ -35,11 +35,15 @@ public class Menu extends Application {
 	Scene main, translate,load;
 
 	public static void main(String[] args) {
+		Menu menu = new Menu();
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		
+		Translate translater = new Translate();
 		
 		
 		window = primaryStage;
@@ -55,7 +59,7 @@ public class Menu extends Application {
         s1ButtonDisplay.setOnAction(e -> window.setScene(translate));
         
         Button s1ButtonRemove = new Button("Remove word from dictionary");
-       // CAll edit remove to display pop up window with text remove word s1ButtonRemove.setOnAction(e -> window.setScene(translate));
+        s1ButtonRemove.setOnAction(e -> RemoveBox.display(title, "Hello"));
         
         Button exit = new Button("Exit");
         exit.setOnAction(e -> window.close());
@@ -93,14 +97,22 @@ public class Menu extends Application {
 
 
        // Translate page 
+        ChoiceBox<String> language = new ChoiceBox<>();
+
+        language.getItems().add("english");
+        language.getItems().add("italian");
+        language.setValue("english");
         
         TextField translateInput = new TextField();
         translateInput.setPromptText("Please enter text you want to translate");
 
         translateButton = new Button("Click me");
-     //   translateButton.setOnAction( e -> Method to translate(translateInput.getText()) );
         
-
+       translateButton.setOnAction( e ->    
+       translater.translateText( language.getValue() ,translateInput.getText())     
+       );
+        
+       
        
         // back button
         
@@ -109,12 +121,7 @@ public class Menu extends Application {
         Button yn = new Button("Confirm");
         yn.setOnAction(e-> ConfirmBox.display(title, "Confirm"));
 
-        ChoiceBox<String> language = new ChoiceBox<>();
-
-        //Just pass language in when asked what to pass
-        language.getItems().add("English");
-        language.getItems().add("Italian");
-        language.setValue("English");
+     
       
       
         TextArea text = new TextArea();
@@ -123,6 +130,7 @@ public class Menu extends Application {
         text.setWrapText(true);
 
         // Button to print the TextArea node
+       
         Button printTextBtn = new Button("Print Text");
         printTextBtn.setOnAction(e -> print(text,language));
         
@@ -184,22 +192,13 @@ public class Menu extends Application {
 
 	
 	private void print(TextArea text, ChoiceBox<String> language) {
-
-			text.setPromptText(language.getValue());
+// Change display dictionary to append text
+			text.appendText(language.getValue());
 			System.out.println(language.getValue());
 	}
 	
-	private boolean isInt(TextField input, String message){
-        try{
-            int age = Integer.parseInt(input.getText());
-            System.out.println("User is: " + age);
-            return true;
-        }catch(NumberFormatException e){
-            System.out.println("Error: " + message + " is not a number");
-            return false;
-        }
-    }
 
+   
 	
 	
 	/**
@@ -223,9 +222,9 @@ public class Menu extends Application {
 	 * This method gives functionality to the menu.
 	 */
 	public void processUserChoices() {
-
-		boolean stopMenu = false;
 		Translate translate = new Translate();
+		boolean stopMenu = false;
+		
 
 		do {
 			String option;
