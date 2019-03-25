@@ -160,6 +160,41 @@ public class Tree {
 		}
 	}
 
+	public void addAgain(Node current, String language) {
+		if (current != null) {
+			addToCertainTree(current, language);
+			addAgain(current.getEnglishLeft(), language);
+			addAgain(current.getEnglishRight(), language);
+		}
+	}
+
+	public void addToCertainTree(Node newNode, String language) {
+		Node current = root;
+		Node previous = null;
+		while (current != null) {
+			previous = current;
+			// If the newNode word is before the current node...
+			if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
+				// Make the current the node on the left.
+				current = current.getLeft(language);
+				// If that is null...
+				if (current == null) {
+					// Set the previous node.s left pointer to the newNode.
+					previous.setLeft(newNode, language);
+				}
+				// Else if the newNode is after the current node...
+			} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
+				// Make the current the node on the right.
+				current = current.getRight(language);
+				// If this node is null...
+				if (current == null) {
+					// Set the previous node.s right pointer to the newNode.
+					previous.setRight(newNode, language);
+				}
+			}
+		}
+	}
+
 	/**
 	 * Adds an element to the tree.
 	 * 
@@ -438,6 +473,7 @@ public class Tree {
 			Node current = root;
 			Node previous = null;
 			Node newNode = null;
+			language = "italian";
 			while (current != null) {
 				previous = current;
 				// If the newNode word is before the current node...
