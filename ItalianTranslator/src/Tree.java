@@ -435,6 +435,31 @@ public class Tree {
 			 */
 		} else if (i == 0) {
 			setRoot(replacementNode);
+			Node current = root;
+			Node previous = null;
+			Node newNode = null;
+			while (current != null) {
+				previous = current;
+				// If the newNode word is before the current node...
+				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
+					// Make the current the node on the left.
+					current = current.getLeft(language);
+					// If that is null...
+					if (current == null) {
+						// Set the previous node.s left pointer to the newNode.
+						previous.setLeft(newNode, language);
+					}
+					// Else if the newNode is after the current node...
+				} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
+					// Make the current the node on the right.
+					current = current.getRight(language);
+					// If this node is null...
+					if (current == null) {
+						// Set the previous node.s right pointer to the newNode.
+						previous.setRight(newNode, language);
+					}
+				}
+			}
 		}
 	}
 
@@ -443,6 +468,7 @@ public class Tree {
 	 * 
 	 * @return true or false
 	 */
+
 	public boolean isTreeEmpty() {
 		if (root == null) {
 			return true;
