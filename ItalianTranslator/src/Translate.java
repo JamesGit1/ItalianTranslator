@@ -6,7 +6,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * 
@@ -51,28 +50,29 @@ public class Translate {
 			System.out.println("Looking up translation and adding them to dictionary");
 			for (int i = 0; i < wordsToAdd.size(); i++) {
 				System.out.println("Adding a translation for " + wordsToAdd.get(i));
-				
-					try {
-						if (languageFrom.equals("english")) {
-							String translatedText = translate("en","it",wordsToAdd.get(i));
-							tree.addToTree(translatedText, wordsToAdd.get(i));
-							tree.saveDictionary(tree.root);
-							System.out.println("ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
-							
-						} else {
-							String translatedText = translate("it","en",wordsToAdd.get(i));
-							tree.addToTree(wordsToAdd.get(i), translatedText);
-							tree.saveDictionary(tree.root);
-							System.out.println("ITALIAN WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
-						}	
+
+				try {
+					if (languageFrom.equals("english")) {
+						String translatedText = translate("en", "it", wordsToAdd.get(i));
+						tree.addToTree(translatedText, wordsToAdd.get(i));
+						tree.saveDictionary(tree.root);
+						System.out.println(
+								"ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
+
+					} else {
+						String translatedText = translate("it", "en", wordsToAdd.get(i));
+						tree.addToTree(wordsToAdd.get(i), translatedText);
+						tree.saveDictionary(tree.root);
+						System.out.println(
+								"ITALIAN WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
 					}
-					catch(IOException e){
-						System.out.print(e);
-					}
-					
+				} catch (IOException e) {
+					System.out.print(e);
 				}
 
 			}
+
+		}
 		return wordArray;
 	}
 
@@ -136,7 +136,6 @@ public class Translate {
 	}
 
 	private String translate(String langFrom, String langTo, String text) throws IOException {
-		// INSERT YOU URL HERE
 		String urlStr = "https://script.google.com/macros/s/AKfycbytFopLzFCyVVa6z90044PoMlD3xslHCxz3srWZryzo6SGvyYW4/exec"
 				+ "?q=" + URLEncoder.encode(text, "UTF-8") + "&target=" + langTo + "&source=" + langFrom;
 		URL url = new URL(urlStr);
