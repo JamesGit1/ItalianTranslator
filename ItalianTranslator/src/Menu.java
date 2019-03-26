@@ -125,24 +125,23 @@ public class Menu extends Application {
 		language.getItems().add("italian");
 		language.setValue("english");
 
-		TextField translateInput = new TextField();
+		TextArea translateInput = new TextArea();
 		translateInput.setPromptText("Joshua Bradley");
+		translateInput.setPrefSize(400, 250);
+		translateInput.setWrapText(true);
 		translateButton = new Button("Translate");
 
 		translateButton.setOnAction(e ->
 
 		translater.translateText(language.getValue(), translateInput.getText()));
 
-		// back button
 
-		// prompt user to yes or no don't need button
 
 		Button yn = new Button("Confirm");
 		yn.setOnAction(e -> ConfirmBox.display(title, "Confirm"));
 
 		TextArea text = new TextArea();
-		text.setPrefRowCount(10);
-		text.setPrefColumnCount(10);
+		text.setPrefSize(400, 250);
 		text.setWrapText(true);
 
 		// Button to print the TextArea node
@@ -171,7 +170,7 @@ public class Menu extends Application {
 		HBox s2Buttons = new HBox(950);
 		s2Buttons.getChildren().addAll(back, translateButton);
 
-		HBox textIO = new HBox(250);
+		HBox textIO = new HBox(100);
 		textIO.getChildren().addAll(translateInput,language, text);
 
 		HBox botDisplay = new HBox(950);
@@ -196,7 +195,6 @@ public class Menu extends Application {
 		display.setId("a");
 		back2.setId("a");
 		botDisplay.setId("a");
-
 		translate = new Scene(borderpane2, 1280, 720);
 		load = new Scene(borderpane3, 1280, 720);
 
@@ -207,6 +205,7 @@ public class Menu extends Application {
 		buttons.setId("shiny-orange");
 		botDisplay.setId("shiny-orange");
 		s2Buttons.setId("shiny-orange");
+		language.setId("choice");
 		dictionaryDisplay.setId("b");
 		
 		window.setScene(main);

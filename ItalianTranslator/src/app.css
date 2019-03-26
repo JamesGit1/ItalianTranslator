@@ -9,6 +9,12 @@
     -fx-text-fill: #FFFFFF;
     -fx-background-radius: 4;
 }
+
+#choice{
+    -fx-background-color: #AA3A29;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+}
 #bold-label{
     -fx-font-weight: bold;
     }
@@ -33,7 +39,9 @@
       -fx-alignment: center ;
     -fx-font-size: 14px;
     -fx-padding: 10 20 10 20;
+
 }
+
 #smallTitle{
 	 -fx-alignment: center ;
 }
