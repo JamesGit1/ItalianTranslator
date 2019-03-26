@@ -537,12 +537,12 @@ public class Tree {
 	 * @return The height of the tree.
 	 */
 
-	public int getHeight(Node root, String language) {
-		if (root == null) {
+	public int getHeight(Node node, String language) {
+		if (node == null) {
 			return 0;
 		}
-		int left = getHeight(root.getLeft(language), language);
-		int right = getHeight(root.getRight(language), language);
+		int left = getHeight(node.getLeft(language), language);
+		int right = getHeight(node.getRight(language), language);
 		if (left == -1 || right == -1) {
 			return -1;
 		}
@@ -552,6 +552,19 @@ public class Tree {
 		}
 		return Math.max(left, right) + 1;
 
+	}
+
+	/**
+	 * Balances the tree.
+	 * 
+	 * @param node     The node that is being parsed into the function.
+	 * @param language The language of the tree being worked in.
+	 */
+
+	public void balanceTree(Node node, String language) {
+		boolean treeBalancing = isTreeBalanced(node, language);
+		if (treeBalancing = false) {
+		}
 	}
 
 	/**
