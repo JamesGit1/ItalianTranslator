@@ -178,6 +178,7 @@ public class Tree {
 				current.setLeft(null, language);
 				current.setRight(null, language);
 				previous = current;
+
 				// If the newNode word is before the current node...
 				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
 					// Make the current the node on the left.
