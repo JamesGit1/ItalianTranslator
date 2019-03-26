@@ -162,6 +162,8 @@ public class Tree {
 
 	public void addAgain(Node current, String language) {
 		if (current != null) {
+			current.setRight(null, "italian");
+			current.setLeft(null, "italian");
 			addToCertainTree(current, changeLanguage(language));
 			addAgain(current.getLeft(language), language);
 			addAgain(current.getRight(language), language);
@@ -184,8 +186,6 @@ public class Tree {
 			root = newNode;
 		} else {
 			while (current != null) {
-				current.setRight(null, "italian");
-				current.setRight(null, "italian");
 				if (newNode != root) {
 					previous = current;
 					// If the newNode word is before the current node...
@@ -208,8 +208,6 @@ public class Tree {
 							previous.setRight(newNode, language);
 						}
 					}
-				} else {
-					break;
 				}
 			}
 		}
@@ -344,8 +342,6 @@ public class Tree {
 		nodeToDelete = findNode(wordToDelete, language);
 		if (nodeToDelete == root) {
 			deleteNodeWithTwoChildren(root, null, "english");
-			root.setItalianLeft(null);
-			root.setItalianRight(null);
 			addAgain(root, "english");
 		} else {
 			// Do this twice because there are two trees...
