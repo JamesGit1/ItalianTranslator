@@ -162,8 +162,8 @@ public class Tree {
 
 	public void addAgain(Node current, String language) {
 		if (current != null) {
-			current.setRight(null, "italian");
-			current.setLeft(null, "italian");
+			current.setRight(null, changeLanguage(language));
+			current.setLeft(null, changeLanguage(language));
 			addToCertainTree(current, changeLanguage(language));
 			addAgain(current.getLeft(language), language);
 			addAgain(current.getRight(language), language);
@@ -339,6 +339,11 @@ public class Tree {
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
 		nodeToDelete = findNode(wordToDelete, language);
+		/*
+		 * If the node is the root, there are special methods to deal with this. Because
+		 * there are two intertwined trees, and only one root, the root deleting works
+		 */
+
 		if (nodeToDelete == root) {
 			deleteNodeWithTwoChildren(root, null, "english");
 			addAgain(root, "english");

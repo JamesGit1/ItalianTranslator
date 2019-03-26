@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  */
 public class Translate {
-	Tree tree = new Tree();
+	public Tree tree = new Tree();
 	public Node root;
 
 	public String[] translateText(String languageFrom, String searchText) {
@@ -119,7 +119,7 @@ public class Translate {
 	}
 
 	public void displayTree(Node current) {
-		tree.displayTree(current, "english");
+		tree.displayTree(current, "italian");
 	}
 
 	public void loadDictionary() {
