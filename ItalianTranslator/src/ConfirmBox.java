@@ -18,6 +18,8 @@ public class ConfirmBox {
         label.setText(message);
 
         //Create two buttons
+        TextField translateInput = new TextField();
+        translateInput.setPromptText("Please enter text you want to translate");
         Button yes = new Button("Yes");
         Button no = new Button("No");
 

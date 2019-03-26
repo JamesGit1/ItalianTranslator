@@ -56,10 +56,10 @@ public class Menu extends Application {
         s1ButtonTranslate.setOnAction(e -> window.setScene(translate));
         
         Button s1ButtonDisplay = new Button("Display Dictionary");
-        s1ButtonDisplay.setOnAction(e -> window.setScene(translate));
+        s1ButtonDisplay.setOnAction(e -> window.setScene(load));
         
         Button s1ButtonRemove = new Button("Remove word from dictionary");
-        s1ButtonRemove.setOnAction(e -> RemoveBox.display(title, "Hello"));
+        s1ButtonRemove.setOnAction(e -> RemoveBox.display(title,translater));
         
         Button exit = new Button("Exit");
         exit.setOnAction(e -> window.close());
@@ -69,7 +69,8 @@ public class Menu extends Application {
         back.setOnAction(e -> window.setScene(main));
         
         
-        
+        Button back2 = new Button("Back");
+        back2.setOnAction(e -> window.setScene(main));
         
         // button test Use this for every error
               
@@ -106,7 +107,7 @@ public class Menu extends Application {
         TextField translateInput = new TextField();
         translateInput.setPromptText("Please enter text you want to translate");
 
-        translateButton = new Button("Click me");
+        translateButton = new Button("Translate");
         
        translateButton.setOnAction( e ->    
        translater.translateText( language.getValue() ,translateInput.getText())     
@@ -125,10 +126,17 @@ public class Menu extends Application {
       
       
         TextArea text = new TextArea();
-        text.setPrefRowCount(10);
-        text.setPrefColumnCount(20);
+        text.setPrefRowCount(50);
+        text.setPrefColumnCount(50);
         text.setWrapText(true);
 
+        TextArea dictionaryDisplay = new TextArea();
+        
+        dictionaryDisplay.setPrefRowCount(50);
+        dictionaryDisplay.setPrefColumnCount(50);
+        dictionaryDisplay.setWrapText(true);
+        
+        
         // Button to print the TextArea node
        
         Button printTextBtn = new Button("Print Text");
@@ -147,8 +155,7 @@ public class Menu extends Application {
         
         mainText.getChildren().add(label1);
        
-        
-       
+  
         HBox buttons = new HBox();
         buttons.getChildren().addAll(s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , button1, language,yn,text,printTextBtn,translateButton,translateInput);
         
@@ -163,21 +170,41 @@ public class Menu extends Application {
  
         //Layout 1 - children laid out in vertical column
         main = new Scene(borderpane, 1280, 720);
+ 
         
+        HBox s2Buttons = new HBox();
+        s2Buttons.getChildren().addAll(back,translateButton,language);
         
+        HBox textIO = new HBox();
+        textIO.getChildren().addAll(translateInput,text);
         
+   
+        
+        BorderPane borderpane2 = new BorderPane();
+        borderpane2.setTop(mainText);
+        borderpane2.setCenter(textIO);
+        borderpane2.setBottom(s2Buttons);
+        
+        BorderPane borderpane3 = new BorderPane();
+        borderpane3.setTop(mainText);
+        borderpane3.setCenter(dictionaryDisplay);
+        borderpane3.setBottom(back2);
+     
         //Layout 2
-        StackPane layout2 = new StackPane();
-        layout2.getChildren().add(back);
-        translate = new Scene(layout2, 1280, 720);
-        
-        VBox a = new VBox(40);
-        load = new Scene(a,1280, 720);
+
         
 
         
+        
+
+        
+        translate = new Scene(borderpane2, 1280, 720);
+        load = new Scene(borderpane3,1280,720);
+        
         //Display Main Menu first
         main.getStylesheets().add("app.css");
+        translate.getStylesheets().add("app.css");
+        load.getStylesheets().add("app.css");
         window.setScene(main);
         window.setTitle(title);
         window.show();
