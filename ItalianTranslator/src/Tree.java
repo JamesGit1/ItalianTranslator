@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javafx.scene.control.TextArea;
+
 /**
  * Binary tree to store all the words in the dictionary using the modified node
  * class.
@@ -74,13 +76,14 @@ public class Tree {
 	 * Displays the entire English tree.
 	 * 
 	 * @param current The current node.
+	 * @param text 
 	 */
 
-	public void displayTree(Node current) {
+	public void displayTree(Node current, TextArea text) {
 		if (current != null) {
-			displayTree(current.getEnglishLeft());
-			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
-			displayTree(current.getEnglishRight());
+			displayTree(current.getEnglishLeft(),text);
+			text.appendText(current.getEnglishTranslation() + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + current.getItalianTranslation()+"\n");
+			displayTree(current.getEnglishRight(),text);
 		}
 	}
 
@@ -93,8 +96,8 @@ public class Tree {
 	public void displayTreeAlternate(Node current) {
 		if (current != null) {
 			System.out.println(current.getEnglishTranslation() + "\t" + current.getItalianTranslation());
-			displayTree(current.getEnglishLeft());
-			displayTree(current.getEnglishRight());
+			displayTreeAlternate(current.getEnglishLeft());
+			displayTreeAlternate(current.getEnglishRight());
 		}
 	}
 

@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import com.sun.java.accessibility.util.Translator;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,8 +23,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
 
 /**
  * This is the Menu class, it will display a menu to the user and provide
@@ -30,204 +33,188 @@ import javafx.stage.Stage;
  * @author James, Josh, Jesse, Luke.
  */
 public class Menu extends Application {
-	Button s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , yn,translateButton;
+	Button s1ButtonTranslate, s1ButtonDisplay, s1ButtonRemove, back, exit, button, yn, translateButton, display;
 	Stage window;
-	Scene main, translate,load;
+	Scene main, translate, load;
 
 	public static void main(String[] args) {
 		Menu menu = new Menu();
 		launch(args);
+
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
-		
+
 		Translate translater = new Translate();
-		
-		
+		TextArea dictionaryDisplay = new TextArea();
+
+		dictionaryDisplay.setPrefRowCount(10);
+		dictionaryDisplay.setPrefColumnCount(10);
+		dictionaryDisplay.setWrapText(true);
+
+		translater.loadDictionary();
+
 		window = primaryStage;
 		String title = "Italiano Transaltor";
+
 		Label label1 = new Label("Italiano Translate");
-		
-		//Buttons That all go to different Scenes
- 
-        Button s1ButtonTranslate = new Button("Translator");
-        s1ButtonTranslate.setOnAction(e -> window.setScene(translate));
-        
-        Button s1ButtonDisplay = new Button("Display Dictionary");
-        s1ButtonDisplay.setOnAction(e -> window.setScene(load));
-        
-        Button s1ButtonRemove = new Button("Remove word from dictionary");
-        s1ButtonRemove.setOnAction(e -> RemoveBox.display(title,translater));
-        
-        Button exit = new Button("Exit");
-        exit.setOnAction(e -> window.close());
 
-        //Goes back to main menu
-        Button back = new Button("Back");
-        back.setOnAction(e -> window.setScene(main));
-        
-        
-        Button back2 = new Button("Back");
-        back2.setOnAction(e -> window.setScene(main));
-        
-        // button test Use this for every error
-              
-        Button button = new Button("Alarm");
-        button.setOnAction(e-> AlertBox.display(title, "Alarm"));
-        
-        //button1 test
-        Button button1 = new Button("Confirm");
-        button1.setOnAction(e-> ConfirmBox.display(title, "Confirm"));
-        
-        
-        
-        
-        Text t = new Text();
-        t.setFont( new Font(30));
-        t.setText("gggg");
-        t.setFont( new Font(30));
-   
-      
-        
-        t.setFont(Font.font("panpizza.ttf"));
+		Text t = new Text();
+		t.setFont(new Font(30));
+		t.setFill(Color.WHITE);
+		t.setTextAlignment(TextAlignment.CENTER);
+		t.setText("Italiano Transaltor");
+		t.setId("fancytext");
 
-        
-        
+		Text t1 = new Text();
+		t1.setFont(new Font(30));
+		t1.setFill(Color.WHITE);
+		t1.setTextAlignment(TextAlignment.CENTER);
+		t1.setText("Italiano Transaltor");
+		t1.setId("smallTitle");
 
+		Text t2 = new Text();
+		t2.setFont(new Font(30));
+		t2.setFill(Color.WHITE);
+		t2.setTextAlignment(TextAlignment.CENTER);
+		t2.setText("Italiano Transaltor");
+		t2.setId("smallTitle");
 
-       // Translate page 
-        ChoiceBox<String> language = new ChoiceBox<>();
+		// Buttons That all go to different Scenes
 
-        language.getItems().add("english");
-        language.getItems().add("italian");
-        language.setValue("english");
-        
-        TextField translateInput = new TextField();
-        translateInput.setPromptText("Please enter text you want to translate");
+		Button s1ButtonTranslate = new Button("Translator");
+		s1ButtonTranslate.setOnAction(e -> window.setScene(translate));
 
-        translateButton = new Button("Translate");
-        
-       translateButton.setOnAction( e ->    
-       translater.translateText( language.getValue() ,translateInput.getText())     
-       );
-        
-       
-       
-        // back button
-        
-        // prompt user to yes or no don't need button 
-        
-        Button yn = new Button("Confirm");
-        yn.setOnAction(e-> ConfirmBox.display(title, "Confirm"));
+		Button s1ButtonDisplay = new Button("Display Dictionary");
+		s1ButtonDisplay.setOnAction(e -> window.setScene(load));
 
-     
-      
-      
-        TextArea text = new TextArea();
-        text.setPrefRowCount(50);
-        text.setPrefColumnCount(50);
-        text.setWrapText(true);
+		Button s1ButtonRemove = new Button("Remove word from dictionary");
+		s1ButtonRemove.setOnAction(e ->
 
-        TextArea dictionaryDisplay = new TextArea();
-        
-        dictionaryDisplay.setPrefRowCount(50);
-        dictionaryDisplay.setPrefColumnCount(50);
-        dictionaryDisplay.setWrapText(true);
-        
-        
-        // Button to print the TextArea node
-       
-        Button printTextBtn = new Button("Print Text");
-        printTextBtn.setOnAction(e -> print(text,language));
-        
-        // Remove word will pop up window asking what to remove
-        
-        
-        
-        
-        
-        
-        
-        
-        HBox mainText = new HBox();
-        
-        mainText.getChildren().add(label1);
-       
-  
-        HBox buttons = new HBox();
-        buttons.getChildren().addAll(s1ButtonTranslate,s1ButtonDisplay,s1ButtonRemove,back, exit ,button , button1, language,yn,text,printTextBtn,translateButton,translateInput);
-        
-        BorderPane borderpane = new BorderPane();
-        borderpane.setTop(mainText);
-        borderpane.setCenter(buttons);
-        BorderPane.setAlignment(mainText, Pos.CENTER);
-        BorderPane.setAlignment(buttons, Pos.CENTER);
-        
-    
+		RemoveBox.display(title, translater));
 
- 
-        //Layout 1 - children laid out in vertical column
-        main = new Scene(borderpane, 1280, 720);
- 
-        
-        HBox s2Buttons = new HBox();
-        s2Buttons.getChildren().addAll(back,translateButton,language);
-        
-        HBox textIO = new HBox();
-        textIO.getChildren().addAll(translateInput,text);
-        
-   
-        
-        BorderPane borderpane2 = new BorderPane();
-        borderpane2.setTop(mainText);
-        borderpane2.setCenter(textIO);
-        borderpane2.setBottom(s2Buttons);
-        
-        BorderPane borderpane3 = new BorderPane();
-        borderpane3.setTop(mainText);
-        borderpane3.setCenter(dictionaryDisplay);
-        borderpane3.setBottom(back2);
-     
-        //Layout 2
+		Button exit = new Button("Exit");
+		exit.setOnAction(e -> window.close());
 
-        
+		Button display = new Button("Display");
+		display.setOnAction(e -> translater.tree.displayTree(translater.tree.root, dictionaryDisplay));
+		// Goes back to main menu
 
-        
-        
+		Button back = new Button("Back");
+		back.setOnAction(e -> window.setScene(main));
 
-        
-        translate = new Scene(borderpane2, 1280, 720);
-        load = new Scene(borderpane3,1280,720);
-        
-        //Display Main Menu first
-        main.getStylesheets().add("app.css");
-        translate.getStylesheets().add("app.css");
-        load.getStylesheets().add("app.css");
-        window.setScene(main);
-        window.setTitle(title);
-        window.show();
+		Button back2 = new Button("Back");
+		back2.setOnAction(e -> window.setScene(main));
+
+		// button test Use this for every error
+
+		Button button = new Button("Alarm");
+		button.setOnAction(e -> AlertBox.display(title, "Alarm"));
+
+		// button1 test
+		Button button1 = new Button("Confirm");
+		button1.setOnAction(e -> ConfirmBox.display(title, "Confirm"));
+
+		t.setFont(Font.font("panpizza.ttf"));
+
+		// Translate page
+		ChoiceBox<String> language = new ChoiceBox<>();
+
+		language.getItems().add("english");
+		language.getItems().add("italian");
+		language.setValue("english");
+
+		TextField translateInput = new TextField();
+		translateInput.setPromptText("Joshua Bradley");
+		translateButton = new Button("Translate");
+
+		translateButton.setOnAction(e ->
+
+		translater.translateText(language.getValue(), translateInput.getText()));
+
+		// back button
+
+		// prompt user to yes or no don't need button
+
+		Button yn = new Button("Confirm");
+		yn.setOnAction(e -> ConfirmBox.display(title, "Confirm"));
+
+		TextArea text = new TextArea();
+		text.setPrefRowCount(10);
+		text.setPrefColumnCount(10);
+		text.setWrapText(true);
+
+		// Button to print the TextArea node
+
+		// Remove word will pop up window asking what to remove
+
+		HBox mainText = new HBox(20);
+
+		mainText.getChildren().add(label1);
+
+		HBox buttons = new HBox(30);
+		buttons.getChildren().addAll(s1ButtonTranslate, s1ButtonDisplay, s1ButtonRemove, back, exit);
+
+		BorderPane borderpane = new BorderPane();
+		borderpane.setCenter(t);
+		borderpane.setBottom(buttons);
+		borderpane.setPadding(new Insets(50, 50, 50, 50));
+
+		BorderPane.setAlignment(back, Pos.CENTER);
+		BorderPane.setAlignment(t, Pos.CENTER);
+		BorderPane.setAlignment(buttons, Pos.CENTER);
+
+		// Layout 1 - children laid out in vertical column
+		main = new Scene(borderpane, 1280, 720);
+
+		HBox s2Buttons = new HBox();
+		s2Buttons.getChildren().addAll(back, translateButton, language);
+
+		HBox textIO = new HBox();
+		textIO.getChildren().addAll(translateInput, text);
+
+		HBox botDisplay = new HBox(950);
+		botDisplay.getChildren().addAll(back2, display);
+
+		BorderPane borderpane2 = new BorderPane();
+		borderpane2.setTop(t2);
+		borderpane2.setCenter(textIO);
+		borderpane2.setBottom(s2Buttons);
+
 		
 		
+		BorderPane borderpane3 = new BorderPane();
+		borderpane3.setTop(t1);
+		borderpane3.setCenter(dictionaryDisplay);
+		borderpane3.setBottom(botDisplay);
+		borderpane3.setPadding(new Insets(75, 75, 75, 75));
+		BorderPane.setAlignment(back2, Pos.CENTER_LEFT);
+		BorderPane.setAlignment(display, Pos.CENTER_RIGHT);
+		// Layout 2
+		display.setId("a");
+		back2.setId("a");
+		botDisplay.setId("a");
+
+		translate = new Scene(borderpane2, 1280, 720);
+		load = new Scene(borderpane3, 1280, 720);
+
+		// Display Main Menu first
+		main.getStylesheets().add("app.css");
+		translate.getStylesheets().add("app.css");
+		load.getStylesheets().add("app.css");
+		buttons.setId("shiny-orange");
+		botDisplay.setId("shiny-orange");
+		dictionaryDisplay.setId("b");
 		
-	
-	
-	
-	
+		window.setScene(main);
+		window.setTitle(title);
+		window.show();
+
 	}
 
-	
-	private void print(TextArea text, ChoiceBox<String> language) {
-// Change display dictionary to append text
-			text.appendText(language.getValue());
-			System.out.println(language.getValue());
-	}
-	
 
-   
-	
-	
+
 	/**
 	 * This method displays the menu.
 	 */
@@ -251,7 +238,6 @@ public class Menu extends Application {
 	public void processUserChoices() {
 		Translate translate = new Translate();
 		boolean stopMenu = false;
-		
 
 		do {
 			String option;
@@ -334,7 +320,6 @@ public class Menu extends Application {
 
 		System.out.println("Deleting word..." + wordToFind);
 		tree.removeFromTree(wordToFind, "english");
-		tree.displayTree(tree.getRoot("english"));
 
 //		String word1 = "was";
 //		String word2 = "his";

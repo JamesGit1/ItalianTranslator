@@ -7,7 +7,7 @@ import javafx.geometry.*;
 public class RemoveBox {
 
     public static void display(String title, Translate translater) {
-    	
+
         Stage window = new Stage();
 
         //Block events to other windows

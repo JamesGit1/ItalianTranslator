@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import javafx.scene.control.TextArea;
+
 /**
  * 
  */
@@ -19,7 +21,7 @@ import java.util.Scanner;
  *
  */
 public class Translate {
-	Tree tree = new Tree();
+	 public Tree tree = new Tree();
 	public Node root;
 
 	public String[] translateText(String languageFrom, String searchText) {
@@ -118,8 +120,8 @@ public class Translate {
 		return translatedWord;
 	}
 
-	public void displayTree(Node current) {
-		tree.displayTree(current);
+	public void displayTree(Node current, TextArea  text) {
+		tree.displayTree(current,text);
 	}
 
 	public void loadDictionary() {
