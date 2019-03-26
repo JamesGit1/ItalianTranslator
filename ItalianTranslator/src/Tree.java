@@ -152,7 +152,7 @@ public class Tree {
 
 	public void save(Node current, PrintWriter pw) {
 		if (current != null) {
-			pw.println(current.getEnglishTranslation() + "," + current.getItalianTranslation());
+			pw.println(current.getItalianTranslation() + "," + current.getEnglishTranslation());
 			save(current.getEnglishLeft(), pw);
 			save(current.getEnglishRight(), pw);
 		}
@@ -271,6 +271,7 @@ public class Tree {
 						}
 					}
 				}
+				balanceTree(newNode, language);
 				// Then change the language and repeat the process.
 				language = changeLanguage(language);
 			}
@@ -561,10 +562,21 @@ public class Tree {
 	 * @param language The language of the tree being worked in.
 	 */
 
-	public void balanceTree(Node node, String language) {
-		boolean treeBalancing = isTreeBalanced(node, language);
+	public void balanceTree(Node newNode, String language) {
+		Node parentNode = findParentNode(newNode, language);
+		Node parentOfParentNode = findParentNode(parentNode, language);
+		boolean treeBalancing = isTreeBalanced(parentOfParentNode, language);
 		if (treeBalancing = false) {
-
+			// If we have a line of 3 unbalanced nodes where the new node is...
+			if (parentNode.getRight(language) == newNode && parentOfParentNode.getRight(language) == parentNode) {
+				parentOfParentNode.setRight(null, language);
+				parentNode.setLeft(parentOfParentNode, language);
+				findParentNode(parentOfParentNode, language).setLeft(parentNode, language);
+			} else if (parentNode.getLeft(language) == newNode && parentOfParentNode.getLeft(language) == parentNode) {
+				parentOfParentNode.setLeft(null, language);
+				parentNode.setRight(parentOfParentNode, language);
+				findParentNode(parentOfParentNode, language).setRight(parentNode, language);
+			}
 		}
 	}
 
@@ -577,11 +589,11 @@ public class Tree {
 	 * @return Whether the tree is balanced or not.
 	 */
 
-	public boolean isTreeBalanced(Node root, String language) {
-		if (root == null) {
+	public boolean isTreeBalanced(Node newNode, String language) {
+		if (newNode == null) {
 			return true;
 		}
-		if (getHeight(root, language) == -1) {
+		if (getHeight(newNode, language) == -1) {
 			return false;
 		}
 		return true;

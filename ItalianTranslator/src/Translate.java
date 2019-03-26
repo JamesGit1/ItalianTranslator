@@ -119,7 +119,7 @@ public class Translate {
 	}
 
 	public void displayTree(Node current) {
-		tree.displayTree(current, "italian");
+		tree.displayTree(current, "english");
 	}
 
 	public void loadDictionary() {
