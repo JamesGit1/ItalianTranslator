@@ -29,16 +29,25 @@ public class Translate {
 		String[] sentences = searchText.split("(?<=[a-z])\\.\\s+");
 		
 		for (int i = 0; i < sentences.length; i++) {
+			sentences[i] = sentences[i].replace(".", "");
 			String phrasesTranslated = translatePhrases(languageFrom, sentences[i]);
 			String wordArray[] = phrasesTranslated.split(" ");
-
-			for (int j = 0; j < wordArray.length; j++) {
-				translatedList.add(translateWord(languageFrom, wordArray[j]));
-				if (translatedList.get(j).equals(wordArray[j])) {
-					wordsToAdd.add(translatedList.get(j));
+			
+			if(phrasesTranslated.equals(sentences[i])) { //i.e no phrases found in sentence
+				for (int j = 0; j < wordArray.length; j++) {
+					translatedList.add(translateWord(languageFrom, wordArray[j]));
+					if (tree.findNode(wordArray[j], languageFrom)==null) {
+						wordsToAdd.add(wordArray[j]);
+					}
 				}
+				translatedList.add(".");
 			}
-			translatedList.add(".");
+			else {
+				for (int j = 0; j < wordArray.length; j++) {
+					translatedList.add(wordArray[j]);
+				}
+				translatedList.add(".");
+			}
 		}
 		
 		/*
@@ -54,6 +63,8 @@ public class Translate {
 
 		System.out.println("Translates to...");
 		for(int i = 0; i < translatedList.size(); i++) {
+			//capitalise the first letter of the first word
+			translatedList.set(0, translatedList.get(0).substring(0, 1).toUpperCase() + translatedList.get(0).substring(1));
 			String space = " ";
 			try {
 				if(translatedList.get(i+1).equals(".")) {
@@ -65,6 +76,7 @@ public class Translate {
 			}
 			System.out.print(translatedList.get(i) + space);
 		}
+		System.out.println("");
 		
 		// Convert ArrayList to object array
 		Object[] objArr = translatedList.toArray();
