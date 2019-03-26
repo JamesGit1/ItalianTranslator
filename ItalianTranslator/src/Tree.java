@@ -564,6 +564,7 @@ public class Tree {
 	public void balanceTree(Node node, String language) {
 		boolean treeBalancing = isTreeBalanced(node, language);
 		if (treeBalancing = false) {
+
 		}
 	}
 
