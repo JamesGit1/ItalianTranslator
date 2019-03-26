@@ -50,7 +50,10 @@ public class Translate {
 						wordsToAdd.add(wordArray[j]);
 					}
 				}
-				if(!(translatedList.get(translatedList.size()-1).equals("!")) || !(translatedList.get(translatedList.size()-1).equals("?"))) {
+				//Check if there should be a full stop added by checking if there is a question mark or exclamation mark at the end of the last word
+				String addFullStop = translatedList.get(translatedList.size()-1);
+				addFullStop = addFullStop.substring(addFullStop.length()-1);
+				if(!("!".equals(addFullStop)) || !("?".equals(addFullStop))) {
 					translatedList.add(".");
 				}
 				
@@ -97,33 +100,35 @@ public class Translate {
 		// convert Object array to String array
 		String[] translatedArray = Arrays.copyOf(objArr, objArr.length, String[].class);
 		
+		if(wordsToAdd.size()!=0) {
+			System.out.println("Seems like some words couldn't be translated...");
+			System.out.println("Looking up translation and adding them to dictionary");
+		}
+		for (int i = 0; i < wordsToAdd.size(); i++) {
+			
+			System.out.println("Adding a translation for " + wordsToAdd.get(i));
 
+			try {
+				if (languageFrom.equals("english")) {
+					String translatedText = translate("en", "it", wordsToAdd.get(i));
+					tree.addToTree(translatedText, wordsToAdd.get(i));
+					tree.saveDictionary(tree.root);
+					System.out.println(
+							"ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
 
-			for (int i = 0; i < wordsToAdd.size(); i++) {
-				System.out.println("Seems like some words couldn't be translated...");
-				System.out.println("Looking up translation and adding them to dictionary");
-				System.out.println("Adding a translation for " + wordsToAdd.get(i));
-
-				try {
-					if (languageFrom.equals("english")) {
-						String translatedText = translate("en", "it", wordsToAdd.get(i));
-						tree.addToTree(translatedText, wordsToAdd.get(i));
-						tree.saveDictionary(tree.root);
-						System.out.println(
-								"ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
-
-					} else {
-						String translatedText = translate("it", "en", wordsToAdd.get(i));
-						tree.addToTree(wordsToAdd.get(i), translatedText);
-						tree.saveDictionary(tree.root);
-						System.out.println(
-								"ITALIAN WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
-					}
-				} catch (IOException e) {
-					System.out.print(e);
+				} else {
+					String translatedText = translate("it", "en", wordsToAdd.get(i));
+					tree.addToTree(wordsToAdd.get(i), translatedText);
+					tree.saveDictionary(tree.root);
+					System.out.println(
+							"ITALIAN WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
 				}
-
+			} catch (IOException e) {
+				System.out.print(e);
 			}
+
+		}
+			
 
 		return translatedArray;
 	}
