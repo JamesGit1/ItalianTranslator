@@ -52,6 +52,7 @@ public class Menu {
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
 				translate.translateText("english", searchText);
+			
 			}
 
 			else if (option.equals("2")) {
