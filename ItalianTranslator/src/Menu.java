@@ -159,7 +159,7 @@ public class Menu extends Application {
 		BorderPane borderpane = new BorderPane();
 		borderpane.setCenter(t);
 		borderpane.setBottom(buttons);
-		borderpane.setPadding(new Insets(50, 50, 50, 50));
+		borderpane.setPadding(new Insets(75, 75, 75, 75));
 
 		BorderPane.setAlignment(back, Pos.CENTER);
 		BorderPane.setAlignment(t, Pos.CENTER);
@@ -168,11 +168,11 @@ public class Menu extends Application {
 		// Layout 1 - children laid out in vertical column
 		main = new Scene(borderpane, 1280, 720);
 
-		HBox s2Buttons = new HBox();
-		s2Buttons.getChildren().addAll(back, translateButton, language);
+		HBox s2Buttons = new HBox(950);
+		s2Buttons.getChildren().addAll(back, translateButton);
 
-		HBox textIO = new HBox();
-		textIO.getChildren().addAll(translateInput, text);
+		HBox textIO = new HBox(250);
+		textIO.getChildren().addAll(translateInput,language, text);
 
 		HBox botDisplay = new HBox(950);
 		botDisplay.getChildren().addAll(back2, display);
@@ -180,6 +180,7 @@ public class Menu extends Application {
 		BorderPane borderpane2 = new BorderPane();
 		borderpane2.setTop(t2);
 		borderpane2.setCenter(textIO);
+		borderpane2.setPadding(new Insets(75, 75, 75, 75));
 		borderpane2.setBottom(s2Buttons);
 
 		
@@ -205,6 +206,7 @@ public class Menu extends Application {
 		load.getStylesheets().add("app.css");
 		buttons.setId("shiny-orange");
 		botDisplay.setId("shiny-orange");
+		s2Buttons.setId("shiny-orange");
 		dictionaryDisplay.setId("b");
 		
 		window.setScene(main);
