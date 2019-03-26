@@ -197,7 +197,6 @@ public class Tree {
 							// Set the previous node.s left pointer to the newNode.
 							previous.setLeft(newNode, language);
 						}
-
 						// Else if the newNode is after the current node...
 					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
 						// Make the current the node on the right.
