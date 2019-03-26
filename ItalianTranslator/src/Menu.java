@@ -69,12 +69,12 @@ public class Menu {
 				System.out.println("What language is this in? English or Italian? ");
 				Scanner s5 = new Scanner(System.in);
 				String languageToDelete = s5.nextLine();
-				translate.removeFromTree(wordToDelete, languageToDelete);
+				translate.tree.removeFromTree(wordToDelete, languageToDelete);
 			}
 
 			else if (option.equals("4")) {
 				System.out.println("Option 4 selected. Displaying dictionary...");
-				translate.displayTree(translate.tree.root);
+				translate.tree.displayTree(translate.tree.root, "italian");
 			}
 
 			else if (option.equals("5")) {

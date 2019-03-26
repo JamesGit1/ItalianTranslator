@@ -175,6 +175,8 @@ public class Tree {
 			return;
 		} else {
 			while (current != null) {
+				current.setLeft(null, language);
+				current.setRight(null, language);
 				previous = current;
 				// If the newNode word is before the current node...
 				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
@@ -182,7 +184,7 @@ public class Tree {
 					current = current.getLeft(language);
 					// If that is null...
 					if (current == null) {
-						// Set the previous node.s left pointer to the newNode.
+						// Set the previoujs node.s left pointer to the newNode.
 						previous.setLeft(newNode, language);
 					}
 					// Else if the newNode is after the current node...
