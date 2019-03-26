@@ -133,6 +133,7 @@ public class Menu {
 	/**
 	 * If the user enters and invalid option this is run.
 	 */
+
 	public static void error() {
 		System.out.println("No valid input was entered, please try again.");
 	}
