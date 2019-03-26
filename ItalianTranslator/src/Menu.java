@@ -6,6 +6,7 @@ import java.util.Scanner;
  * 
  * @author James, Josh, Jesse, Luke.
  */
+
 public class Menu {
 
 	public static void main(String[] args) {
@@ -17,6 +18,7 @@ public class Menu {
 	/**
 	 * This method displays the menu.
 	 */
+
 	public static void displayMenu() {
 
 		System.out.println("WELCOME TO ITALIANO TRANSLATE");
@@ -34,6 +36,7 @@ public class Menu {
 	/**
 	 * This method gives functionality to the menu.
 	 */
+
 	public void processUserChoices() {
 
 		boolean stopMenu = false;
@@ -74,7 +77,7 @@ public class Menu {
 
 			else if (option.equals("4")) {
 				System.out.println("Option 4 selected. Displaying dictionary...");
-				translate.tree.displayTree(translate.tree.root, "italian");
+				translate.tree.displayTree(translate.tree.root, "english");
 			}
 
 			else if (option.equals("5")) {

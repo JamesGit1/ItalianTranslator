@@ -162,41 +162,54 @@ public class Tree {
 
 	public void addAgain(Node current, String language) {
 		if (current != null) {
-			addToCertainTree(current, language);
-			addAgain(current.getEnglishLeft(), language);
-			addAgain(current.getEnglishRight(), language);
+			addToCertainTree(current, changeLanguage(language));
+			addAgain(current.getLeft(language), language);
+			addAgain(current.getRight(language), language);
 		}
 	}
+
+	/**
+	 * Adds a node to a certain tree instead of both.
+	 * 
+	 * @param newNode  The node that you want to add.
+	 * @param language The language that the node is being added to.
+	 */
 
 	public void addToCertainTree(Node newNode, String language) {
 		Node current = root;
 		Node previous = null;
-		if (findNode(newNode.getItalianTranslation(), "italian") != null) {
+		if (findNode(newNode.getTranslation(language), language) != null) {
 			return;
+		} else if (root == null) {
+			root = newNode;
 		} else {
 			while (current != null) {
-				current.setLeft(null, language);
-				current.setRight(null, language);
-				previous = current;
+				current.setRight(null, "italian");
+				current.setRight(null, "italian");
+				if (newNode != root) {
+					previous = current;
+					// If the newNode word is before the current node...
+					if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
+						// Make the current the node on the left.
+						current = current.getLeft(language);
+						// If that is null...
+						if (current == null) {
+							// Set the previous node.s left pointer to the newNode.
+							previous.setLeft(newNode, language);
+						}
 
-				// If the newNode word is before the current node...
-				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
-					// Make the current the node on the left.
-					current = current.getLeft(language);
-					// If that is null...
-					if (current == null) {
-						// Set the previoujs node.s left pointer to the newNode.
-						previous.setLeft(newNode, language);
+						// Else if the newNode is after the current node...
+					} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
+						// Make the current the node on the right.
+						current = current.getRight(language);
+						// If this node is null...
+						if (current == null) {
+							// Set the previous node.s right pointer to the newNode.
+							previous.setRight(newNode, language);
+						}
 					}
-					// Else if the newNode is after the current node...
-				} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
-					// Make the current the node on the right.
-					current = current.getRight(language);
-					// If this node is null...
-					if (current == null) {
-						// Set the previous node.s right pointer to the newNode.
-						previous.setRight(newNode, language);
-					}
+				} else {
+					break;
 				}
 			}
 		}
@@ -329,25 +342,33 @@ public class Tree {
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
 		nodeToDelete = findNode(wordToDelete, language);
-		// Do this twice because there are two trees...
-		for (int i = 0; i < 2; i++) {
-			Node parentNode = findParentNode(nodeToDelete, language);
-			// If nodeToDelete is a leaf...
-			if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
-				// Run the deleteLeaf method.
-				deleteLeaf(nodeToDelete, parentNode, language);
-				// If the node has one child node on the right or left...
-			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null
-					|| nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
-				deleteNodeWithOneChild(nodeToDelete, parentNode, language);
-				// If the node has two child nodes, one on either side.
-			} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
-				deleteNodeWithTwoChildren(nodeToDelete, parentNode, i, language);
+		if (nodeToDelete == root) {
+			deleteNodeWithTwoChildren(root, null, "english");
+			root.setItalianLeft(null);
+			root.setItalianRight(null);
+			addAgain(root, "english");
+		} else {
+			// Do this twice because there are two trees...
+			for (int i = 0; i < 2; i++) {
+				Node parentNode = findParentNode(nodeToDelete, language);
+				// If nodeToDelete is a leaf...
+				if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
+					// Run the deleteLeaf method.
+					deleteLeaf(nodeToDelete, parentNode, language);
+					// If the node has one child node on the right or left...
+				} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null
+						|| nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
+					deleteNodeWithOneChild(nodeToDelete, parentNode, language);
+					// If the node has two child nodes, one on either side.
+				} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
+					deleteNodeWithTwoChildren(nodeToDelete, parentNode, language);
+				}
+				// Change the language before repeating the process.
+				language = changeLanguage(language);
+				wordToDelete = nodeToDelete.getTranslation(language);
 			}
-			// Change the language before repeating the process.
-			language = changeLanguage(language);
-			wordToDelete = nodeToDelete.getTranslation(language);
 		}
+
 	}
 
 	/**
@@ -440,7 +461,7 @@ public class Tree {
 	 *                     worked on.
 	 */
 
-	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, int i, String language) {
+	public void deleteNodeWithTwoChildren(Node nodeToDelete, Node parentNode, String language) {
 		Node replacementNode = findReplacementNode(nodeToDelete, parentNode, language);
 
 		// If what is on the left of replacementNode is null...
@@ -475,11 +496,8 @@ public class Tree {
 			 * root as the replacement node. (note, this is not very good for tree
 			 * balancing).
 			 */
-		} else if (i == 0) {
+		} else {
 			setRoot(replacementNode);
-			root.setItalianLeft(null);
-			root.setItalianRight(null);
-			addAgain(root, "italian");
 		}
 	}
 
