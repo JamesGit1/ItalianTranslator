@@ -32,8 +32,6 @@ public class Tree {
 		this.root = root;
 	}
 
-	// Pass in the Main Binary tree into here
-
 	/**
 	 * Displays the entire dictionary
 	 *
@@ -162,11 +160,15 @@ public class Tree {
 
 	public void addAgain(Node current, String language) {
 		if (current != null) {
-			current.setRight(null, changeLanguage(language));
-			current.setLeft(null, changeLanguage(language));
-			addToCertainTree(current, changeLanguage(language));
-			addAgain(current.getLeft(language), language);
-			addAgain(current.getRight(language), language);
+			try {
+				current.setRight(null, changeLanguage(language));
+				current.setLeft(null, changeLanguage(language));
+				addToCertainTree(current, changeLanguage(language));
+				addAgain(current.getLeft(language), language);
+				addAgain(current.getRight(language), language);
+			} catch (NullPointerException e) {
+				System.out.println("An error occurred, the node could not be accessed." + e);
+			}
 		}
 	}
 
@@ -178,13 +180,19 @@ public class Tree {
 	 */
 
 	public void addToCertainTree(Node newNode, String language) {
+		// Start are the root.
 		Node current = root;
 		Node previous = null;
+		// If the node is found in the other tree...
 		if (findNode(newNode.getTranslation(language), language) != null) {
+			// End the loop
 			return;
+			// If there is no root, make the new node the root...
 		} else if (root == null) {
 			root = newNode;
 		} else {
+			// This is very similar to the addNode method, but modified to only add to one
+			// tree instead of both.
 			while (current != null) {
 				if (newNode != root) {
 					previous = current;
@@ -269,6 +277,14 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Finds a node in the binary tree.
+	 * 
+	 * @param searchWord The word that is being searched for.
+	 * @param language   The language of the word that is being searched for.
+	 * @return current The node once it is found.
+	 */
+
 	public Node findNode(String searchWord, String language) {
 		Node current = root;
 		// While the current node is not null...
@@ -339,11 +355,6 @@ public class Tree {
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
 		nodeToDelete = findNode(wordToDelete, language);
-		/*
-		 * If the node is the root, there are special methods to deal with this. Because
-		 * there are two intertwined trees, and only one root, the root deleting works
-		 */
-
 		if (nodeToDelete == root) {
 			deleteNodeWithTwoChildren(root, null, "english");
 			addAgain(root, "english");
@@ -369,7 +380,7 @@ public class Tree {
 					wordToDelete = nodeToDelete.getTranslation(language);
 				}
 			} catch (Exception e) {
-				System.out.println("The word was not found and so cannot be deleted.");
+				System.out.println("The word was not found and so cannot be deleted." + e);
 			}
 		}
 	}
@@ -517,6 +528,15 @@ public class Tree {
 		return false;
 	}
 
+	/**
+	 * Finds the height of the tree.
+	 * 
+	 * @param root     The root of the tree.
+	 * @param language The language of the tree that the height that is being
+	 *                 checked.
+	 * @return The height of the tree.
+	 */
+
 	public int getHeight(Node root, String language) {
 		if (root == null) {
 			return 0;
@@ -533,6 +553,15 @@ public class Tree {
 		return Math.max(left, right) + 1;
 
 	}
+
+	/**
+	 * Checks if the tree is balanced.
+	 * 
+	 * @param root     The root of the tree.
+	 * @param language The language of the tree that the height that is being
+	 *                 checked.
+	 * @return Whether the tree is balanced or not.
+	 */
 
 	public boolean isTreeBalanced(Node root, String language) {
 		if (root == null) {
