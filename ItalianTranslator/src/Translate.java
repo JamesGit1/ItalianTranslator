@@ -35,12 +35,25 @@ public class Translate {
 			
 			if(phrasesTranslated.equals(sentences[i])) { //i.e no phrases found in sentence
 				for (int j = 0; j < wordArray.length; j++) {
-					translatedList.add(translateWord(languageFrom, wordArray[j]));
+					String strToAdd = "";
+					if(wordArray[j].contains("!")) { //if contains exclamation mark removes and adds back after
+						strToAdd = "!";
+						wordArray[j] = wordArray[j].replace("!", "");
+					}
+					if(wordArray[j].contains("?")) { //if contains question mark removes and adds back after
+						strToAdd = "?";
+						wordArray[j] = wordArray[j].replace("?", "");
+					}
+					
+					translatedList.add(translateWord(languageFrom, wordArray[j] + strToAdd));
 					if (tree.findNode(wordArray[j], languageFrom)==null) {
 						wordsToAdd.add(wordArray[j]);
 					}
 				}
-				translatedList.add(".");
+				if(!(translatedList.get(translatedList.size()-1).equals("!")) || !(translatedList.get(translatedList.size()-1).equals("?"))) {
+					translatedList.add(".");
+				}
+				
 			}
 			else {
 				for (int j = 0; j < wordArray.length; j++) {
@@ -174,7 +187,7 @@ public class Translate {
 	}
 
 	private String translate(String langFrom, String langTo, String text) throws IOException {
-		String urlStr = "https://script.google.com/macros/s/AKfycbytFopLzFCyVVa6z90044PoMlD3xslHCxz3srWZryzo6SGvyYW4/exec"
+		String urlStr = "https://script.google.com/macros/s/AKfycbxoCIB_d4HBT7znrlRY1F6DQBFbZNMZRVhH2VIGhiDSUutfG99t/exec"
 				+ "?q=" + URLEncoder.encode(text, "UTF-8") + "&target=" + langTo + "&source=" + langFrom;
 		URL url = new URL(urlStr);
 		StringBuilder response = new StringBuilder();
