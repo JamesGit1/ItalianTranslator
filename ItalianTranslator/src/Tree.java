@@ -325,7 +325,7 @@ public class Tree {
 				current = current.getLeft(language);
 			}
 		}
-		return previous;
+		return null;
 	}
 
 	/**
@@ -343,27 +343,30 @@ public class Tree {
 			deleteNodeWithTwoChildren(root, null, "english");
 			addAgain(root, "english");
 		} else {
-			// Do this twice because there are two trees...
-			for (int i = 0; i < 2; i++) {
-				Node parentNode = findParentNode(nodeToDelete, language);
-				// If nodeToDelete is a leaf...
-				if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
-					// Run the deleteLeaf method.
-					deleteLeaf(nodeToDelete, parentNode, language);
-					// If the node has one child node on the right or left...
-				} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null
-						|| nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
-					deleteNodeWithOneChild(nodeToDelete, parentNode, language);
-					// If the node has two child nodes, one on either side.
-				} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
-					deleteNodeWithTwoChildren(nodeToDelete, parentNode, language);
+			try {
+				// Do this twice because there are two trees...
+				for (int i = 0; i < 2; i++) {
+					Node parentNode = findParentNode(nodeToDelete, language);
+					// If nodeToDelete is a leaf...
+					if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
+						// Run the deleteLeaf method.
+						deleteLeaf(nodeToDelete, parentNode, language);
+						// If the node has one child node on the right or left...
+					} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) == null
+							|| nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) != null) {
+						deleteNodeWithOneChild(nodeToDelete, parentNode, language);
+						// If the node has two child nodes, one on either side.
+					} else if (nodeToDelete.getRight(language) != null && nodeToDelete.getLeft(language) != null) {
+						deleteNodeWithTwoChildren(nodeToDelete, parentNode, language);
+					}
+					// Change the language before repeating the process.
+					language = changeLanguage(language);
+					wordToDelete = nodeToDelete.getTranslation(language);
 				}
-				// Change the language before repeating the process.
-				language = changeLanguage(language);
-				wordToDelete = nodeToDelete.getTranslation(language);
+			} catch (Exception e) {
+				System.out.println("The word was not found and so cannot be deleted.");
 			}
 		}
-
 	}
 
 	/**
