@@ -118,6 +118,7 @@ public class Tree {
 			}
 
 			br.close();
+			isTreeBalanced(root, "english");
 
 		} catch (Exception e) {
 			// TODO Write error handling.
@@ -185,7 +186,7 @@ public class Tree {
 		Node current = root;
 		Node previous = null;
 		// If the node is found in the other tree...
-		if (findNode(newNode.getTranslation(language), language) != null) {
+		if (findNode(root, newNode.getTranslation(language), language) != null) {
 			// End the loop
 			return;
 			// If there is no root, make the new node the root...
@@ -235,8 +236,8 @@ public class Tree {
 		// Start with the English tree.
 		String language = "english";
 		// If the new node is found in the tree (search for the Italian and English).
-		if (findNode(newNode.getEnglishTranslation(), "english") != null
-				|| findNode(newNode.getItalianTranslation(), "italian") != null) {
+		if (findNode(root, newNode.getEnglishTranslation(), "english") != null
+				|| findNode(root, newNode.getItalianTranslation(), "italian") != null) {
 			System.out.println("This word (English or Italian) already exists, it will not be added");
 			// Otherwise, if the English root is null, make the node the root.
 		} else if (root == null) {
@@ -249,6 +250,7 @@ public class Tree {
 			// Do this twice for each tree...
 			for (int i = 0; i < 2; i++) {
 				// The current node is the root.
+				System.out.println(newNode.getTranslation(language));
 				Node current = root;
 				while (current != null) {
 					previous = current;
@@ -287,7 +289,7 @@ public class Tree {
 	 * @return current The node once it is found.
 	 */
 
-	public Node findNode(String searchWord, String language) {
+	public Node findNode(Node root, String searchWord, String language) {
 		Node current = root;
 		// While the current node is not null...
 		while (current != null) {
@@ -356,7 +358,7 @@ public class Tree {
 
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
-		nodeToDelete = findNode(wordToDelete, language);
+		nodeToDelete = findNode(root, wordToDelete, language);
 		if (nodeToDelete == root) {
 			deleteNodeWithTwoChildren(root, null, "english");
 			addAgain(root, "english");
@@ -466,6 +468,16 @@ public class Tree {
 		return replacementNode;
 	}
 
+	public Node findReplacementNodeRight(Node nodeToDelete, Node parentNode, String language) {
+		Node replacementNode = nodeToDelete.getRight(language);
+		// While the node on the right of replacementNode is not null...
+		while (replacementNode.getLeft(language) != null) {
+			// Set replacementNode to what is currently on the right of replacementNode.
+			replacementNode = replacementNode.getLeft(language);
+		}
+		return replacementNode;
+	}
+
 	/**
 	 * Deletes a node with two active connections (for the selected language).
 	 * 
@@ -540,20 +552,10 @@ public class Tree {
 	 */
 
 	public int getHeight(Node node, String language) {
-		if (node == null) {
+		if (node == null)
 			return 0;
-		}
-		int left = getHeight(node.getLeft(language), language);
-		int right = getHeight(node.getRight(language), language);
-		if (left == -1 || right == -1) {
-			return -1;
-		}
-		// Gets the absolute value of left - right.
-		if (Math.abs(left - right) > 1) {
-			return -1;
-		}
-		return Math.max(left, right) + 1;
-
+		return (1
+				+ Math.max(getHeight(node.getLeft(language), language), getHeight(node.getRight(language), language)));
 	}
 
 	/**
@@ -564,31 +566,41 @@ public class Tree {
 	 */
 
 	public void balanceTree(Node newNode, String language) {
-		Node parentNode = findParentNode(newNode, language);
-		Node parentOfParentNode = findParentNode(parentNode, language);
-		boolean treeBalancing = isTreeBalanced(parentOfParentNode, language);
-		if (treeBalancing == false) {
+		Node current = newNode;
+		Node replacementNode = null;
+		while (current != null) {
+			boolean treeBalancing = isTreeBalanced(current, language);
 			// If we have a line of 3 unbalanced nodes where the new node is...
-			if (parentNode.getRight(language) == newNode && parentOfParentNode.getRight(language) == parentNode) {
-				parentOfParentNode.setRight(null, language);
-				parentNode.setLeft(parentOfParentNode, language);
-				if (parentOfParentNode != root) {
-					findParentNode(parentOfParentNode, language).setLeft(parentNode, language);
-					System.out.println("Swap made...");
+			if (treeBalancing == false) {
+				System.out.println("Tree unbalanced when adding " + newNode.getTranslation(language));
+				if (findNode(current.getLeft(language), newNode.getTranslation(language), language) != null) {
+					replacementNode = findReplacementNode(current, findParentNode(current, language), language);
+					if (current == root) {
+						setRoot(replacementNode);
+					}
+					replacementNode.setRight(current, language);
+					if (current.getLeft(language) != replacementNode) {
+						replacementNode.setLeft(current.getLeft(language), language);
+					}
+					current.setLeft(null, language);
+					current = newNode;
+					continue;
+
 				} else {
-					setRoot(parentNode);
-					addAgain(root, changeLanguage(language));
+					replacementNode = findReplacementNodeRight(current, findParentNode(current, language), language);
+					if (current == root) {
+						setRoot(replacementNode);
+					}
+					if (current.getRight(language) != replacementNode) {
+						replacementNode.setRight(current.getLeft(language), language);
+					}
+					replacementNode.setLeft(current, language);
+					current.setRight(null, language);
+					current = newNode;
+					continue;
 				}
-			} else if (parentNode.getLeft(language) == newNode && parentOfParentNode.getLeft(language) == parentNode) {
-				parentOfParentNode.setLeft(null, language);
-				parentNode.setRight(parentOfParentNode, language);
-				if (parentOfParentNode != root) {
-					findParentNode(parentOfParentNode, language).setRight(parentNode, language);
-					System.out.println("Swap made...");
-				} else {
-					setRoot(parentNode);
-					addAgain(root, changeLanguage(language));
-				}
+			} else {
+				current = findParentNode(current, language);
 			}
 		}
 	}
@@ -603,13 +615,15 @@ public class Tree {
 	 */
 
 	public boolean isTreeBalanced(Node newNode, String language) {
-		if (newNode == null) {
+		if (newNode == null)
 			return true;
-		}
-		if (getHeight(newNode, language) == -1) {
+		int heightdifference = getHeight(newNode.getLeft(language), language)
+				- getHeight(newNode.getRight(language), language);
+		if (Math.abs(heightdifference) > 1) {
 			return false;
+		} else {
+			return isTreeBalanced(newNode.getLeft(language), language)
+					&& isTreeBalanced(newNode.getRight(language), language);
 		}
-		System.out.println("Balanced");
-		return true;
 	}
 }
