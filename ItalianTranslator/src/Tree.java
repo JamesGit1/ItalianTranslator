@@ -274,10 +274,10 @@ public class Tree {
 						}
 					}
 				}
-				balanceTree(newNode, language);
 				// Then change the language and repeat the process.
 				language = changeLanguage(language);
 			}
+			balanceTree(newNode, changeLanguage(language));
 		}
 	}
 
@@ -577,27 +577,30 @@ public class Tree {
 					replacementNode = findReplacementNode(current, findParentNode(current, language), language);
 					if (current == root) {
 						setRoot(replacementNode);
+						addAgain(root, language);
 					}
 					replacementNode.setRight(current, language);
 					if (current.getLeft(language) != replacementNode) {
 						replacementNode.setLeft(current.getLeft(language), language);
+					} else {
+						current.setLeft(null, language);
 					}
-					current.setLeft(null, language);
+					removeFromTree(replacementNode.getTranslation(language), language);
 					current = newNode;
-					continue;
-
-				} else {
+				} else if (findNode(current.getRight(language), newNode.getTranslation(language), language) != null) {
 					replacementNode = findReplacementNodeRight(current, findParentNode(current, language), language);
 					if (current == root) {
 						setRoot(replacementNode);
-					}
-					if (current.getRight(language) != replacementNode) {
-						replacementNode.setRight(current.getLeft(language), language);
+						addAgain(root, language);
 					}
 					replacementNode.setLeft(current, language);
-					current.setRight(null, language);
+					if (current.getRight(language) != replacementNode) {
+						replacementNode.setRight(current.getLeft(language), language);
+					} else {
+						current.setRight(null, language);
+					}
+					removeFromTree(replacementNode.getTranslation(language), language);
 					current = newNode;
-					continue;
 				}
 			} else {
 				current = findParentNode(current, language);
