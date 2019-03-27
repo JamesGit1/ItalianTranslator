@@ -5,6 +5,7 @@ import com.sun.java.accessibility.util.Translator;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.print.PrinterJob;
@@ -84,10 +85,10 @@ public class Menu extends Application {
 		// Buttons That all go to different Scenes
 
 		Button s1ButtonTranslate = new Button("Translator");
-		s1ButtonTranslate.setOnAction(e -> window.setScene(translate));
+		s1ButtonTranslate.setOnAction(e -> primaryStage.setScene(translate));
 
 		Button s1ButtonDisplay = new Button("Display Dictionary");
-		s1ButtonDisplay.setOnAction(e -> window.setScene(load));
+		s1ButtonDisplay.setOnAction(e -> primaryStage.setScene(load));
 
 		Button s1ButtonRemove = new Button("Remove word from dictionary");
 		s1ButtonRemove.setOnAction(e ->
@@ -98,7 +99,7 @@ public class Menu extends Application {
 		exit.setOnAction(e -> window.close());
 
 		Button display = new Button("Display");
-		display.setOnAction(e -> translater.tree.displayTree(translater.tree.root, dictionaryDisplay));
+		display.setOnAction(e -> translater.tree.clearText(translater.tree.root, dictionaryDisplay));
 		// Goes back to main menu
 
 		Button back = new Button("Back");
@@ -195,6 +196,7 @@ public class Menu extends Application {
 		display.setId("a");
 		back2.setId("a");
 		botDisplay.setId("a");
+		textIO.setId("b");
 		translate = new Scene(borderpane2, 1280, 720);
 		load = new Scene(borderpane3, 1280, 720);
 
@@ -207,6 +209,13 @@ public class Menu extends Application {
 		s2Buttons.setId("shiny-orange");
 		language.setId("choice");
 		dictionaryDisplay.setId("b");
+		
+		
+		dictionaryDisplay.setEditable(false);
+		text.setEditable(false);
+		text.setMouseTransparent(true);
+		text.setFocusTraversable(false);
+		
 		
 		window.setScene(main);
 		window.setTitle(title);

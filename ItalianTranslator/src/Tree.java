@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 /**
@@ -77,10 +78,14 @@ public class Tree {
 	 * 
 	 * @param current The current node.
 	 * @param text 
+	 * @param display 
 	 */
 
 	public void displayTree(Node current, TextArea text) {
+		
+		
 		if (current != null) {
+			
 			displayTree(current.getEnglishLeft(),text);
 			text.appendText(current.getEnglishTranslation() + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + current.getItalianTranslation()+"\n");
 			displayTree(current.getEnglishRight(),text);
@@ -101,6 +106,13 @@ public class Tree {
 		}
 	}
 
+	
+	public void clearText(Node current, TextArea text) {
+		text.setText("");
+		displayTree(current, text);
+		
+		
+	}
 	/**
 	 * Loads the dictionary.
 	 */

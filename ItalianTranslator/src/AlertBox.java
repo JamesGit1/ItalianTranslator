@@ -8,7 +8,7 @@ public class AlertBox {
 
     public static void display(String title, String message) {
         Stage window = new Stage();
-
+        window.setResizable(false);
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);

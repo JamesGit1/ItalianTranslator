@@ -14,7 +14,7 @@ public class RemoveBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setMinWidth(250);
-        
+        window.setResizable(false);
         ChoiceBox<String> language = new ChoiceBox<>();
 
         language.getItems().add("english");
@@ -35,7 +35,7 @@ public class RemoveBox {
         
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label,input ,closeButton,language);
-        
+   
         
         layout.setAlignment(Pos.CENTER);
         
