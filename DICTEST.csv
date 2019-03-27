@@ -3,13 +3,17 @@ avvenimento,happening
 fa,does
 freddo,cool
 un,a
+servizio, struttura
+condanna, frase
+sorriso, sorridere
+falso,FALSE
 abbandono,abandon
 capacità ,ability
 capace,able
 aborto,abortion
 di,about
 sopra,above
-all&#39;estero,abroad
+all'estero,abroad
 assenza,absence
 assoluto,absolute
 assolutamente,absolutely
@@ -81,7 +85,7 @@ agenzia,agency
 ordine del giorno,agenda
 agente,agent
 aggressivo,aggressive
-essere d&#39;accordo,agree
+essere d'accordo,agree
 accordo,agreement
 agricolo,agricultural
 ah,ah
@@ -334,6 +338,7 @@ brillante,brilliant
 portare,bring
 britannico,british
 ampio,broad
+bro,bro
 rotto,broken
 fratello,brother
 marrone,brown
@@ -420,7 +425,7 @@ carità ,charity
 grafico,chart
 inseguire,chase
 a buon mercato,cheap
-dai un&#39;occhiata,check
+dai un'occhiata,check
 guancia,cheek
 formaggio,cheese
 capocuoco,chef
@@ -874,6 +879,7 @@ iscrizione,entry
 ambiente,environment
 ambientale,environmental
 episodio,episode
+epico,epic
 pari,equal
 ugualmente,equally
 attrezzatura,equipment
@@ -948,7 +954,6 @@ estremamente,extremely
 occhio,eye
 tessuto,fabric
 viso,face
-servizio, struttura,facility
 fatto,fact
 fattore,factor
 fabbrica,factory
@@ -959,7 +964,6 @@ fallimento,failure
 giusto,fair
 fede,faith
 autunno,fall
-falso,false
 familiare,familiar
 famiglia,family
 famoso,famous
@@ -1116,7 +1120,7 @@ partire,go
 obbiettivo,goal
 dio,god
 oro,gold
-d&#39;oro,golden
+d'oro,golden
 golf,golf
 governo,government
 governatore,governor
@@ -1336,6 +1340,7 @@ iracheno,iraqi
 irlandesi,irish
 ferro,iron
 islamico,islamic
+è,is
 isola,island
 israeliano,israeli
 problema,issue
@@ -1387,7 +1392,7 @@ in gran parte,largely
 scorso,last
 in ritardo,late
 latino,latin
-quest&#39;ultimo,latter
+quest'ultimo,latter
 ridere,laugh
 legge,law
 prato,lawn
@@ -1512,6 +1517,7 @@ medio,medium
 membro,member
 membri,membership
 memoria,memory
+meme,meme
 mentale,mental
 menu,menu
 semplice,mere
@@ -2118,14 +2124,12 @@ vendere,sell
 senato,senate
 senatore,senator
 sensibile,sensitive
-condanna, frase,sentence
 separato,separate
 sequenza,sequence
 serie,series
 grave,serious
 sul serio,seriously
 servire,serve
-servizio,service
 sessione,session
 impostato,set
 ambientazione,setting
@@ -2205,7 +2209,6 @@ lentamente,slowly
 piccolo,small
 inteligente,smart
 odore,smell
-sorriso, sorridere,smile
 fumo,smoke
 liscio,smooth
 schiocco,snap
