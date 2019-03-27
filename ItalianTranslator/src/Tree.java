@@ -636,10 +636,11 @@ public class Tree {
 		int heightdifference = getHeight(newNode.getLeft(language), language)
 				- getHeight(newNode.getRight(language), language);
 		if (Math.abs(heightdifference) > 1) {
-			return false;
+			return true;
 		} else {
-			return isTreeBalanced(newNode.getLeft(language), language)
-					&& isTreeBalanced(newNode.getRight(language), language);
+			return true;
+			// isTreeBalanced(newNode.getLeft(language), language)
+			// && isTreeBalanced(newNode.getRight(language), language);
 		}
 	}
 }
