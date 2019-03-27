@@ -121,7 +121,9 @@ public class Translate {
 		// convert Object array to String array
 		String[] translatedArray = Arrays.copyOf(objArr, objArr.length, String[].class);
 
-		/*
+		/* This is also code to handle interactions with the Google API
+		 * Refer to bottom to find the rest of the Google API
+		 * 
 		 * if(wordsToAdd.size()!=0) {
 		 * System.out.println("Seems like some words couldn't be translated...");
 		 * System.out.println("Looking up translation and adding them to dictionary"); }
@@ -172,6 +174,15 @@ public class Translate {
 		return translatedArray;
 	}
 
+	/**
+	 * 
+	 * @param languageFrom
+	 * @param searchText
+	 * @return translatedPhrases ArrayList- contains succesfully translated phrases
+	 * 
+	 * Method to take in language and sentence of text and output a list of words containing the translated phrases
+	 * Returns untranslated phrases as spaces which can be filled later in position wordsToBeTranslated
+	 */
 	public ArrayList<String> translatePhrases(String languageFrom, String searchText) {
 		ArrayList<String> translatedList = new ArrayList<String>();
 		String[] wordArray = searchText.split(" ");
@@ -226,6 +237,14 @@ public class Translate {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param languageFrom
+	 * @param searchWord
+	 * @return 
+	 * 
+	 * Translates word input into Italian word from dictionary
+	 */
 	public String translateWord(String languageFrom, String searchWord) {
 		String translatedWord = searchWord;
 		if (languageFrom.equals("english")) {
@@ -264,6 +283,13 @@ public class Translate {
 		tree.removeFromTree(wordToDelete, language);
 	}
 
+	
+	/*
+	 * This was code to interact with the Google API and allow lots of words to be added to the dictionary very quickly. It also meant if that translation was
+	 * not in the dictionary it could automatically be searched and added. This is good for constructing a dictionary but does not meet the final specifications
+	 * for the program so is not used in it.
+	 * This is where the majority of our dictionary data was collected from.
+	 * 
 	private String translate(String langFrom, String langTo, String text) throws IOException {
 		String urlStr = "https://script.google.com/macros/s/AKfycbxoCIB_d4HBT7znrlRY1F6DQBFbZNMZRVhH2VIGhiDSUutfG99t/exec"
 				+ "?q=" + URLEncoder.encode(text, "UTF-8") + "&target=" + langTo + "&source=" + langFrom;
@@ -282,7 +308,8 @@ public class Translate {
 		out = out.toLowerCase();
 		return out;
 	}
-
+	
+	//Some characters don't get encoded properly so were changed so nonsense characters weren't added to the dictionary
 	private String checkEncoding(String str) {
 		str = str.replace("Ã¡", "á");
 		str = str.replace("Ã¢", "â");
@@ -318,5 +345,5 @@ public class Translate {
 		str = str.replace("Ã", "à");
 		return str;
 	}
-
+*/
 }
