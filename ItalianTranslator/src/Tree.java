@@ -126,7 +126,7 @@ public class Tree {
 			br.close();
 
 		} catch (Exception e) {
-			// TODO Write error handling.
+			AlertBox.display("italiano Translater" ,"File Not found");
 		}
 	}
 
@@ -145,6 +145,7 @@ public class Tree {
 			save(current, pw);
 			pw.flush();
 		} catch (IOException e) {
+			AlertBox.display("italiano Translator" ,"File Not found");
 			System.out.println("File not found");
 		}
 	}
