@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * 
@@ -20,10 +21,15 @@ import java.util.Arrays;
 public class Translate {
 	Tree tree = new Tree();
 	public Node root;
+	
 
 	public String[] translateText(String languageFrom, String searchText) {
+		long wordCount = 0;
+		long startTime = new Date().getTime();
+		
 		ArrayList<String> translatedList = new ArrayList<String>();
 		ArrayList<String> wordsToAdd = new ArrayList<String>();
+		ArrayList<String> workingList = new ArrayList<String>();
 		
 		searchText = searchText.toLowerCase();
 		String[] sentences = searchText.split("(?<=[a-z])\\.\\s+");
@@ -32,6 +38,7 @@ public class Translate {
 			sentences[i] = sentences[i].replace(".", "");
 			String phrasesTranslated = translatePhrases(languageFrom, sentences[i]);
 			String wordArray[] = phrasesTranslated.split(" ");
+			wordCount+=wordArray.length;
 			
 			if(phrasesTranslated.equals(sentences[i])) { //i.e no phrases found in sentence
 				for (int j = 0; j < wordArray.length; j++) {
@@ -95,6 +102,16 @@ public class Translate {
 			System.out.print(translatedList.get(i) + space);
 		}
 		System.out.println("");
+
+		long endTime = new Date().getTime();
+		if(startTime==endTime) {
+			System.out.println("Too fast to record");
+		}
+		else {
+			long totalTime = endTime - startTime;
+			double wps = wordCount/totalTime;
+			System.out.println("WORDS TRANSLATED PER MILLISECOND: " + wps + "words/ms");
+		}
 		
 		// Convert ArrayList to object array
 		Object[] objArr = translatedList.toArray();
@@ -144,6 +161,10 @@ public class Translate {
 		for (int i = 0; i < numOfPhrases; i++) {
 			if (languageFrom.equals("english")) {
 				if (searchText.contains(phrases[i][0])) {
+					String[] temp = translatedPhrase.split(" ");
+					for(int j=0; j < temp.length; j++) {
+						
+					}
 					translatedPhrase = searchText.replace(phrases[i][0], phrases[1][i]);
 				}
 			} else {
