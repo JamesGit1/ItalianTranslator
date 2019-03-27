@@ -121,6 +121,7 @@ public class Tree {
 
 		} catch (Exception e) {
 			// TODO Write error handling.
+			System.out.println("An error happened");
 		}
 	}
 
@@ -566,16 +567,28 @@ public class Tree {
 		Node parentNode = findParentNode(newNode, language);
 		Node parentOfParentNode = findParentNode(parentNode, language);
 		boolean treeBalancing = isTreeBalanced(parentOfParentNode, language);
-		if (treeBalancing = false) {
+		if (treeBalancing == false) {
 			// If we have a line of 3 unbalanced nodes where the new node is...
 			if (parentNode.getRight(language) == newNode && parentOfParentNode.getRight(language) == parentNode) {
 				parentOfParentNode.setRight(null, language);
 				parentNode.setLeft(parentOfParentNode, language);
-				findParentNode(parentOfParentNode, language).setLeft(parentNode, language);
+				if (parentOfParentNode != root) {
+					findParentNode(parentOfParentNode, language).setLeft(parentNode, language);
+					System.out.println("Swap made...");
+				} else {
+					setRoot(parentNode);
+					addAgain(root, changeLanguage(language));
+				}
 			} else if (parentNode.getLeft(language) == newNode && parentOfParentNode.getLeft(language) == parentNode) {
 				parentOfParentNode.setLeft(null, language);
 				parentNode.setRight(parentOfParentNode, language);
-				findParentNode(parentOfParentNode, language).setRight(parentNode, language);
+				if (parentOfParentNode != root) {
+					findParentNode(parentOfParentNode, language).setRight(parentNode, language);
+					System.out.println("Swap made...");
+				} else {
+					setRoot(parentNode);
+					addAgain(root, changeLanguage(language));
+				}
 			}
 		}
 	}
@@ -596,6 +609,7 @@ public class Tree {
 		if (getHeight(newNode, language) == -1) {
 			return false;
 		}
+		System.out.println("Balanced");
 		return true;
 	}
 }

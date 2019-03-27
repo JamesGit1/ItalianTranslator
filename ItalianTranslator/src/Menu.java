@@ -42,7 +42,7 @@ public class Menu {
 		boolean stopMenu = false;
 		Translate translate = new Translate();
 		translate.loadDictionary();
-		System.out.println(translate.tree.isTreeBalanced(translate.tree.root, "italian"));
+//		System.out.println(translate.tree.isTreeBalanced(translate.tree.root, "italian"));
 
 		do {
 			String option;
