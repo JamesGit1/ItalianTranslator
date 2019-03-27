@@ -45,7 +45,8 @@ public class Translate {
 						wordArray[j] = wordArray[j].replace("?", "");
 					}
 					
-					translatedList.add(translateWord(languageFrom, wordArray[j] + strToAdd));
+					String tanslatedWord = translateWord(languageFrom, wordArray[j]);
+					translatedList.add(tanslatedWord + strToAdd);
 					if (tree.findNode(wordArray[j], languageFrom)==null) {
 						wordsToAdd.add(wordArray[j]);
 					}
@@ -53,7 +54,8 @@ public class Translate {
 				//Check if there should be a full stop added by checking if there is a question mark or exclamation mark at the end of the last word
 				String addFullStop = translatedList.get(translatedList.size()-1);
 				addFullStop = addFullStop.substring(addFullStop.length()-1);
-				if(!("!".equals(addFullStop)) || !("?".equals(addFullStop))) {
+				if("!".equals(addFullStop) || "?".equals(addFullStop)) {}
+				else {
 					translatedList.add(".");
 				}
 				
@@ -204,7 +206,47 @@ public class Translate {
 			response.append(inputLine);
 		}
 		in.close();
-		return response.toString();
+		String out = response.toString();
+		out = checkEncoding(out);
+		out = out.toLowerCase();
+		return out;
 	}
+	
+	private String checkEncoding(String str) {
+		str = str.replace("Ã¡", "á");
+		str = str.replace("Ã¢", "â");
+		str = str.replace("Ã£²", "ã");
+		str = str.replace("Ã¤", "ä");
+		str = str.replace("Ã¥", "å");
+		str = str.replace("Ã¦", "æ");
+		str = str.replace("Ã§", "ç");
+		str = str.replace("Ã¨", "è");
+		str = str.replace("Ã©", "é");
+		str = str.replace("Ãª", "ê");
+		str = str.replace("Ã«", "ë");
+		str = str.replace("Ã¬", "ì");
+		str = str.replace("Ã­", "í");
+		str = str.replace("Ã®", "î");
+		str = str.replace("Ã¯", "ï");
+		str = str.replace("Ã°", "ð");
+		str = str.replace("Ã±", "ñ");
+		str = str.replace("Ã²", "ò");
+		str = str.replace("Ã³", "ó");
+		str = str.replace("Ã´", "ô");
+		str = str.replace("Ãµ", "õ");
+		str = str.replace("Ã¶", "ö");
+		str = str.replace("Ã·", "÷");
+		str = str.replace("Ã¸", "ø");
+		str = str.replace("Ã¹", "ù");
+		str = str.replace("Ãº", "ú");
+		str = str.replace("Ã»", "û");
+		str = str.replace("Ã¼", "ü");
+		str = str.replace("Ã½", "ý");
+		str = str.replace("Ã¾", "þ");
+		str = str.replace("Ã¿", "ÿ");
+		str = str.replace("Ã", "à");
+		return str;
+	}
+	
 
 }
