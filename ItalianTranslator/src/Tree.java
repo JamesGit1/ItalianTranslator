@@ -568,32 +568,44 @@ public class Tree {
 	public void balanceTree(Node newNode, String language) {
 		Node current = newNode;
 		Node replacementNode = null;
+		// while the current node is not null.
 		while (current != null) {
+			// check if the tree is balanced.
 			boolean treeBalancing = isTreeBalanced(current, language);
 			// If we have a line of 3 unbalanced nodes where the new node is...
 			if (treeBalancing == false) {
-				System.out.println("Tree unbalanced when adding " + newNode.getTranslation(language));
+				// If the node is on the left.
 				if (findNode(current.getLeft(language), newNode.getTranslation(language), language) != null) {
 					replacementNode = findReplacementNode(current, findParentNode(current, language), language);
+					// If the current is the root, change the root.
 					if (current == root) {
 						setRoot(replacementNode);
+						// Add the other tree again.
 						addAgain(root, language);
 					}
 					replacementNode.setRight(current, language);
 					if (current.getLeft(language) != replacementNode) {
+						// Set the left to the left of current.
 						replacementNode.setLeft(current.getLeft(language), language);
 					} else {
+						// Set the left to null.
 						current.setLeft(null, language);
 					}
 					removeFromTree(replacementNode.getTranslation(language), language);
+					// Set the current node back to the new node.
 					current = newNode;
+					// If the node is on the right of the current node.
 				} else if (findNode(current.getRight(language), newNode.getTranslation(language), language) != null) {
 					replacementNode = findReplacementNodeRight(current, findParentNode(current, language), language);
+					// If the current is the root, change the root.
 					if (current == root) {
 						setRoot(replacementNode);
+						// Add the other tree again.
 						addAgain(root, language);
 					}
+					// Set the left of the replacement node to current.
 					replacementNode.setLeft(current, language);
+					// If the replacement node is on the right of the current node.
 					if (current.getRight(language) != replacementNode) {
 						replacementNode.setRight(current.getLeft(language), language);
 					} else {
@@ -618,8 +630,9 @@ public class Tree {
 	 */
 
 	public boolean isTreeBalanced(Node newNode, String language) {
-		if (newNode == null)
+		if (newNode == null) {
 			return true;
+		}
 		int heightdifference = getHeight(newNode.getLeft(language), language)
 				- getHeight(newNode.getRight(language), language);
 		if (Math.abs(heightdifference) > 1) {
