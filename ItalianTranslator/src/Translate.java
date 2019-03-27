@@ -21,26 +21,27 @@ import java.util.Date;
 public class Translate {
 	Tree tree = new Tree();
 	public Node root;
+	ArrayList<Integer> wordsToBeTranslated = new ArrayList<Integer>();
 	
-
 	public String[] translateText(String languageFrom, String searchText) {
+		wordsToBeTranslated.add(-1);
+		
 		long wordCount = 0;
 		long startTime = new Date().getTime();
 		
 		ArrayList<String> translatedList = new ArrayList<String>();
-		ArrayList<String> wordsToAdd = new ArrayList<String>();
 		ArrayList<String> workingList = new ArrayList<String>();
-		
+		ArrayList<String> wordsToAdd = new ArrayList<String>();
+
 		searchText = searchText.toLowerCase();
 		String[] sentences = searchText.split("(?<=[a-z])\\.\\s+");
 		
 		for (int i = 0; i < sentences.length; i++) {
-			sentences[i] = sentences[i].replace(".", "");
-			String phrasesTranslated = translatePhrases(languageFrom, sentences[i]);
-			String wordArray[] = phrasesTranslated.split(" ");
+			translatedList = translatePhrases(languageFrom, sentences[i]);
+			String[] wordArray = sentences[i].split(" ");
 			wordCount+=wordArray.length;
 			
-			if(phrasesTranslated.equals(sentences[i])) { //i.e no phrases found in sentence
+			if(translatedList==null) { //i.e no phrases found in sentence
 				for (int j = 0; j < wordArray.length; j++) {
 					String strToAdd = "";
 					if(wordArray[j].contains("!")) { //if contains exclamation mark removes and adds back after
@@ -53,23 +54,26 @@ public class Translate {
 					}
 					
 					String tanslatedWord = translateWord(languageFrom, wordArray[j]);
-					translatedList.add(tanslatedWord + strToAdd);
+					workingList.add(tanslatedWord + strToAdd);
 					if (tree.findNode(wordArray[j], languageFrom)==null) {
 						wordsToAdd.add(wordArray[j]);
 					}
+					translatedList = workingList;
 				}
 				//Check if there should be a full stop added by checking if there is a question mark or exclamation mark at the end of the last word
-				String addFullStop = translatedList.get(translatedList.size()-1);
+				String addFullStop = workingList.get(workingList.size()-1);
 				addFullStop = addFullStop.substring(addFullStop.length()-1);
 				if("!".equals(addFullStop) || "?".equals(addFullStop)) {}
 				else {
-					translatedList.add(".");
+					workingList.add(".");
 				}
 				
 			}
 			else {
-				for (int j = 0; j < wordArray.length; j++) {
-					translatedList.add(wordArray[j]);
+				for (int j = 0; j < translatedList.size(); j++) {
+					if(wordsToBeTranslated.contains(j)) {
+						translatedList.set(j, translateWord(languageFrom, wordArray[j]));
+					}
 				}
 				translatedList.add(".");
 			}
@@ -152,28 +156,57 @@ public class Translate {
 		return translatedArray;
 	}
 
-	public String translatePhrases(String languageFrom, String searchText) {
-		String translatedPhrase = searchText;
+	public ArrayList<String> translatePhrases(String languageFrom, String searchText) {
+		ArrayList<String> translatedList = new ArrayList<String>();
+		String[] wordArray = searchText.split(" ");
 
 		int numOfPhrases = 1;
 		String[][] phrases = { {"that is epic"," that is v epic"},{"THIS WILL BE ITALIAN PHRASE", "THIS WILL ALSO BE ITALIAN PHRASE"} };
 
 		for (int i = 0; i < numOfPhrases; i++) {
 			if (languageFrom.equals("english")) {
-				if (searchText.contains(phrases[i][0])) {
-					String[] temp = translatedPhrase.split(" ");
-					for(int j=0; j < temp.length; j++) {
-						
+				if (searchText.contains(phrases[i][0])) { // IF PHRASE IS IN TEXT
+					String[] phraseSplit = phrases[0][i].split(" "); // SPLIT PHRASE INTO INDIVIDUAL WORDS
+					String[] translationPhraseSplit = phrases[1][i].split(" "); // SPLIT TRANSLATED PHRASE INTO INDIVIDUAL WORDS
+					int counter = 0;
+					
+					while(counter<wordArray.length){ //IF WORD ARRAY = PHRASE ADD INTO CORRECT POSITION
+						if(wordArray[counter].equals(phraseSplit[0])) {
+							for(int j = 0; j < translationPhraseSplit.length; j++) {
+								translatedList.add(translationPhraseSplit[j]);
+							}
+							return translatedList;
+						}
+						else {
+							translatedList.add(""); //OTHERWISE ADD BLANK SPACE TO BE TRANSLATED LATER AND ADD POSITION
+							wordsToBeTranslated.add(counter);
+						}
+						counter++;
 					}
-					translatedPhrase = searchText.replace(phrases[i][0], phrases[1][i]);
 				}
 			} else {
-				if (searchText.contains(phrases[i][1])) {
-					translatedPhrase = searchText.replace(phrases[i][1], phrases[0][i]);
+				if (searchText.contains(phrases[i][1])) { // IF PHRASE IS IN TEXT
+					String[] phraseSplit = phrases[1][i].split(" "); // SPLIT PHRASE INTO INDIVIDUAL WORDS
+					String[] translationPhraseSplit = phrases[1][i].split(" "); // SPLIT TRANSLATED PHRASE INTO INDIVIDUAL WORDS
+					int counter = 0;
+					
+					while(counter<wordArray.length){ //IF WORD ARRAY = PHRASE ADD INTO CORRECT POSITION
+						if(wordArray[counter].equals(phraseSplit[0])) {
+							for(int j = 0; j < translationPhraseSplit.length; j++) {
+								translatedList.add(translationPhraseSplit[j]);
+							}
+							return translatedList;
+						}
+						else {
+							translatedList.add(""); //OTHERWISE ADD BLANK SPACE TO BE TRANSLATED LATER
+							wordsToBeTranslated.add(counter);
+						}
+						counter++;
+					}
 				}
 			}
 		}
-		return translatedPhrase;
+		return null;
 	}
 
 	public String translateWord(String languageFrom, String searchWord) {
