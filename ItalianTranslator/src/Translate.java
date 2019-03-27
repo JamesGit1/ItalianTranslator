@@ -215,7 +215,7 @@ public class Translate {
 	}
 
 	private String translate(String langFrom, String langTo, String text) throws IOException {
-		String urlStr = "https://script.google.com/macros/s/AKfycbxoCIB_d4HBT7znrlRY1F6DQBFbZNMZRVhH2VIGhiDSUutfG99t/exec"
+		String urlStr = "https://script.google.com/macros/s/AKfycbw_0WwoYLVvDv6ONnRyypDGAi05GZYBMn07VcLe2yGGrurcwto/exec"
 				+ "?q=" + URLEncoder.encode(text, "UTF-8") + "&target=" + langTo + "&source=" + langFrom;
 		URL url = new URL(urlStr);
 		StringBuilder response = new StringBuilder();
