@@ -160,6 +160,12 @@ public class Tree {
 		}
 	}
 
+	/**
+	 * Adds all the nodes from one tree to the other tree.
+	 * 
+	 * @param current  The current node that is being added.
+	 * @param language The language that is being worked in.
+	 */
 	public void addAgain(Node current, String language) {
 		if (current != null) {
 			try {
@@ -467,6 +473,15 @@ public class Tree {
 		}
 		return replacementNode;
 	}
+
+	/**
+	 * Finds the replacement node on the right of the node.
+	 * 
+	 * @param nodeToDelete The node that you want to delete.
+	 * @param parentNode   The parent node of nodeToDelete.
+	 * @param language     The language that is being worked in.
+	 * @return Returns the replacement node.
+	 */
 
 	public Node findReplacementNodeRight(Node nodeToDelete, Node parentNode, String language) {
 		Node replacementNode = nodeToDelete.getRight(language);
