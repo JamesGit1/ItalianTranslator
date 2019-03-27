@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 /**
@@ -17,6 +16,7 @@ import javafx.scene.control.TextArea;
 
 public class Tree {
 	public Node root;
+	public Node otherRoot;
 
 	/**
 	 * Constructor method.
@@ -78,17 +78,14 @@ public class Tree {
 	 * 
 	 * @param current The current node.
 	 * @param text 
-	 * @param display 
 	 */
 
-	public void displayTree(Node current, TextArea text) {
-		
-		
+	
+	public void displayTree(Node current, String language, TextArea text) {
 		if (current != null) {
-			
-			displayTree(current.getEnglishLeft(),text);
-			text.appendText(current.getEnglishTranslation() + "\t" + "\t" + "\t" + "\t" + "\t" + "\t" + current.getItalianTranslation()+"\n");
-			displayTree(current.getEnglishRight(),text);
+			displayTree(current.getLeft(language), language,text);
+			text.appendText(current.getEnglishTranslation() + "\t" + "\t" +"\t" +"\t" +"\t" +"\t" +"\t" +"\t" +"\t" + current.getItalianTranslation() +"\n" );
+			displayTree(current.getRight(language), language,text);
 		}
 	}
 
@@ -106,13 +103,6 @@ public class Tree {
 		}
 	}
 
-	
-	public void clearText(Node current, TextArea text) {
-		text.setText("");
-		displayTree(current, text);
-		
-		
-	}
 	/**
 	 * Loads the dictionary.
 	 */
@@ -168,9 +158,48 @@ public class Tree {
 
 	public void save(Node current, PrintWriter pw) {
 		if (current != null) {
-			pw.println(current.getEnglishTranslation() + "," + current.getItalianTranslation());
+			pw.println(current.getItalianTranslation() + "," + current.getEnglishTranslation());
 			save(current.getEnglishLeft(), pw);
 			save(current.getEnglishRight(), pw);
+		}
+	}
+
+	public void addAgain(Node current, String language) {
+		if (current != null) {
+			addToCertainTree(current, language);
+			addAgain(current.getEnglishLeft(), language);
+			addAgain(current.getEnglishRight(), language);
+		}
+	}
+
+	public void addToCertainTree(Node newNode, String language) {
+		Node current = root;
+		Node previous = null;
+		if (findNode(newNode.getItalianTranslation(), "italian") != null) {
+			return;
+		} else {
+			while (current != null) {
+				previous = current;
+				// If the newNode word is before the current node...
+				if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) < 0) {
+					// Make the current the node on the left.
+					current = current.getLeft(language);
+					// If that is null...
+					if (current == null) {
+						// Set the previous node.s left pointer to the newNode.
+						previous.setLeft(newNode, language);
+					}
+					// Else if the newNode is after the current node...
+				} else if (newNode.getTranslation(language).compareTo(current.getTranslation(language)) > 0) {
+					// Make the current the node on the right.
+					current = current.getRight(language);
+					// If this node is null...
+					if (current == null) {
+						// Set the previous node.s right pointer to the newNode.
+						previous.setRight(newNode, language);
+					}
+				}
+			}
 		}
 	}
 
@@ -300,9 +329,9 @@ public class Tree {
 
 	public void removeFromTree(String wordToDelete, String language) {
 		Node nodeToDelete = null;
+		nodeToDelete = findNode(wordToDelete, language);
 		// Do this twice because there are two trees...
 		for (int i = 0; i < 2; i++) {
-			nodeToDelete = findNode(wordToDelete, language);
 			Node parentNode = findParentNode(nodeToDelete, language);
 			// If nodeToDelete is a leaf...
 			if (nodeToDelete.getRight(language) == null && nodeToDelete.getLeft(language) == null) {
@@ -319,9 +348,6 @@ public class Tree {
 			// Change the language before repeating the process.
 			language = changeLanguage(language);
 			wordToDelete = nodeToDelete.getTranslation(language);
-		}
-		if (findParentNode(nodeToDelete, language) == null) {
-
 		}
 	}
 
@@ -450,8 +476,11 @@ public class Tree {
 			 * root as the replacement node. (note, this is not very good for tree
 			 * balancing).
 			 */
-		} else if (i == 1) {
+		} else if (i == 0) {
 			setRoot(replacementNode);
+			root.setItalianLeft(null);
+			root.setItalianRight(null);
+			addAgain(root, "italian");
 		}
 	}
 
@@ -460,6 +489,11 @@ public class Tree {
 	 * 
 	 * @return true or false
 	 */
+
+	public void clearText(Node current, TextArea text) {
+		text.setText("");
+		displayTree(current,"english" ,text);			
+	}
 	public boolean isTreeEmpty() {
 		if (root == null) {
 			return true;

@@ -4,6 +4,11 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
+/**
+ * 
+ * Display a pop up window that will display an error to the user 
+ *
+ */
 public class AlertBox {
 
     public static void display(String title, String message) {

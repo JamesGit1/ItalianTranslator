@@ -3,7 +3,9 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
-
+/**
+ * pop up window which asks the user what word they would to to delete
+ */
 public class RemoveBox {
 
     public static void display(String title, Translate translater) {

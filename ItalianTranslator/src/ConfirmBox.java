@@ -4,6 +4,9 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
+/**
+ * Displays a pop up window with an option to either say yes or no 
+ */
 public class ConfirmBox {
 
     //Create variable

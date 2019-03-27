@@ -33,6 +33,7 @@ import javafx.stage.Stage;
  * 
  * @author James, Josh, Jesse, Luke.
  */
+
 public class Menu extends Application {
 	Button s1ButtonTranslate, s1ButtonDisplay, s1ButtonRemove, back, exit, button, yn, translateButton, display;
 	Stage window;
@@ -45,8 +46,14 @@ public class Menu extends Application {
 	}
 
 	@Override
+	/**
+	 * 
+	 * Runs the GUi and makes the primary stage
+	 */
 	public void start(Stage primaryStage) throws Exception {
-
+		/**
+		 * 
+		 */
 		Translate translater = new Translate();
 		TextArea dictionaryDisplay = new TextArea();
 
@@ -57,7 +64,7 @@ public class Menu extends Application {
 		translater.loadDictionary();
 
 		window = primaryStage;
-		String title = "Italiano Transaltor";
+		String title = "Italiano Translater";
 
 		Label label1 = new Label("Italiano Translate");
 
@@ -65,21 +72,21 @@ public class Menu extends Application {
 		t.setFont(new Font(30));
 		t.setFill(Color.WHITE);
 		t.setTextAlignment(TextAlignment.CENTER);
-		t.setText("Italiano Transaltor");
+		t.setText("Italiano Translater");
 		t.setId("fancytext");
 
 		Text t1 = new Text();
 		t1.setFont(new Font(30));
 		t1.setFill(Color.WHITE);
 		t1.setTextAlignment(TextAlignment.CENTER);
-		t1.setText("Italiano Transaltor");
+		t1.setText("Italiano Translater");
 		t1.setId("smallTitle");
 
 		Text t2 = new Text();
 		t2.setFont(new Font(30));
 		t2.setFill(Color.WHITE);
 		t2.setTextAlignment(TextAlignment.CENTER);
-		t2.setText("Italiano Transaltor");
+		t2.setText("Italiano Translater");
 		t2.setId("smallTitle");
 
 		// Buttons That all go to different Scenes
@@ -127,23 +134,25 @@ public class Menu extends Application {
 		language.setValue("english");
 
 		TextArea translateInput = new TextArea();
-		translateInput.setPromptText("Joshua Bradley");
+		translateInput.setPromptText("Input words you would like to translate here...");
 		translateInput.setPrefSize(400, 250);
 		translateInput.setWrapText(true);
 		translateButton = new Button("Translate");
-
+		
+		TextArea text = new TextArea();
+		text.setPrefSize(400, 250);
+		text.setWrapText(true);
+		
 		translateButton.setOnAction(e ->
 
-		translater.translateText(language.getValue(), translateInput.getText()));
+		translater.clearText(language.getValue(), translateInput.getText() , text));
 
 
 
 		Button yn = new Button("Confirm");
 		yn.setOnAction(e -> ConfirmBox.display(title, "Confirm"));
 
-		TextArea text = new TextArea();
-		text.setPrefSize(400, 250);
-		text.setWrapText(true);
+
 
 		// Button to print the TextArea node
 
@@ -213,8 +222,6 @@ public class Menu extends Application {
 		
 		dictionaryDisplay.setEditable(false);
 		text.setEditable(false);
-		text.setMouseTransparent(true);
-		text.setFocusTraversable(false);
 		
 		
 		window.setScene(main);
@@ -260,7 +267,7 @@ public class Menu extends Application {
 						"Option 1 selected. Please enter English text that you would like to be translated into Italian:");
 				Scanner s2 = new Scanner(System.in);
 				String searchText = s2.nextLine();
-				translate.translateText("english", searchText);
+			//	translate.translateText("english", searchText);
 			}
 
 			else if (option.equals("2")) {
@@ -268,7 +275,7 @@ public class Menu extends Application {
 						"Option 2 selected. Please enter Italian text that you would like to be translated into English:");
 				Scanner s3 = new Scanner(System.in);
 				String searchText = s3.nextLine();
-				translate.translateText("italian", searchText);
+			//	translate.translateText("italian", searchText);
 			}
 
 			else if (option.equals("3")) {
