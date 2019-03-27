@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * 
@@ -21,161 +22,229 @@ import java.util.Date;
 public class Translate {
 	Tree tree = new Tree();
 	public Node root;
-	
+	ArrayList<Integer> wordsToBeTranslated = new ArrayList<Integer>();
 
 	public String[] translateText(String languageFrom, String searchText) {
+		wordsToBeTranslated.add(-1);
+
 		long wordCount = 0;
 		long startTime = new Date().getTime();
-		
+
 		ArrayList<String> translatedList = new ArrayList<String>();
-		ArrayList<String> wordsToAdd = new ArrayList<String>();
 		ArrayList<String> workingList = new ArrayList<String>();
-		
+		ArrayList<String> wordsToAdd = new ArrayList<String>();
+
 		searchText = searchText.toLowerCase();
 		String[] sentences = searchText.split("(?<=[a-z])\\.\\s+");
-		
+
 		for (int i = 0; i < sentences.length; i++) {
-			sentences[i] = sentences[i].replace(".", "");
-			String phrasesTranslated = translatePhrases(languageFrom, sentences[i]);
-			String wordArray[] = phrasesTranslated.split(" ");
-			wordCount+=wordArray.length;
-			
-			if(phrasesTranslated.equals(sentences[i])) { //i.e no phrases found in sentence
+			translatedList = translatePhrases(languageFrom, sentences[i]);
+			String[] wordArray = sentences[i].split(" ");
+			wordCount += wordArray.length;
+
+			if (translatedList == null) { // i.e no phrases found in sentence
 				for (int j = 0; j < wordArray.length; j++) {
 					String strToAdd = "";
-					if(wordArray[j].contains("!")) { //if contains exclamation mark removes and adds back after
+					if (wordArray[j].contains("!")) { // if contains exclamation mark removes and adds back after
 						strToAdd = "!";
 						wordArray[j] = wordArray[j].replace("!", "");
 					}
-					if(wordArray[j].contains("?")) { //if contains question mark removes and adds back after
+					if (wordArray[j].contains("?")) { // if contains question mark removes and adds back after
 						strToAdd = "?";
 						wordArray[j] = wordArray[j].replace("?", "");
 					}
-					
+
 					String tanslatedWord = translateWord(languageFrom, wordArray[j]);
-					translatedList.add(tanslatedWord + strToAdd);
-					if (tree.findNode(wordArray[j], languageFrom)==null) {
+					workingList.add(tanslatedWord + strToAdd);
+					if (tree.findNode(wordArray[j], languageFrom) == null) {
 						wordsToAdd.add(wordArray[j]);
 					}
+					translatedList = workingList;
 				}
-				//Check if there should be a full stop added by checking if there is a question mark or exclamation mark at the end of the last word
-				String addFullStop = translatedList.get(translatedList.size()-1);
-				addFullStop = addFullStop.substring(addFullStop.length()-1);
-				if("!".equals(addFullStop) || "?".equals(addFullStop)) {}
-				else {
-					translatedList.add(".");
+				// Check if there should be a full stop added by checking if there is a question
+				// mark or exclamation mark at the end of the last word
+				String addFullStop = workingList.get(workingList.size() - 1);
+				addFullStop = addFullStop.substring(addFullStop.length() - 1);
+				if ("!".equals(addFullStop) || "?".equals(addFullStop)) {
+				} else {
+					workingList.add(".");
 				}
-				
-			}
-			else {
-				for (int j = 0; j < wordArray.length; j++) {
-					translatedList.add(wordArray[j]);
+
+			} else {
+				for (int j = 0; j < translatedList.size(); j++) {
+					if (wordsToBeTranslated.contains(j)) {
+						translatedList.set(j, translateWord(languageFrom, wordArray[j]));
+					}
 				}
 				translatedList.add(".");
 			}
 		}
-		
-		/*
-		// Convert ArrayList to object array
-		Object[] objArr = translatedList.toArray();
 
-		// convert Object array to String array
-		wordArray = Arrays.copyOf(objArr, objArr.length, String[].class);
-		for (int i = 0; i < wordArray.length; i++) {
-			System.out.print(wordArray[i] + " ");
-		}
-		*/
+		/*
+		 * // Convert ArrayList to object array Object[] objArr =
+		 * translatedList.toArray();
+		 * 
+		 * // convert Object array to String array wordArray = Arrays.copyOf(objArr,
+		 * objArr.length, String[].class); for (int i = 0; i < wordArray.length; i++) {
+		 * System.out.print(wordArray[i] + " "); }
+		 */
 
 		System.out.println("Translates to...");
-		for(int i = 0; i < translatedList.size(); i++) {
-			//capitalise the first letter of the first word
-			translatedList.set(0, translatedList.get(0).substring(0, 1).toUpperCase() + translatedList.get(0).substring(1));
+		for (int i = 0; i < translatedList.size(); i++) {
+			// capitalise the first letter of the first word
+			translatedList.set(0,
+					translatedList.get(0).substring(0, 1).toUpperCase() + translatedList.get(0).substring(1));
 			String space = " ";
 			try {
-				if(translatedList.get(i+1).equals(".")) {
+				if (translatedList.get(i + 1).equals(".")) {
 					space = "";
 				}
-			}
-			catch(java.lang.IndexOutOfBoundsException e){
-				//end of string
+			} catch (java.lang.IndexOutOfBoundsException e) {
+				// end of string
 			}
 			System.out.print(translatedList.get(i) + space);
 		}
 		System.out.println("");
 
 		long endTime = new Date().getTime();
-		if(startTime==endTime) {
+		if (startTime == endTime) {
 			System.out.println("Too fast to record");
-		}
-		else {
+		} else {
 			long totalTime = endTime - startTime;
-			double wps = wordCount/totalTime;
+			double wps = wordCount / totalTime;
 			System.out.println("WORDS TRANSLATED PER MILLISECOND: " + wps + "words/ms");
 		}
-		
+
 		// Convert ArrayList to object array
 		Object[] objArr = translatedList.toArray();
 
 		// convert Object array to String array
 		String[] translatedArray = Arrays.copyOf(objArr, objArr.length, String[].class);
-		
-		if(wordsToAdd.size()!=0) {
+
+		/* This is also code to handle interactions with the Google API
+		 * Refer to bottom to find the rest of the Google API
+		 * 
+		 * if(wordsToAdd.size()!=0) {
+		 * System.out.println("Seems like some words couldn't be translated...");
+		 * System.out.println("Looking up translation and adding them to dictionary"); }
+		 * for (int i = 0; i < wordsToAdd.size(); i++) {
+		 * 
+		 * System.out.println("Adding a translation for " + wordsToAdd.get(i));
+		 * 
+		 * try { if (languageFrom.equals("english")) { String translatedText =
+		 * translate("en", "it", wordsToAdd.get(i)); tree.addToTree(translatedText,
+		 * wordsToAdd.get(i)); tree.saveDictionary(tree.root); System.out.println(
+		 * "ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText +
+		 * "\n");
+		 * 
+		 * } else { String translatedText = translate("it", "en", wordsToAdd.get(i));
+		 * tree.addToTree(wordsToAdd.get(i), translatedText);
+		 * tree.saveDictionary(tree.root); System.out.println( "ITALIAN WORD " +
+		 * wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n"); } } catch
+		 * (IOException e) { System.out.print(e); }
+		 * 
+		 * }
+		 */
+		if (wordsToAdd.size() != 0) {
 			System.out.println("Seems like some words couldn't be translated...");
-			System.out.println("Looking up translation and adding them to dictionary");
-		}
-		for (int i = 0; i < wordsToAdd.size(); i++) {
-			
-			System.out.println("Adding a translation for " + wordsToAdd.get(i));
+			for (int i = 0; i < wordsToAdd.size(); i++) {
+				System.out.println("Add a translation for " + wordsToAdd.get(i) + " [y/n]?");
 
-			try {
-				if (languageFrom.equals("english")) {
-					String translatedText = translate("en", "it", wordsToAdd.get(i));
-					tree.addToTree(translatedText, wordsToAdd.get(i));
-					tree.saveDictionary(tree.root);
-					System.out.println(
-							"ENGLISH WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
+				Scanner in = new Scanner(System.in);
+				String answer = in.nextLine();
+				answer = answer.toLowerCase();
 
-				} else {
-					String translatedText = translate("it", "en", wordsToAdd.get(i));
-					tree.addToTree(wordsToAdd.get(i), translatedText);
-					tree.saveDictionary(tree.root);
-					System.out.println(
-							"ITALIAN WORD " + wordsToAdd.get(i) + " TRANSLATED TO " + translatedText + "\n");
+				if (answer.equals("y") || answer.equals("yes")) {
+					System.out.println("Please enter the translation of the word- " + wordsToAdd.get(i));
+					answer = in.nextLine();
+					answer = answer.toLowerCase();
+					if (languageFrom.equals("english")) {
+						tree.addToTree(answer, wordsToAdd.get(i));
+						tree.saveDictionary(tree.root);
+						System.out.println("Word added and saved to dictionary!");
+					} else {
+						tree.addToTree(answer, wordsToAdd.get(i));
+						tree.saveDictionary(tree.root);
+						System.out.println("Word added and saved to dictionary!");
+					}
 				}
-			} catch (IOException e) {
-				System.out.print(e);
 			}
-
 		}
-			
 
 		return translatedArray;
 	}
 
-	public String translatePhrases(String languageFrom, String searchText) {
-		String translatedPhrase = searchText;
+	/**
+	 * 
+	 * @param languageFrom
+	 * @param searchText
+	 * @return translatedPhrases ArrayList- contains succesfully translated phrases
+	 * 
+	 * Method to take in language and sentence of text and output a list of words containing the translated phrases
+	 * Returns untranslated phrases as spaces which can be filled later in position wordsToBeTranslated
+	 */
+	public ArrayList<String> translatePhrases(String languageFrom, String searchText) {
+		ArrayList<String> translatedList = new ArrayList<String>();
+		String[] wordArray = searchText.split(" ");
 
 		int numOfPhrases = 1;
-		String[][] phrases = { {"that is epic"," that is v epic"},{"THIS WILL BE ITALIAN PHRASE", "THIS WILL ALSO BE ITALIAN PHRASE"} };
+		String[][] phrases = { { "that is epic", " that is v epic" },
+				{ "THIS WILL BE ITALIAN PHRASE", "THIS WILL ALSO BE ITALIAN PHRASE" } };
 
 		for (int i = 0; i < numOfPhrases; i++) {
 			if (languageFrom.equals("english")) {
-				if (searchText.contains(phrases[i][0])) {
-					String[] temp = translatedPhrase.split(" ");
-					for(int j=0; j < temp.length; j++) {
-						
+				if (searchText.contains(phrases[i][0])) { // IF PHRASE IS IN TEXT
+					String[] phraseSplit = phrases[0][i].split(" "); // SPLIT PHRASE INTO INDIVIDUAL WORDS
+					String[] translationPhraseSplit = phrases[1][i].split(" "); // SPLIT TRANSLATED PHRASE INTO
+																				// INDIVIDUAL WORDS
+					int counter = 0;
+
+					while (counter < wordArray.length) { // IF WORD ARRAY = PHRASE ADD INTO CORRECT POSITION
+						if (wordArray[counter].equals(phraseSplit[0])) {
+							for (int j = 0; j < translationPhraseSplit.length; j++) {
+								translatedList.add(translationPhraseSplit[j]);
+							}
+							return translatedList;
+						} else {
+							translatedList.add(""); // OTHERWISE ADD BLANK SPACE TO BE TRANSLATED LATER AND ADD POSITION
+							wordsToBeTranslated.add(counter);
+						}
+						counter++;
 					}
-					translatedPhrase = searchText.replace(phrases[i][0], phrases[1][i]);
 				}
 			} else {
-				if (searchText.contains(phrases[i][1])) {
-					translatedPhrase = searchText.replace(phrases[i][1], phrases[0][i]);
+				if (searchText.contains(phrases[i][1])) { // IF PHRASE IS IN TEXT
+					String[] phraseSplit = phrases[1][i].split(" "); // SPLIT PHRASE INTO INDIVIDUAL WORDS
+					String[] translationPhraseSplit = phrases[1][i].split(" "); // SPLIT TRANSLATED PHRASE INTO
+																				// INDIVIDUAL WORDS
+					int counter = 0;
+
+					while (counter < wordArray.length) { // IF WORD ARRAY = PHRASE ADD INTO CORRECT POSITION
+						if (wordArray[counter].equals(phraseSplit[0])) {
+							for (int j = 0; j < translationPhraseSplit.length; j++) {
+								translatedList.add(translationPhraseSplit[j]);
+							}
+							return translatedList;
+						} else {
+							translatedList.add(""); // OTHERWISE ADD BLANK SPACE TO BE TRANSLATED LATER
+							wordsToBeTranslated.add(counter);
+						}
+						counter++;
+					}
 				}
 			}
 		}
-		return translatedPhrase;
+		return null;
 	}
 
+	/**
+	 * 
+	 * @param languageFrom
+	 * @param searchWord
+	 * @return 
+	 * 
+	 * Translates word input into Italian word from dictionary
+	 */
 	public String translateWord(String languageFrom, String searchWord) {
 		String translatedWord = searchWord;
 		if (languageFrom.equals("english")) {
@@ -214,6 +283,13 @@ public class Translate {
 		tree.removeFromTree(wordToDelete, language);
 	}
 
+	
+	/*
+	 * This was code to interact with the Google API and allow lots of words to be added to the dictionary very quickly. It also meant if that translation was
+	 * not in the dictionary it could automatically be searched and added. This is good for constructing a dictionary but does not meet the final specifications
+	 * for the program so is not used in it.
+	 * This is where the majority of our dictionary data was collected from.
+	 * 
 	private String translate(String langFrom, String langTo, String text) throws IOException {
 		String urlStr = "https://script.google.com/macros/s/AKfycbw_0WwoYLVvDv6ONnRyypDGAi05GZYBMn07VcLe2yGGrurcwto/exec"
 				+ "?q=" + URLEncoder.encode(text, "UTF-8") + "&target=" + langTo + "&source=" + langFrom;
@@ -233,6 +309,7 @@ public class Translate {
 		return out;
 	}
 	
+	//Some characters don't get encoded properly so were changed so nonsense characters weren't added to the dictionary
 	private String checkEncoding(String str) {
 		str = str.replace("Ã¡", "á");
 		str = str.replace("Ã¢", "â");
@@ -268,6 +345,5 @@ public class Translate {
 		str = str.replace("Ã", "à");
 		return str;
 	}
-	
-
+*/
 }
